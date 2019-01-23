@@ -1,0 +1,11 @@
+bookdown::gitbook:
+  css: style.css
+  split_by: chapter
+  config:
+    toc:
+      collapse: none
+      before: |
+        <li><a href="./">Machine Learning</a></li>
+      after: |
+        <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+    download: [pdf]

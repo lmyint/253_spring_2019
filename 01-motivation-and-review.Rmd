@@ -1,0 +1,337 @@
+# (PART) Regression: Model Evaluation {-} 
+
+# Motivation and Review
+
+```{r echo=FALSE, message=FALSE}
+## Load required packages
+library(ISLR)
+library(fivethirtyeight)
+library(ggplot2)
+library(dplyr)
+library(tree)
+library(gridExtra)
+
+## Load/read/clean data
+data(Credit)
+
+grad <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+grad <- grad %>%
+    mutate(
+        admit = as.factor(ifelse(admit==1, "Yes", "No")),
+        rank  = as.factor(rank)
+    )
+
+data(candy_rankings)
+candy_rankings <- as.data.frame(candy_rankings)
+```
+
+## Activity: motivating main ideas
+
+In each of the following situations, there is some behind-the-scenes code that performs an analysis and generates some output plots. Brainstorm what research question(s) are trying to be answered in each of the situations by looking at the first few rows of data and the plots.
+
+### Situation A
+
+We have 10,000 observations on the following variables:
+
+- `ID`: Identification
+- `Income`: Income in $10,000's
+- `Limit`: Credit limit
+- `Rating`: Credit rating
+- `Cards`: Number of credit cards
+- `Age`: Age in years
+- `Education`: Number of years of education
+- `Gender`: A factor with levels `Male` and `Female`
+- `Student`: A factor with levels `No` and `Yes` indicating whether
+the individual was a student
+- `Married`: A factor with levels `No` and `Yes` indicating whether
+the individual was married
+- `Ethnicity`: A factor with levels `African American`, `Asian`, and `Caucasian` indicating the individual's ethnicity
+- `Balance`: Average credit card balance in $.
+
+```{r}
+## Look at the first few rows
+head(Credit)
+```
+
+```{r echo=FALSE, fig.width=15}
+p1 <- ggplot(Credit, aes(x = Rating, y = Balance)) + geom_point() + geom_smooth()
+p2 <- ggplot(Credit, aes(x = Age, y = Balance)) + geom_point() + geom_smooth()
+p3 <- ggplot(Credit, aes(x = Education, y = Balance)) + geom_point() + geom_smooth()
+p4 <- ggplot(Credit, aes(x = Gender, y = Balance)) + geom_boxplot()
+p5 <- ggplot(Credit, aes(x = Student, y = Balance)) + geom_boxplot()
+grid.arrange(p1, p2, p3, p4, p5, nrow = 2, ncol = 3)
+```
+
+### Situation B
+
+We have 400 observations of the following variables:
+
+- `admit`: binary variable; 0 = rejected, 1 = admitted
+- `gre`: applicant's GRE score
+- `GPA`: applicant's undergraduate GPA
+- `rank`: A "prestige" ranking of the applicant's undergraduate institution. 1 to 4 going from least to most prestigious
+
+```{r}
+head(grad)
+```
+
+```{r echo=FALSE}
+mod1 <- glm(admit ~ gre, family = "binomial", data = grad)
+mod2 <- glm(admit ~ gre+gpa+rank, family = "binomial", data = grad)
+pred_prob1 <- predict(mod1, type = "response")
+pred_prob2 <- predict(mod2, type = "response")
+grad <- grad %>%
+    mutate(pred_prob1 = pred_prob1, pred_prob2 = pred_prob2)
+ggplot(grad, aes(x = admit, y = pred_prob1)) + geom_boxplot() + labs(x = "True admission status", y = "Model-predicted probability of admission", title = "Model 1: predictors = GRE")
+ggplot(grad, aes(x = admit, y = pred_prob2)) + geom_boxplot() + labs(x = "True admission status", y = "Model-predicted probability of admission", title = "Model 2: predictors = GRE, GPA, undergrad \"prestige\" rank")
+```
+
+```{r echo=FALSE}
+tree_grad <- tree(admit ~ gre+gpa+rank, data = grad)
+plot(tree_grad)
+text(tree_grad, pretty = 0)
+```
+
+### Situation C
+
+We have 85 different Halloween candies and measured the following variables:
+
+- `competitorname`: The name of the Halloween candy.
+- `chocolate`: Does it contain chocolate?
+- `fruity`: Is it fruit flavored?
+- `caramel`: Is there caramel in the candy?
+- `peanutyalmondy`: Does it contain peanuts, peanut butter or almonds?
+- `nougat`: Does it contain nougat?
+- `crispedricewafer`: Does it contain crisped rice, wafers, or a cookie component?
+- `hard`: Is it a hard candy?
+- `bar`: Is it a candy bar?
+- `pluribus`: Is it one of many candies in a bag or box?
+- `sugarpercent`: The percentile of sugar it falls under within the          dataset.
+- `pricepercent`: The unit price percentile compared to the rest of the dataset.
+- `winpercent`: The overall win percentage according to 269,000 matchups.
+
+```{r}
+head(candy_rankings)
+```
+
+```{r fig.width=15, echo=FALSE}
+candy <- as.data.frame(candy_rankings[,2:10])
+rownames(candy) <- candy_rankings$competitorname
+candy_clust <- hclust(dist(candy, method = "binary"), method = "average")
+plot(candy_clust, xlab = "Candies", ylab = "")
+```
+
+## Review exercises
+
+The following exercises are meant to help you remember key concepts from Math 155 and help you get used to working with R again. All code is provided, but make sure that you understand the general structure so that you could write your own code in the future, with the aid of a reference sheet. (**Suggestion:** Make a code reference sheet for yourself!)
+
+<center>
+**You will submit your answers to these questions for Homework 1 (on Moodle).**
+</center>
+
+**Data context:** We have data on over a thousand homes in upstate New York. This data contains information on house price as well as several other physical characteristics of the house. 
+
+```{r}
+library(ggplot2)
+library(dplyr)
+homes <- read.delim("http://sites.williams.edu/rdeveaux/files/2014/09/Saratoga.txt")
+```
+
+Before getting started on the exercises, take a minute to familiarize yourself with the data structure:
+
+```{r}
+## Look at the first 6 rows. What are the cases? What are the variables?
+head(homes)
+
+## Obtain the dimensions of the data. How many cases? How many variables?
+dim(homes)
+
+## Look at just the variable names
+colnames(homes)
+```
+
+@. **Visualizing the response variable**    
+    Construct a visualization of house price:
+    ```{r eval=FALSE}
+    ## Histogram
+    ggplot(homes, aes(x = Price)) + 
+        geom_histogram()
+
+    ## Density plot
+    ggplot(homes, aes(x = Price)) +
+        geom_density()
+    ```
+    **Question:** How would you describe the shape of the distribution?
+    a. Left-skewed
+    b. Right-skewed
+
+
+@. **A simple linear regression model**    
+    We want to explore the relationship between house price and square footage (`Living.Area` variable):
+
+    <center>
+    `Price` = $f$(`Living.Area`) + $\varepsilon$ = $\beta_0$ + $\beta_1$`Living.Area` + $\varepsilon$
+    </center>
+
+    We can visualize the relationship with a scatterplot with an overlaid estimated linear trend line (`geom_smooth(method = "lm")`):
+
+    ```{r eval=FALSE}
+    ggplot(homes, aes(x = Living.Area, y = Price)) + 
+        geom_point() +
+        geom_smooth(method = "lm")
+    ```
+
+    In R we can obtain an equation for the model line above. This equation is an *estimate* for the population model:
+
+    <center>
+    `Price` = $\hat{f}$(`Living.Area`) + $\varepsilon$ = $\hat\beta_0$ + $
+    hat\beta_1$`Living.Area` + $\varepsilon$
+    </center>
+
+    ```{r eval=FALSE}
+    ## Fit the model
+    mod1 <- lm(Price ~ Living.Area, data = homes)
+
+    ## Print the summarized output from the model
+    summary(mod1)
+    ```
+
+    **Question:** Which of the following is the correct estimated model formula?
+    a. `Price` = 113.123 + 13439.394 `Living.Area` + $\varepsilon$
+    b. `Price` = 13439.394 + 113.123 `Living.Area` + $\varepsilon$
+
+@. **Predictions**    
+    Consider a house that has a square footage of 1000 square feet. Use `mod1` to predict the price of this house. (Round to the nearest dollar.)
+
+@. **Residuals**    
+    A particular house in the dataset has a square footage of 1000 and was priced at $100,000. Using your prediction from the previous exercise (rounded to the nearest dollar), calculate the **residual** (true value - predicted value) for this house.
+
+@. **Adding a categorical variable**    
+    In addition to `Living.Area` let's consider the `Fuel.Type` variable which has 3 categories: fuel types 2, 3, or 4. We can visualize how fuel type relates to house price with these plots:
+    ```{r eval=FALSE}
+    ## Adding fuel as a color to the existing scatterplot
+    ggplot(homes, aes(x = Living.Area, y = Price, color = factor(Fuel.Type))) + 
+        geom_point(alpha = 0.2) +
+        geom_smooth(method = "lm")
+
+    ## Visualizing price and fuel alone
+    ggplot(homes, aes(x = factor(Fuel.Type), y = Price)) + geom_boxplot()
+    ```
+    We can model this with the multiple linear regression model ("multiple" = multiple predictor variables):
+    <center>
+    `Price` = $f$(`Living.Area`, `Fuel.Type`) + $\varepsilon$
+    </center>
+    <center>
+    `Price` = $\beta_0$ + $\beta_1$`Living.Area` + $\beta_2$`Fuel.Type2` + $\beta_3$`Fuel.Type3` + $\varepsilon$
+    </center>
+    Note that `Fuel.Type2` and `Fuel.Type3` are indicator variables where, for example, `Fuel.Type2` equals 1 if the house uses fuel type 2 and 0 otherwise. To fit this model in R:
+    ```{r eval=FALSE}
+    mod2 <- lm(Price ~ Living.Area + factor(Fuel.Type), data = homes)
+    summary(mod2)
+    ```
+    (Note: enclosing `Fuel.Type` within `factor()` forces R to treat it as a categorical variable. By default, `Fuel.Type` consists of the integers 2, 3, and 4.)    
+    **Question:** Using this model, what price would you predict for a house that uses fuel type 2 and has a square footage of 1000? (Round to the nearest dollar.)
+
+@. **Interpreting coefficients in a multivariate model**    
+    What is the interpretation of the `factor(Fuel.Type)3` coefficient in `mod2`?
+    a. The average price for a house that uses fuel type 3.
+    b. The average price for a house that uses fuel type 3, holding constant square footage.
+    c. The difference in average price for a house that uses fuel type 3 compared to a house that uses fuel type 2
+    d. The difference in average price for a house that uses fuel type 3 compared to a house that uses fuel type 2, holding constant square footage.
+
+@. **Interpreting coefficients in a multivariate model**    
+    What is the interpretation of the `Living.Area` coefficient in `mod2`?
+    a. The average price increase in price for each extra square foot
+    b. The average price increase in price for each extra square foot, holding constant fuel type
+    c. The average price increase in price for each extra square foot, only for houses that use fuel type 2
+    d. The average price increase in price for each extra square foot, only for houses that use fuel type 3
+    e. The average price increase in price for each extra square foot, only for houses that use fuel type 4
+
+@. **Statistical inference: confidence intervals**    
+    In `mod2` we see that the estimate of $\beta_1$ is $\hat\beta_1 = 110.231$ and has a **standard error** of $SE(\hat\beta_1) = 2.784$. Which of the following provides an approximate 95% confidence interval for $\beta_1$?
+    a. $110.231 \pm 2.784 = (107.447, 113.015)$
+    b. $110.231 \pm 2\times 2.784 = (104.663, 115.799)$
+    c. $110.231 \pm 3\times 2.784 = (101.879, 118.583)$
+
+@. **Confidence interval interpretation**    
+    How can we interpret the 95% confidence interval?
+    a. There's a 95% chance that $\beta_1$ is in this interval.
+    b. There's a 95% chance that our sample would produce a 95% confidence interval that covers $\beta_1$.
+
+@. **Confidence interval interpretation**    
+    Notice that 0 is not in the 95% confidence interval for $\beta_1$. What does this tell us?
+    a. We have significant evidence that house price increases as square footage increases, holding constant fuel type.
+    b. We do not have significant evidence that house price increases as square footage increases, holding constant fuel type.
+
+@. **Statistical inference: p-values**    
+    The **p-value** in the `Living.Area` row corresponds to the test that:
+    $H_0: \beta_1 = 0$    
+    $H_a: \beta_1 \neq 0$    
+    What can we conclude from the p-value?
+    a. We have significant evidence that house price increases as square footage increases, holding constant fuel type.
+    b. We do not have significant evidence that house price increases as square footage increases, holding constant fuel type.
+
+@. **Interpreting p-values**    
+    How can we interpret the p-value?
+    a. There's a tiny chance that there's no relationship between house price and square footage holding constant fuel type ($\beta_1=0$).
+    b. There's a tiny chance that there's any relationship between house price and square footage holding constant fuel type ($\beta_1 \neq 0$).
+    c. If in fact only there were no relationship between house price and square footage holding constant fuel type, there's a tiny chance we'd have gotten this sample of data in which there were such a strong positive relationship.
+
+
+@. **Thinking about fireplaces**    
+    Let's think about both square footage (`Living.Area`) and about whether or not a house has any fireplaces. Below, we create a binary variable called `AnyFireplaces` that is `TRUE` if the number of fireplaces is greater than 0 and that is `FALSE` otherwise.
+    ```{r eval=FALSE}
+    homes <- homes %>%
+        mutate(AnyFireplaces = Fireplaces > 0)
+    ```
+    We can visualize both of these predictors as follows:
+    ```{r eval=FALSE}
+    ggplot(homes, aes(x = Living.Area, y = Price, color = AnyFireplaces)) + 
+        geom_point(alpha = 0.2) +
+        geom_smooth(method = "lm")
+    ```
+    Consider two models that use `AnyFireplaces`:
+    ```{r eval=FALSE}
+    mod3 <- lm(Price ~ Living.Area + AnyFireplaces, data = homes)
+    summary(mod3)
+    mod4 <- lm(Price ~ Living.Area * AnyFireplaces, data = homes)
+    summary(mod4)
+    ```
+    **Question:** Consider the research question: "Is a square foot worth the same amount in a home with a fireplace as in a home without a fireplace?" Which of `mod3` and `mod4` can answer this question?
+    a. `mod3`
+    b. `mod4`
+
+@. Consider the research question: "How much is a square foot worth, holding fixed whether or not a house has a fireplace?" Which of `mod3` and `mod4` can answer this question?
+    a. `mod3`
+    b. `mod4`
+
+@. **Interaction models**    
+    Which of `mod3` and `mod4` would be called an **interaction model**?
+    a. `mod3`
+    b. `mod4`
+
+@. **Summarizing interaction models**    
+    Using the interaction model chosen in the previous exercise, which of the following represents the relationship between `Price` and `Living.Area` for homes **without** fireplaces?
+    a. `Price = (40901.294-37610.413) + 92.364 Living.Area`
+    b. `Price = (40901.294-37610.413) + (92.364+26.852) Living.Area`
+    c. `Price = 40901.294 + (92.364+26.852) Living.Area`
+    d. `Price = 40901.294 + 92.364 Living.Area`
+
+@. **Summarizing interaction models**    
+    Which of the following represents the relationship between `Price` and `Living.Area` for homes **with** fireplaces?
+    a. `Price = (40901.294-37610.413) + 92.364 Living.Area`
+    b. `Price = (40901.294-37610.413) + (92.364+26.852) Living.Area`
+    c. `Price = 40901.294 + (92.364+26.852) Living.Area`
+    d. `Price = 40901.294 + 92.364 Living.Area`
+
+@. **Inference in interaction models**    
+    At a significance level of 0.01, what can we conclude about the relationship between price and square footage in homes without fireplaces and in homes with fireplaces in the general population?
+    a. A square foot in a home with a fireplace is worth more than a square foot in a home without a fireplace.
+    b. We don't have evidence to say that a square foot in a home with a fireplace is worth more than a square foot in a home without a fireplace.
+
+@. **Inference in interaction models**    
+    What could we say about the 99% confidence interval for the interaction coefficient?
+    a. It lies completely above 0.
+    b. It lies completely below 0.
+    c. It contains 0.
+
