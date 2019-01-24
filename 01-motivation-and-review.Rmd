@@ -29,7 +29,7 @@ candy_rankings <- as.data.frame(candy_rankings)
 
 In each of the following situations, there is some behind-the-scenes code that performs an analysis and generates some output plots. Brainstorm what research question(s) are trying to be answered in each of the situations by looking at the first few rows of data and the plots.
 
-### Situation A
+### Situation A {-}
 
 We have 10,000 observations on the following variables:
 
@@ -53,7 +53,7 @@ the individual was married
 head(Credit)
 ```
 
-```{r echo=FALSE, fig.width=15}
+```{r echo=FALSE, fig.width=15, fig.height=8, message=FALSE}
 p1 <- ggplot(Credit, aes(x = Rating, y = Balance)) + geom_point() + geom_smooth()
 p2 <- ggplot(Credit, aes(x = Age, y = Balance)) + geom_point() + geom_smooth()
 p3 <- ggplot(Credit, aes(x = Education, y = Balance)) + geom_point() + geom_smooth()
@@ -62,7 +62,7 @@ p5 <- ggplot(Credit, aes(x = Student, y = Balance)) + geom_boxplot()
 grid.arrange(p1, p2, p3, p4, p5, nrow = 2, ncol = 3)
 ```
 
-### Situation B
+### Situation B {-}
 
 We have 400 observations of the following variables:
 
@@ -75,15 +75,16 @@ We have 400 observations of the following variables:
 head(grad)
 ```
 
-```{r echo=FALSE}
+```{r echo=FALSE, fig.width=15}
 mod1 <- glm(admit ~ gre, family = "binomial", data = grad)
 mod2 <- glm(admit ~ gre+gpa+rank, family = "binomial", data = grad)
 pred_prob1 <- predict(mod1, type = "response")
 pred_prob2 <- predict(mod2, type = "response")
 grad <- grad %>%
     mutate(pred_prob1 = pred_prob1, pred_prob2 = pred_prob2)
-ggplot(grad, aes(x = admit, y = pred_prob1)) + geom_boxplot() + labs(x = "True admission status", y = "Model-predicted probability of admission", title = "Model 1: predictors = GRE")
-ggplot(grad, aes(x = admit, y = pred_prob2)) + geom_boxplot() + labs(x = "True admission status", y = "Model-predicted probability of admission", title = "Model 2: predictors = GRE, GPA, undergrad \"prestige\" rank")
+p1 <- ggplot(grad, aes(x = admit, y = pred_prob1)) + geom_boxplot() + labs(x = "True admission status", y = "Model-predicted probability of admission", title = "Model 1: predictors = GRE")
+p2 <- ggplot(grad, aes(x = admit, y = pred_prob2)) + geom_boxplot() + labs(x = "True admission status", y = "Model-predicted probability of admission", title = "Model 2: predictors = GRE, GPA, undergrad \"prestige\" rank")
+grid.arrange(p1, p2, nrow = 1, ncol = 2)
 ```
 
 ```{r echo=FALSE}
@@ -92,7 +93,7 @@ plot(tree_grad)
 text(tree_grad, pretty = 0)
 ```
 
-### Situation C
+### Situation C {-}
 
 We have 85 different Halloween candies and measured the following variables:
 
@@ -114,20 +115,25 @@ We have 85 different Halloween candies and measured the following variables:
 head(candy_rankings)
 ```
 
-```{r fig.width=15, echo=FALSE}
+```{r fig.width=15, fig.height=8, echo=FALSE}
 candy <- as.data.frame(candy_rankings[,2:10])
 rownames(candy) <- candy_rankings$competitorname
 candy_clust <- hclust(dist(candy, method = "binary"), method = "average")
-plot(candy_clust, xlab = "Candies", ylab = "")
+plot(candy_clust, xlab = "Candies", ylab = "", main = "")
 ```
 
 ## Review exercises
 
 The following exercises are meant to help you remember key concepts from Math 155 and help you get used to working with R again. All code is provided, but make sure that you understand the general structure so that you could write your own code in the future, with the aid of a reference sheet. (**Suggestion:** Make a code reference sheet for yourself!)
 
+<br>
+
 <center>
 **You will submit your answers to these questions for Homework 1 (on Moodle).**
 </center>
+
+<br>
+<br>
 
 **Data context:** We have data on over a thousand homes in upstate New York. This data contains information on house price as well as several other physical characteristics of the house. 
 
@@ -139,7 +145,7 @@ homes <- read.delim("http://sites.williams.edu/rdeveaux/files/2014/09/Saratoga.t
 
 Before getting started on the exercises, take a minute to familiarize yourself with the data structure:
 
-```{r}
+```{r eval=FALSE}
 ## Look at the first 6 rows. What are the cases? What are the variables?
 head(homes)
 
@@ -165,6 +171,8 @@ colnames(homes)
     a. Left-skewed
     b. Right-skewed
 
+<br>
+<br>
 
 @. **A simple linear regression model**    
     We want to explore the relationship between house price and square footage (`Living.Area` variable):
@@ -184,8 +192,7 @@ colnames(homes)
     In R we can obtain an equation for the model line above. This equation is an *estimate* for the population model:
 
     <center>
-    `Price` = $\hat{f}$(`Living.Area`) + $\varepsilon$ = $\hat\beta_0$ + $
-    hat\beta_1$`Living.Area` + $\varepsilon$
+    `Price` = $\hat{f}$(`Living.Area`) + $\varepsilon$ = $\hat\beta_0$ + $\hat\beta_1$`Living.Area` + $\varepsilon$
     </center>
 
     ```{r eval=FALSE}
@@ -276,7 +283,6 @@ colnames(homes)
     a. There's a tiny chance that there's no relationship between house price and square footage holding constant fuel type ($\beta_1=0$).
     b. There's a tiny chance that there's any relationship between house price and square footage holding constant fuel type ($\beta_1 \neq 0$).
     c. If in fact only there were no relationship between house price and square footage holding constant fuel type, there's a tiny chance we'd have gotten this sample of data in which there were such a strong positive relationship.
-
 
 @. **Thinking about fireplaces**    
     Let's think about both square footage (`Living.Area`) and about whether or not a house has any fireplaces. Below, we create a binary variable called `AnyFireplaces` that is `TRUE` if the number of fireplaces is greater than 0 and that is `FALSE` otherwise.

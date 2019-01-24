@@ -1,6 +1,4 @@
 --- 
-title: "MATH 253: Machine Learning"
-subtitle: "Macalester College\nSpring 2019"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook:
@@ -16,15 +14,24 @@ description: "This is the class activity manual for Math 253 at Macalester Colle
 
 # MATH 253: Machine Learning {-}
 
-![[Image source](https://cdn.redshift.autodesk.com/2016/05/Machine-Learning-hero.jpg)](images/ml_robot.jpg)
+**Macalester College**    
+**Spring 2019**
 
+<center>
+![](images/ml_robot.jpg)
+
+[Image source](https://cdn.redshift.autodesk.com/2016/05/Machine-Learning-hero.jpg)
+</center>
+
+<br>
+<br>
 
 This is the class manual for Machine Learning (MATH 253) at Macalester College. The content here was made by [Leslie Myint](https://lmyint.github.io) and draws upon our class textbook, [An Introduction to Statistical Learning with Applications in R](http://www-bcf.usc.edu/~gareth/ISL/), and on [materials](https://ajohns24.github.io/253_Fall_18/index.html) prepared by [Alicia Johnson](http://aliciajohnson78.weebly.com/).
 
-\
-\
-\
+<br>
+<br>
+<br>
 
-![](https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png)
+![](images/cc_license_button.png)
 
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).

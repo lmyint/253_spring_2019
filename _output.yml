@@ -3,9 +3,7 @@ bookdown::gitbook:
   split_by: chapter
   config:
     toc:
-      collapse: none
-      before: |
-        <li><a href="./">Machine Learning</a></li>
+      collapse: subsection
       after: |
         <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
-    download: [pdf]
+    # download: [pdf]

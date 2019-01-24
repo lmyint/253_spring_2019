@@ -1,5 +1,5 @@
 book_filename: "math253_manual"
-output_dir: ../docs
+output_dir: docs/
 rmd_files: ["index.Rmd", "01-motivation-and-review.Rmd"]
 language:
   ui:
