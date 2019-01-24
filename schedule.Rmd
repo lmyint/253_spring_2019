@@ -1,0 +1,29 @@
+# Schedule {-}
+
+Topics for each class day, as well as links to the pre-class videos and slides,  are listed below.
+
+Before each class, watch the pre-class video and answer the corresponding comprehension questions on Moodle.
+
+## Tentative overall schedule {-}
+
+Regression tasks: Weeks 2-5
+
+- Topics: model evaluation, model building, nonparametric methods, tools for modeling nonlinearity
+
+Classification tasks: Weeks 6-9
+
+- Topics: model evaluation, logistic regression, discriminant analysis, tree-based methods, support vector methods
+
+Unsupervised learning: Weeks 10-11
+
+- Topics: principal components analysis/regression, clustering
+
+Other topics + project work time: Weeks 12-14
+
+- Suggested topic: deep learning
+
+## Week 2: 1/28 - 2/1 {-}
+
+- **Monday:** Assumptions of linear regression ([Video](https://youtu.be/FFxUbXRuufM), [Slides](https://drive.google.com/file/d/1sXhuyKUHbKJlFtrNBgN2xLw1bu4mUplz/view?usp=sharing))
+- **Wednesday:** Model evaluation metrics for regression ([Video](https://youtu.be/knHWpnDSnp4), [Slides](https://drive.google.com/file/d/1W-I3yoq6Zdo_HctnjfMxny3mRJPsi2iX/view?usp=sharing))
+- **Friday:** Cross-validation ([Video](https://youtu.be/kjyUjqlahV8), [Slides](https://drive.google.com/file/d/1TnelbFeESHz3nwwbdzFOlcbVL1vTRgOg/view?usp=sharing))

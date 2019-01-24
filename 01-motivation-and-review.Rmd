@@ -207,11 +207,20 @@ colnames(homes)
     a. `Price` = 113.123 + 13439.394 `Living.Area` + $\varepsilon$
     b. `Price` = 13439.394 + 113.123 `Living.Area` + $\varepsilon$
 
+<br>
+<br>
+
 @. **Predictions**    
     Consider a house that has a square footage of 1000 square feet. Use `mod1` to predict the price of this house. (Round to the nearest dollar.)
 
+<br>
+<br>
+
 @. **Residuals**    
     A particular house in the dataset has a square footage of 1000 and was priced at $100,000. Using your prediction from the previous exercise (rounded to the nearest dollar), calculate the **residual** (true value - predicted value) for this house.
+
+<br>
+<br>
 
 @. **Adding a categorical variable**    
     In addition to `Living.Area` let's consider the `Fuel.Type` variable which has 3 categories: fuel types 2, 3, or 4. We can visualize how fuel type relates to house price with these plots:
@@ -239,6 +248,9 @@ colnames(homes)
     (Note: enclosing `Fuel.Type` within `factor()` forces R to treat it as a categorical variable. By default, `Fuel.Type` consists of the integers 2, 3, and 4.)    
     **Question:** Using this model, what price would you predict for a house that uses fuel type 2 and has a square footage of 1000? (Round to the nearest dollar.)
 
+<br>
+<br>
+
 @. **Interpreting coefficients in a multivariate model**    
     What is the interpretation of the `factor(Fuel.Type)3` coefficient in `mod2`?
     a. The average price for a house that uses fuel type 3.
@@ -246,13 +258,19 @@ colnames(homes)
     c. The difference in average price for a house that uses fuel type 3 compared to a house that uses fuel type 2
     d. The difference in average price for a house that uses fuel type 3 compared to a house that uses fuel type 2, holding constant square footage.
 
+<br>
+<br>
+
 @. **Interpreting coefficients in a multivariate model**    
     What is the interpretation of the `Living.Area` coefficient in `mod2`?
-    a. The average price increase in price for each extra square foot
-    b. The average price increase in price for each extra square foot, holding constant fuel type
-    c. The average price increase in price for each extra square foot, only for houses that use fuel type 2
-    d. The average price increase in price for each extra square foot, only for houses that use fuel type 3
-    e. The average price increase in price for each extra square foot, only for houses that use fuel type 4
+    a. The average increase in price for each extra square foot
+    b. The average increase in price for each extra square foot, holding constant fuel type
+    c. The average increase in price for each extra square foot, only for houses that use fuel type 2
+    d. The average increase in price for each extra square foot, only for houses that use fuel type 3
+    e. The average increase in price for each extra square foot, only for houses that use fuel type 4
+
+<br>
+<br>
 
 @. **Statistical inference: confidence intervals**    
     In `mod2` we see that the estimate of $\beta_1$ is $\hat\beta_1 = 110.231$ and has a **standard error** of $SE(\hat\beta_1) = 2.784$. Which of the following provides an approximate 95% confidence interval for $\beta_1$?
@@ -260,29 +278,44 @@ colnames(homes)
     b. $110.231 \pm 2\times 2.784 = (104.663, 115.799)$
     c. $110.231 \pm 3\times 2.784 = (101.879, 118.583)$
 
+<br>
+<br>
+
 @. **Confidence interval interpretation**    
     How can we interpret the 95% confidence interval?
     a. There's a 95% chance that $\beta_1$ is in this interval.
     b. There's a 95% chance that our sample would produce a 95% confidence interval that covers $\beta_1$.
+
+<br>
+<br>
 
 @. **Confidence interval interpretation**    
     Notice that 0 is not in the 95% confidence interval for $\beta_1$. What does this tell us?
     a. We have significant evidence that house price increases as square footage increases, holding constant fuel type.
     b. We do not have significant evidence that house price increases as square footage increases, holding constant fuel type.
 
+<br>
+<br>
+
 @. **Statistical inference: p-values**    
-    The **p-value** in the `Living.Area` row corresponds to the test that:
+    The **p-value** in the `Living.Area` row corresponds to the test that:    
     $H_0: \beta_1 = 0$    
     $H_a: \beta_1 \neq 0$    
     What can we conclude from the p-value?
     a. We have significant evidence that house price increases as square footage increases, holding constant fuel type.
     b. We do not have significant evidence that house price increases as square footage increases, holding constant fuel type.
 
+<br>
+<br>
+
 @. **Interpreting p-values**    
     How can we interpret the p-value?
     a. There's a tiny chance that there's no relationship between house price and square footage holding constant fuel type ($\beta_1=0$).
     b. There's a tiny chance that there's any relationship between house price and square footage holding constant fuel type ($\beta_1 \neq 0$).
     c. If in fact only there were no relationship between house price and square footage holding constant fuel type, there's a tiny chance we'd have gotten this sample of data in which there were such a strong positive relationship.
+
+<br>
+<br>
 
 @. **Thinking about fireplaces**    
     Let's think about both square footage (`Living.Area`) and about whether or not a house has any fireplaces. Below, we create a binary variable called `AnyFireplaces` that is `TRUE` if the number of fireplaces is greater than 0 and that is `FALSE` otherwise.
@@ -307,14 +340,22 @@ colnames(homes)
     a. `mod3`
     b. `mod4`
 
+<br>
+<br>
+
 @. Consider the research question: "How much is a square foot worth, holding fixed whether or not a house has a fireplace?" Which of `mod3` and `mod4` can answer this question?
     a. `mod3`
     b. `mod4`
 
-@. **Interaction models**    
-    Which of `mod3` and `mod4` would be called an **interaction model**?
+<br>
+<br>
+
+@. Which of `mod3` and `mod4` would be called an **interaction model**?
     a. `mod3`
     b. `mod4`
+
+<br>
+<br>
 
 @. **Summarizing interaction models**    
     Using the interaction model chosen in the previous exercise, which of the following represents the relationship between `Price` and `Living.Area` for homes **without** fireplaces?
@@ -323,6 +364,9 @@ colnames(homes)
     c. `Price = 40901.294 + (92.364+26.852) Living.Area`
     d. `Price = 40901.294 + 92.364 Living.Area`
 
+<br>
+<br>
+
 @. **Summarizing interaction models**    
     Which of the following represents the relationship between `Price` and `Living.Area` for homes **with** fireplaces?
     a. `Price = (40901.294-37610.413) + 92.364 Living.Area`
@@ -330,10 +374,16 @@ colnames(homes)
     c. `Price = 40901.294 + (92.364+26.852) Living.Area`
     d. `Price = 40901.294 + 92.364 Living.Area`
 
+<br>
+<br>
+
 @. **Inference in interaction models**    
     At a significance level of 0.01, what can we conclude about the relationship between price and square footage in homes without fireplaces and in homes with fireplaces in the general population?
     a. A square foot in a home with a fireplace is worth more than a square foot in a home without a fireplace.
     b. We don't have evidence to say that a square foot in a home with a fireplace is worth more than a square foot in a home without a fireplace.
+
+<br>
+<br>
 
 @. **Inference in interaction models**    
     What could we say about the 99% confidence interval for the interaction coefficient?
