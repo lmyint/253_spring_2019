@@ -126,6 +126,8 @@ plot(candy_clust, xlab = "Candies", ylab = "", main = "")
 
 The following exercises are meant to help you remember key concepts from Math 155 and help you get used to working with R again. All code is provided, but make sure that you understand the general structure so that you could write your own code in the future, with the aid of a reference sheet. (**Suggestion:** Make a code reference sheet for yourself!)
 
+So that you don't have to copy and paste the code, download and work from the template file <a href="template_rmds/01-motivation-and-review.Rmd" target="_blank">here</a>. This is an RMarkdown file that you can open in RStudio. You won't need to write new code, but you may find it helpful to add notes and comments. (*Note:* When you go to save this file to your computer, your browser may append a ".txt" to the end of the filename. Delete this extra file extension, and select "All Files" from the "Format" dropdown menu at the bottom of the Save As box.)
+
 <br>
 
 <center>
@@ -146,24 +148,24 @@ homes <- read.delim("http://sites.williams.edu/rdeveaux/files/2014/09/Saratoga.t
 Before getting started on the exercises, take a minute to familiarize yourself with the data structure:
 
 ```{r eval=FALSE}
-## Look at the first 6 rows. What are the cases? What are the variables?
+# Look at the first 6 rows. What are the cases? What are the variables?
 head(homes)
 
-## Obtain the dimensions of the data. How many cases? How many variables?
+# Obtain the dimensions of the data. How many cases? How many variables?
 dim(homes)
 
-## Look at just the variable names
+# Look at just the variable names
 colnames(homes)
 ```
 
 @. **Visualizing the response variable**    
     Construct a visualization of house price:
     ```{r eval=FALSE}
-    ## Histogram
+    # Histogram
     ggplot(homes, aes(x = Price)) + 
         geom_histogram()
 
-    ## Density plot
+    # Density plot
     ggplot(homes, aes(x = Price)) +
         geom_density()
     ```
@@ -196,10 +198,10 @@ colnames(homes)
     </center>
 
     ```{r eval=FALSE}
-    ## Fit the model
+    # Fit the model
     mod1 <- lm(Price ~ Living.Area, data = homes)
 
-    ## Print the summarized output from the model
+    # Print the summarized output from the model
     summary(mod1)
     ```
 
@@ -225,12 +227,12 @@ colnames(homes)
 @. **Adding a categorical variable**    
     In addition to `Living.Area` let's consider the `Fuel.Type` variable which has 3 categories: fuel types 2, 3, or 4. We can visualize how fuel type relates to house price with these plots:
     ```{r eval=FALSE}
-    ## Adding fuel as a color to the existing scatterplot
+    # Adding fuel as a color to the existing scatterplot
     ggplot(homes, aes(x = Living.Area, y = Price, color = factor(Fuel.Type))) + 
         geom_point(alpha = 0.2) +
         geom_smooth(method = "lm")
 
-    ## Visualizing price and fuel alone
+    # Visualizing price and fuel alone
     ggplot(homes, aes(x = factor(Fuel.Type), y = Price)) + geom_boxplot()
     ```
     We can model this with the multiple linear regression model ("multiple" = multiple predictor variables):

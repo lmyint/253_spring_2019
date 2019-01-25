@@ -1,0 +1,85 @@
+---
+title: "Review exercises"
+author: "Your Name"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+homes <- read.delim("http://sites.williams.edu/rdeveaux/files/2014/09/Saratoga.txt")
+```
+
+```{r}
+## Look at the first 6 rows. What are the cases? What are the variables?
+head(homes)
+
+## Obtain the dimensions of the data. How many cases? How many variables?
+dim(homes)
+
+## Look at just the variable names
+colnames(homes)
+```
+
+**Visualizing the response variable**
+
+```{r}
+## Histogram
+ggplot(homes, aes(x = Price)) + 
+    geom_histogram()
+
+## Density plot
+ggplot(homes, aes(x = Price)) +
+    geom_density()
+```
+
+**A simple linear regression model**    
+
+```{r}
+ggplot(homes, aes(x = Living.Area, y = Price)) + 
+    geom_point() +
+    geom_smooth(method = "lm")
+```
+
+```{r}
+## Fit the model
+mod1 <- lm(Price ~ Living.Area, data = homes)
+
+## Print the summarized output from the model
+summary(mod1)
+```
+
+**Adding a categorical variable**
+
+```{r}
+## Adding fuel as a color to the existing scatterplot
+ggplot(homes, aes(x = Living.Area, y = Price, color = factor(Fuel.Type))) + 
+    geom_point(alpha = 0.2) +
+    geom_smooth(method = "lm")
+
+## Visualizing price and fuel alone
+ggplot(homes, aes(x = factor(Fuel.Type), y = Price)) + geom_boxplot()
+```
+    
+```{r}
+mod2 <- lm(Price ~ Living.Area + factor(Fuel.Type), data = homes)
+summary(mod2)
+```
+
+**Thinking about fireplaces**
+
+```{r}
+homes <- homes %>%
+    mutate(AnyFireplaces = Fireplaces > 0)
+
+ggplot(homes, aes(x = Living.Area, y = Price, color = AnyFireplaces)) + 
+    geom_point(alpha = 0.2) +
+    geom_smooth(method = "lm")
+```
+
+```{r}
+mod3 <- lm(Price ~ Living.Area + AnyFireplaces, data = homes)
+summary(mod3)
+mod4 <- lm(Price ~ Living.Area * AnyFireplaces, data = homes)
+summary(mod4)
+```
