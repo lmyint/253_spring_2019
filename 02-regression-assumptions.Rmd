@@ -1,0 +1,225 @@
+# Regression Assumptions
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+```
+
+## Discussion
+
+![](images/class_flow1.png)
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+**Regression tasks**
+
+In regression tasks, our goal is to build a model (a function) $f$ that predicts the quantitative response values well:
+
+$$y = f(x) + \varepsilon$$
+
+- $y$: quantitative response variable
+- $x = (x_1, x_2, \ldots, x_p)$: are $p$ explanatory variables, predictors, features
+- $f(x)$ is a function that captures the underlying trend/relationship between the response and the predictors
+- $\varepsilon$ is random unexplainable error/noise
+
+The linear regression model you learned about in MATH 155 is a special case of $f$:
+
+$$
+\begin{align*}
+y &= f(x) + \varepsilon \\
+&= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \varepsilon
+\end{align*}
+$$
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+**Evaluating regression models**
+
+1. Should meet assumptions required for statistical inference
+2. Should explain a substantial proportion of the variation in the response
+3. Should produce accurate predictions
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+**Linear regression assumptions**
+
+$$\varepsilon \stackrel{ind}{\sim} N(0, \sigma^2)$$
+
+Assumptions are to ensure that statistical inference procedures (p-values, confidence intervals) "work as advertised":
+
+- The process of creating a 95% CI is a **procedure** (add and subtract about 2 standard errors from the estimate).
+    - It "works as advertised" if in 95% of possible samples it creates intervals that contain the true population value. (The other 5% of samples are unlucky ones.)
+    - It does not "work as advertised" if only 90% of possible samples result in intervals (95% CIs) that contain the true population value.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+## Exercises
+
+**You can download a template RMarkdown file to start from [here](template_rmds/02-regression-assumptions.Rmd).**
+
+We will continue looking at the New York housing data. Each case (row) in the dataset is a house in New York, and on each house, we have information on several variables. We'll focus on the response variable `Price` (in dollars) and a single predictor variable `Age` (in years).
+
+```{r}
+# Load required packages
+library(ggplot2)
+library(dplyr)
+
+# Read in the data
+homes <- read.delim("http://sites.williams.edu/rdeveaux/files/2014/09/Saratoga.txt")
+
+# Look at the first 6 rows
+head(homes)
+```
+
+We will pretend that the `homes` dataset contains the full population of New York houses. Let's draw a random sample of 500 houses from the "population". We can do this with the `sample_n()` function available in the `dplyr` package:
+
+```{r eval=FALSE}
+# Randomly sample 500 homes
+homes_sample <- sample_n(homes, size = 500)
+```
+
+`r NextQ()`. **Checking the independence assumption**    
+    In thinking about what the cases are, do you think the independence assumption holds?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **A first try at a model**
+    a. Visualize the relationship between house price and house age with a scatterplot and smooth trend line. How would you describe the overall shape of the trend? Is it linear?
+        ```{r eval=FALSE}
+        ggplot(homes_sample, aes(x = ???, y = ???)) +
+            geom_???() +
+            geom_smooth()
+        ```
+    b. Using our sample (`homes_sample`), fit a linear regression model where `Price` is predicted by `Age`:
+        ```{r eval=FALSE}
+        # Fit the model
+        mod1 <- lm(Price ~ Age, data = homes_sample)
+
+        # Display the summary table
+        summary(mod1)
+        ```
+    c. Check the trend and homoskedasticity assumptions by plotting the residuals versus the fitted (predicted) values. The points should be evenly scattered around the y = 0 line. Do you think these assumptions are met?
+        ```{r eval=FALSE}
+        # Put the residuals and predicted values into a dataset
+        mod1_output <- data.frame(
+            residual = residuals(mod1),
+            predicted = fitted.values(mod1)
+        )
+
+        # Plot
+        ggplot(mod1_output, aes(x = ???, y = ???)) +
+            geom_point() +
+            geom_smooth(color = "blue", lwd = 3) + # Add a smooth trend
+            geom_hline(yintercept = 0, color = "red") # Add the y = 0 line
+        ```
+    d. Check the normality assumption by making a QQ-plot of the residuals. In a QQ-plot, each residual (y-axis) is plotted against its theoretical corresponding value from a standard normal distribution ($N(0,1^2)$) on the x-axis. That is, the first quartile of the residuals is plotted against the first quartile of $N(0,1^2)$, the median of the residuals is plotted against the median of $N(0,1^2)$, and so on. If the residuals follow a normal distribution, then the points should fall on a line. Do you think the normality assumption holds?
+        ```{r eval=FALSE}
+        ggplot(mod1_output, aes(sample = residual)) +
+            geom_qq() +
+            geom_qq_line()
+        ```
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **A second model**    
+    The diagnostic plots we made above suggest that key assumptions are not being met. Let's explore how **transforming** variables can help us meet those assumptions.
+    a. One of the most common *variable transformations* that can help fix an unmet homoskedasticity assumption is a logarithmic transformation of the response variable. We will also try to better model the nonlinear shape of the `Price` vs. `Age` trend by using a logarithmic transformation. The `mutate()` function in the `dplyr` package allows us to create these new transformed variables:
+        ```{r eval=FALSE}
+        # log() = natural logarithm
+        # The %>% is a "pipe": it takes the dataset to the left and provides it as input to the code that follows
+        homes_sample <- homes_sample %>%
+            mutate(
+                log_price = log(Price),
+                log_age = log(Age + 1) # Some Age's are 0, so add 1 to prevent log(0), which is undefined
+            )
+        ```
+    b. Fit a linear regression model where `log_price` is predicted by `log_age` and obtain the residuals and fitted values:
+        ```{r eval=FALSE}
+        mod2 <- lm(???, data = homes_sample)
+        mod2_output <- data.frame(
+            residual = residuals(???),
+            predicted = fitted.values(???)
+        )
+        ```
+    c. Check the trend, homoskedasticity, and normality assumptions for `mod2`. Do these assumptions seem to hold better for `mod1` or `mod2`?
+
+```{r echo=FALSE}
+# The homes dataset is the full "population"
+# Add the natural log-transformed price and age variables
+homes <- homes %>%
+    mutate(
+        log_price = log(Price),
+        log_age = log(Age + 1)
+    )
+mod1_population <- lm(Price ~ Age, data = homes)
+mod2_population <- lm(log_price ~ log_age, data = homes)
+
+true_coeff_mod1 <- coefficients(mod1_population)[2]
+true_coeff_mod2 <- coefficients(mod2_population)[2]
+
+set.seed(333)
+sim_results <- replicate(1000, {
+    # Sample 500 homes from the population
+    homes_new_sample <- sample_n(homes, size = 500)
+    # Fit model 1
+    mod1_new_sample <- lm(Price ~ Age, data = homes_new_sample)
+    ci_mod1 <- confint(mod1_new_sample)[2,]
+    # Fit model 2
+    mod2_new_sample <- lm(log_price ~ log_age, data = homes_new_sample)
+    ci_mod2 <- confint(mod2_new_sample)[2,]
+    c(contains_truth_mod1 = true_coeff_mod1 >= ci_mod1[1] & true_coeff_mod1 <= ci_mod1[2], contains_truth_mod2 = true_coeff_mod2 >= ci_mod2[1] & true_coeff_mod2 <= ci_mod2[2])
+})
+```
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Implications for statistical inference**    
+    Since we have the entire population of New York homes, we can investigate whether or not confidence intervals "work as advertised" for the two models we investigated.
+    a. Display the 95% confidence intervals for the coefficients in `mod1` and `mod2` with the `confint()` function:
+        ```{r eval=FALSE}
+        confint(mod1)
+        confint(mod2)
+        ```
+        By fitting the `Price ~ Age` model in the full population, we know that the true population value of the `Age` coefficient is `r true_coeff_mod1`.    
+        And by fitting the `log_price ~ log_age` model in the full population, we know that the true population value of the `log_age` coefficient is `r true_coeff_mod2`.    
+        Does the 95% confidence interval "work as advertised" in this case?
+    b. But what we did in part a just looked at one sample. If the 95% CI truly were working as advertised, 95% of samples would create 95% CIs that contain the true population value. We can run some simulations and see how 95% CIs "work" in 1000 different samples.    
+    We find that for `mod1`, 95% CIs contain the true value of the `Age` coefficient `r sum(sim_results[1,])` times.    
+    We find that for `mod2`, 95% CIs contain the true value of the `log_age` coefficient `r sum(sim_results[2,])` times.    
+    With regards to statistical inference, what can you conclude about assumption violations and fixing those violations?
+
+
+
+
+

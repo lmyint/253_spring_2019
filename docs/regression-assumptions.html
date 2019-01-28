@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  <meta name="github-repo" content="lmyint/253_spring_2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="" />
+  
+  <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="motivation-and-review.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.dv { color: #44aa43; } /* DecVal */
+code > span.bn { color: #44aa43; } /* BaseN */
+code > span.fl { color: #44aa43; } /* Float */
+code > span.ch { color: #049b0a; } /* Char */
+code > span.st { color: #049b0a; } /* String */
+code > span.co { color: #0066ff; font-style: italic; } /* Comment */
+code > span.al { color: #ffff00; } /* Alert */
+code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code > span.er { color: #ffff00; font-weight: bold; } /* Error */
+code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #049b0a; } /* SpecialChar */
+code > span.vs { color: #049b0a; } /* VerbatimString */
+code > span.ss { color: #049b0a; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>MATH 253: Machine Learning</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#tentative-overall-schedule"><i class="fa fa-check"></i>Tentative overall schedule</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2-128---21"><i class="fa fa-check"></i>Week 2: 1/28 - 2/1</a></li>
+</ul></li>
+<li class="part"><span><b>I Regression: Model Evaluation</b></span></li>
+<li class="chapter" data-level="1" data-path="motivation-and-review.html"><a href="motivation-and-review.html"><i class="fa fa-check"></i><b>1</b> Motivation and Review</a><ul>
+<li class="chapter" data-level="1.1" data-path="motivation-and-review.html"><a href="motivation-and-review.html#activity-motivating-main-ideas"><i class="fa fa-check"></i><b>1.1</b> Activity: motivating main ideas</a><ul>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-a"><i class="fa fa-check"></i>Situation A</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-b"><i class="fa fa-check"></i>Situation B</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-c"><i class="fa fa-check"></i>Situation C</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="motivation-and-review.html"><a href="motivation-and-review.html#review-exercises"><i class="fa fa-check"></i><b>1.2</b> Review exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regression-assumptions.html"><a href="regression-assumptions.html"><i class="fa fa-check"></i><b>2</b> Regression Assumptions</a><ul>
+<li class="chapter" data-level="2.1" data-path="regression-assumptions.html"><a href="regression-assumptions.html#discussion"><i class="fa fa-check"></i><b>2.1</b> Discussion</a></li>
+<li class="chapter" data-level="2.2" data-path="regression-assumptions.html"><a href="regression-assumptions.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="regression-assumptions" class="section level1">
+<h1><span class="header-section-number">Topic 2</span> Regression Assumptions</h1>
+<div id="discussion" class="section level2">
+<h2><span class="header-section-number">2.1</span> Discussion</h2>
+<div class="figure">
+<img src="images/class_flow1.png" />
+
+</div>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>Regression tasks</strong></p>
+<p>In regression tasks, our goal is to build a model (a function) <span class="math inline">\(f\)</span> that predicts the quantitative response values well:</p>
+<p><span class="math display">\[y = f(x) + \varepsilon\]</span></p>
+<ul>
+<li><span class="math inline">\(y\)</span>: quantitative response variable</li>
+<li><span class="math inline">\(x = (x_1, x_2, \ldots, x_p)\)</span>: are <span class="math inline">\(p\)</span> explanatory variables, predictors, features</li>
+<li><span class="math inline">\(f(x)\)</span> is a function that captures the underlying trend/relationship between the response and the predictors</li>
+<li><span class="math inline">\(\varepsilon\)</span> is random unexplainable error/noise</li>
+</ul>
+<p>The linear regression model you learned about in MATH 155 is a special case of <span class="math inline">\(f\)</span>:</p>
+<p><span class="math display">\[
+\begin{align*}
+y &amp;= f(x) + \varepsilon \\
+&amp;= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \varepsilon
+\end{align*}
+\]</span></p>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>Evaluating regression models</strong></p>
+<ol style="list-style-type: decimal">
+<li>Should meet assumptions required for statistical inference</li>
+<li>Should explain a substantial proportion of the variation in the response</li>
+<li>Should produce accurate predictions</li>
+</ol>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>Linear regression assumptions</strong></p>
+<p><span class="math display">\[\varepsilon \stackrel{ind}{\sim} N(0, \sigma^2)\]</span></p>
+<p>Assumptions are to ensure that statistical inference procedures (p-values, confidence intervals) “work as advertised”:</p>
+<ul>
+<li>The process of creating a 95% CI is a <strong>procedure</strong> (add and subtract about 2 standard errors from the estimate).
+<ul>
+<li>It “works as advertised” if in 95% of possible samples it creates intervals that contain the true population value. (The other 5% of samples are unlucky ones.)</li>
+<li>It does not “work as advertised” if only 90% of possible samples result in intervals (95% CIs) that contain the true population value.</li>
+</ul></li>
+</ul>
+<p><br> <br> <br> <br> <br> <br></p>
+</div>
+<div id="exercises" class="section level2">
+<h2><span class="header-section-number">2.2</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/02-regression-assumptions.Rmd">here</a>.</strong></p>
+<p>We will continue looking at the New York housing data. Each case (row) in the dataset is a house in New York, and on each house, we have information on several variables. We’ll focus on the response variable <code>Price</code> (in dollars) and a single predictor variable <code>Age</code> (in years).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load required packages</span>
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)
+
+<span class="co"># Read in the data</span>
+homes &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;http://sites.williams.edu/rdeveaux/files/2014/09/Saratoga.txt&quot;</span>)
+
+<span class="co"># Look at the first 6 rows</span>
+<span class="kw">head</span>(homes)</code></pre></div>
+<pre><code>##    Price Lot.Size Waterfront Age Land.Value New.Construct Central.Air
+## 1 132500     0.09          0  42      50000             0           0
+## 2 181115     0.92          0   0      22300             0           0
+## 3 109000     0.19          0 133       7300             0           0
+## 4 155000     0.41          0  13      18700             0           0
+## 5  86060     0.11          0   0      15000             1           1
+## 6 120000     0.68          0  31      14000             0           0
+##   Fuel.Type Heat.Type Sewer.Type Living.Area Pct.College Bedrooms
+## 1         3         4          2         906          35        2
+## 2         2         3          2        1953          51        3
+## 3         2         3          3        1944          51        4
+## 4         2         2          2        1944          51        3
+## 5         2         2          3         840          51        2
+## 6         2         2          2        1152          22        4
+##   Fireplaces Bathrooms Rooms
+## 1          1       1.0     5
+## 2          0       2.5     6
+## 3          1       1.0     8
+## 4          1       1.5     5
+## 5          0       1.0     3
+## 6          1       1.0     8</code></pre>
+<p>We will pretend that the <code>homes</code> dataset contains the full population of New York houses. Let’s draw a random sample of 500 houses from the “population”. We can do this with the <code>sample_n()</code> function available in the <code>dplyr</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Randomly sample 500 homes</span>
+homes_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(homes, <span class="dt">size =</span> <span class="dv">500</span>)</code></pre></div>
+<ol style="list-style-type: decimal">
+<li><strong>Checking the independence assumption</strong><br />
+In thinking about what the cases are, do you think the independence assumption holds?</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>A first try at a model</strong>
+<ol style="list-style-type: lower-alpha">
+<li><p>Visualize the relationship between house price and house age with a scatterplot and smooth trend line. How would you describe the overall shape of the trend? Is it linear?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(homes_sample, <span class="kw">aes</span>(<span class="dt">x =</span> ???, <span class="dt">y =</span> ???)) <span class="op">+</span>
+<span class="st">    </span>geom_???() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>()</code></pre></div></li>
+<li><p>Using our sample (<code>homes_sample</code>), fit a linear regression model where <code>Price</code> is predicted by <code>Age</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the model</span>
+mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(Price <span class="op">~</span><span class="st"> </span>Age, <span class="dt">data =</span> homes_sample)
+
+<span class="co"># Display the summary table</span>
+<span class="kw">summary</span>(mod1)</code></pre></div></li>
+<li><p>Check the trend and homoskedasticity assumptions by plotting the residuals versus the fitted (predicted) values. The points should be evenly scattered around the y = 0 line. Do you think these assumptions are met?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Put the residuals and predicted values into a dataset</span>
+mod1_output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">residual =</span> <span class="kw">residuals</span>(mod1),
+    <span class="dt">predicted =</span> <span class="kw">fitted.values</span>(mod1)
+)
+
+<span class="co"># Plot</span>
+<span class="kw">ggplot</span>(mod1_output, <span class="kw">aes</span>(<span class="dt">x =</span> ???, <span class="dt">y =</span> ???)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="co"># Add a smooth trend</span>
+<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="co"># Add the y = 0 line</span></code></pre></div></li>
+<li><p>Check the normality assumption by making a QQ-plot of the residuals. In a QQ-plot, each residual (y-axis) is plotted against its theoretical corresponding value from a standard normal distribution (<span class="math inline">\(N(0,1^2)\)</span>) on the x-axis. That is, the first quartile of the residuals is plotted against the first quartile of <span class="math inline">\(N(0,1^2)\)</span>, the median of the residuals is plotted against the median of <span class="math inline">\(N(0,1^2)\)</span>, and so on. If the residuals follow a normal distribution, then the points should fall on a line. Do you think the normality assumption holds?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mod1_output, <span class="kw">aes</span>(<span class="dt">sample =</span> residual)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_qq</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_qq_line</span>()</code></pre></div></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>A second model</strong><br />
+The diagnostic plots we made above suggest that key assumptions are not being met. Let’s explore how <strong>transforming</strong> variables can help us meet those assumptions.
+<ol style="list-style-type: lower-alpha">
+<li><p>One of the most common <em>variable transformations</em> that can help fix an unmet homoskedasticity assumption is a logarithmic transformation of the response variable. We will also try to better model the nonlinear shape of the <code>Price</code> vs. <code>Age</code> trend by using a logarithmic transformation. The <code>mutate()</code> function in the <code>dplyr</code> package allows us to create these new transformed variables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># log() = natural logarithm</span>
+<span class="co"># The %&gt;% is a &quot;pipe&quot;: it takes the dataset to the left and provides it as input to the code that follows</span>
+homes_sample &lt;-<span class="st"> </span>homes_sample <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(
+        <span class="dt">log_price =</span> <span class="kw">log</span>(Price),
+        <span class="dt">log_age =</span> <span class="kw">log</span>(Age <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="co"># Some Age&#39;s are 0, so add 1 to prevent log(0), which is undefined</span>
+    )</code></pre></div></li>
+<li><p>Fit a linear regression model where <code>log_price</code> is predicted by <code>log_age</code> and obtain the residuals and fitted values:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(???, <span class="dt">data =</span> homes_sample)
+mod2_output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">residual =</span> <span class="kw">residuals</span>(???),
+    <span class="dt">predicted =</span> <span class="kw">fitted.values</span>(???)
+)</code></pre></div></li>
+<li><p>Check the trend, homoskedasticity, and normality assumptions for <code>mod2</code>. Do these assumptions seem to hold better for <code>mod1</code> or <code>mod2</code>?</p></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Implications for statistical inference</strong><br />
+Since we have the entire population of New York homes, we can investigate whether or not confidence intervals “work as advertised” for the two models we investigated.
+<ol style="list-style-type: lower-alpha">
+<li><p>Display the 95% confidence intervals for the coefficients in <code>mod1</code> and <code>mod2</code> with the <code>confint()</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(mod1)
+<span class="kw">confint</span>(mod2)</code></pre></div>
+By fitting the <code>Price ~ Age</code> model in the full population, we know that the true population value of the <code>Age</code> coefficient is -636.2551305.<br />
+And by fitting the <code>log_price ~ log_age</code> model in the full population, we know that the true population value of the <code>log_age</code> coefficient is -0.134966.<br />
+Does the 95% confidence interval “work as advertised” in this case?</li>
+<li><p>But what we did in part a just looked at one sample. If the 95% CI truly were working as advertised, 95% of samples would create 95% CIs that contain the true population value. We can run some simulations and see how 95% CIs “work” in 1000 different samples.<br />
+We find that for <code>mod1</code>, 95% CIs contain the true value of the <code>Age</code> coefficient 899 times.<br />
+We find that for <code>mod2</code>, 95% CIs contain the true value of the <code>log_age</code> coefficient 964 times.<br />
+With regards to statistical inference, what can you conclude about assumption violations and fixing those violations?</p></li>
+</ol></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="motivation-and-review.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

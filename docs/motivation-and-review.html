@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="schedule.html">
-
+<link rel="next" href="regression-assumptions.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -112,6 +112,10 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-c"><i class="fa fa-check"></i>Situation C</a></li>
 </ul></li>
 <li class="chapter" data-level="1.2" data-path="motivation-and-review.html"><a href="motivation-and-review.html#review-exercises"><i class="fa fa-check"></i><b>1.2</b> Review exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regression-assumptions.html"><a href="regression-assumptions.html"><i class="fa fa-check"></i><b>2</b> Regression Assumptions</a><ul>
+<li class="chapter" data-level="2.1" data-path="regression-assumptions.html"><a href="regression-assumptions.html#discussion"><i class="fa fa-check"></i><b>2.1</b> Discussion</a></li>
+<li class="chapter" data-level="2.2" data-path="regression-assumptions.html"><a href="regression-assumptions.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
@@ -258,7 +262,7 @@ homes &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span cla
 
 <span class="co"># Look at just the variable names</span>
 <span class="kw">colnames</span>(homes)</code></pre></div>
-<ol class="example" style="list-style-type: decimal">
+<ol style="list-style-type: decimal">
 <li><p><strong>Visualizing the response variable</strong><br />
 Construct a visualization of house price:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Histogram</span>
@@ -275,7 +279,7 @@ Construct a visualization of house price:</p>
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="2" class="example" style="list-style-type: decimal">
+<ol start="2" style="list-style-type: decimal">
 <li><p><strong>A simple linear regression model</strong><br />
 We want to explore the relationship between house price and square footage (<code>Living.Area</code> variable):</p>
 <center>
@@ -301,17 +305,17 @@ mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(Price <span class=
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="3" class="example" style="list-style-type: decimal">
+<ol start="3" style="list-style-type: decimal">
 <li><strong>Predictions</strong><br />
 Consider a house that has a square footage of 1000 square feet. Use <code>mod1</code> to predict the price of this house. (Round to the nearest dollar.)</li>
 </ol>
 <p><br> <br></p>
-<ol start="4" class="example" style="list-style-type: decimal">
+<ol start="4" style="list-style-type: decimal">
 <li><strong>Residuals</strong><br />
 A particular house in the dataset has a square footage of 1000 and was priced at $100,000. Using your prediction from the previous exercise (rounded to the nearest dollar), calculate the <strong>residual</strong> (true value - predicted value) for this house.</li>
 </ol>
 <p><br> <br></p>
-<ol start="5" class="example" style="list-style-type: decimal">
+<ol start="5" style="list-style-type: decimal">
 <li><p><strong>Adding a categorical variable</strong><br />
 In addition to <code>Living.Area</code> let’s consider the <code>Fuel.Type</code> variable which has 3 categories: fuel types 2, 3, or 4. We can visualize how fuel type relates to house price with these plots:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Adding fuel as a color to the existing scatterplot</span>
@@ -335,7 +339,7 @@ We can model this with the multiple linear regression model (“multiple” = mu
 <strong>Question:</strong> Using this model, what price would you predict for a house that uses fuel type 2 and has a square footage of 1000? (Round to the nearest dollar.)</p></li>
 </ol>
 <p><br> <br></p>
-<ol start="6" class="example" style="list-style-type: decimal">
+<ol start="6" style="list-style-type: decimal">
 <li><strong>Interpreting coefficients in a multivariate model</strong><br />
 What is the interpretation of the <code>factor(Fuel.Type)3</code> coefficient in <code>mod2</code>?
 <ol style="list-style-type: lower-alpha">
@@ -346,7 +350,7 @@ What is the interpretation of the <code>factor(Fuel.Type)3</code> coefficient in
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="7" class="example" style="list-style-type: decimal">
+<ol start="7" style="list-style-type: decimal">
 <li><strong>Interpreting coefficients in a multivariate model</strong><br />
 What is the interpretation of the <code>Living.Area</code> coefficient in <code>mod2</code>?
 <ol style="list-style-type: lower-alpha">
@@ -358,7 +362,7 @@ What is the interpretation of the <code>Living.Area</code> coefficient in <code>
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="8" class="example" style="list-style-type: decimal">
+<ol start="8" style="list-style-type: decimal">
 <li><strong>Statistical inference: confidence intervals</strong><br />
 In <code>mod2</code> we see that the estimate of <span class="math inline">\(\beta_1\)</span> is <span class="math inline">\(\hat\beta_1 = 110.231\)</span> and has a <strong>standard error</strong> of <span class="math inline">\(SE(\hat\beta_1) = 2.784\)</span>. Which of the following provides an approximate 95% confidence interval for <span class="math inline">\(\beta_1\)</span>?
 <ol style="list-style-type: lower-alpha">
@@ -368,7 +372,7 @@ In <code>mod2</code> we see that the estimate of <span class="math inline">\(\be
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="9" class="example" style="list-style-type: decimal">
+<ol start="9" style="list-style-type: decimal">
 <li><strong>Confidence interval interpretation</strong><br />
 How can we interpret the 95% confidence interval?
 <ol style="list-style-type: lower-alpha">
@@ -377,7 +381,7 @@ How can we interpret the 95% confidence interval?
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="10" class="example" style="list-style-type: decimal">
+<ol start="10" style="list-style-type: decimal">
 <li><strong>Confidence interval interpretation</strong><br />
 Notice that 0 is not in the 95% confidence interval for <span class="math inline">\(\beta_1\)</span>. What does this tell us?
 <ol style="list-style-type: lower-alpha">
@@ -386,7 +390,7 @@ Notice that 0 is not in the 95% confidence interval for <span class="math inline
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="11" class="example" style="list-style-type: decimal">
+<ol start="11" style="list-style-type: decimal">
 <li><strong>Statistical inference: p-values</strong><br />
 The <strong>p-value</strong> in the <code>Living.Area</code> row corresponds to the test that:<br />
 <span class="math inline">\(H_0: \beta_1 = 0\)</span><br />
@@ -398,7 +402,7 @@ What can we conclude from the p-value?
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="12" class="example" style="list-style-type: decimal">
+<ol start="12" style="list-style-type: decimal">
 <li><strong>Interpreting p-values</strong><br />
 How can we interpret the p-value?
 <ol style="list-style-type: lower-alpha">
@@ -408,7 +412,7 @@ How can we interpret the p-value?
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="13" class="example" style="list-style-type: decimal">
+<ol start="13" style="list-style-type: decimal">
 <li><p><strong>Thinking about fireplaces</strong><br />
 Let’s think about both square footage (<code>Living.Area</code>) and about whether or not a house has any fireplaces. Below, we create a binary variable called <code>AnyFireplaces</code> that is <code>TRUE</code> if the number of fireplaces is greater than 0 and that is <code>FALSE</code> otherwise.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">homes &lt;-<span class="st"> </span>homes <span class="op">%&gt;%</span>
@@ -429,7 +433,7 @@ mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(Price <span class=
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="14" class="example" style="list-style-type: decimal">
+<ol start="14" style="list-style-type: decimal">
 <li>Consider the research question: “How much is a square foot worth, holding fixed whether or not a house has a fireplace?” Which of <code>mod3</code> and <code>mod4</code> can answer this question?
 <ol style="list-style-type: lower-alpha">
 <li><code>mod3</code></li>
@@ -437,7 +441,7 @@ mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(Price <span class=
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="15" class="example" style="list-style-type: decimal">
+<ol start="15" style="list-style-type: decimal">
 <li>Which of <code>mod3</code> and <code>mod4</code> would be called an <strong>interaction model</strong>?
 <ol style="list-style-type: lower-alpha">
 <li><code>mod3</code></li>
@@ -445,7 +449,7 @@ mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(Price <span class=
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="16" class="example" style="list-style-type: decimal">
+<ol start="16" style="list-style-type: decimal">
 <li><strong>Summarizing interaction models</strong><br />
 Using the interaction model chosen in the previous exercise, which of the following represents the relationship between <code>Price</code> and <code>Living.Area</code> for homes <strong>without</strong> fireplaces?
 <ol style="list-style-type: lower-alpha">
@@ -456,7 +460,7 @@ Using the interaction model chosen in the previous exercise, which of the follow
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="17" class="example" style="list-style-type: decimal">
+<ol start="17" style="list-style-type: decimal">
 <li><strong>Summarizing interaction models</strong><br />
 Which of the following represents the relationship between <code>Price</code> and <code>Living.Area</code> for homes <strong>with</strong> fireplaces?
 <ol style="list-style-type: lower-alpha">
@@ -467,7 +471,7 @@ Which of the following represents the relationship between <code>Price</code> an
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="18" class="example" style="list-style-type: decimal">
+<ol start="18" style="list-style-type: decimal">
 <li><strong>Inference in interaction models</strong><br />
 At a significance level of 0.01, what can we conclude about the relationship between price and square footage in homes without fireplaces and in homes with fireplaces in the general population?
 <ol style="list-style-type: lower-alpha">
@@ -476,7 +480,7 @@ At a significance level of 0.01, what can we conclude about the relationship bet
 </ol></li>
 </ol>
 <p><br> <br></p>
-<ol start="19" class="example" style="list-style-type: decimal">
+<ol start="19" style="list-style-type: decimal">
 <li><strong>Inference in interaction models</strong><br />
 What could we say about the 99% confidence interval for the interaction coefficient?
 <ol style="list-style-type: lower-alpha">
@@ -493,8 +497,8 @@ What could we say about the 99% confidence interval for the interaction coeffici
           </div>
         </div>
       </div>
-<a href="schedule.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="schedule.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regression-assumptions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
