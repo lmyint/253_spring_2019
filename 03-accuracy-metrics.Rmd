@@ -29,7 +29,7 @@ For both of these points, we can look at **residuals**.
 
 **Sum of squared residuals**
 
-$$RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y_1})^2 + (y_2 - \hat{y_2})^2 + \cdots + (y_n - \hat{y_n})^2$$
+$$RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y}_1)^2 + (y_2 - \hat{y}_2)^2 + \cdots + (y_n - \hat{y}_n)^2$$
 
 - The sum (and mean) of the residuals is always zero when an intercept is included in the linear regression model -> add up the *squared* residuals
 - Not very interpretable
@@ -44,7 +44,7 @@ $$RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y_1})^2 + (y_2 - \hat{y_2
 
 **Mean squared error**
 
-$$MSE = \frac{RSS}{n} = \sum_{i=1}^n (y_i - \hat{y_i})^2$$
+$$MSE = \frac{RSS}{n} = \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
 
 - More interpretable than RSS: on average how far are our predictions from the true values (in squared distance)?
 
