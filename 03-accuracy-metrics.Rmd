@@ -126,6 +126,8 @@ legend("top", legend = c("R-squared", "MSE"), pch = 16, col = c("black", "red"),
 
 ## Exercises
 
+**You can download a template RMarkdown file to start from [here](template_rmds/03-accuracy-metrics.Rmd).**
+
 You'll be working a dataset containing physical measurements on 80 adult males. These measurements include body fat percentage estimates as well as body circumference measurements. 
 
 - `fatBrozek`: Percent body fat using Brozek's equation: 457/Density - 414.2

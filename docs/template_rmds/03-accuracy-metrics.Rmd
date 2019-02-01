@@ -1,0 +1,46 @@
+---
+title: "Accuracy Metrics"
+author: "Your Name"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+bodyfat <- read.csv("https://www.dropbox.com/s/js2gxnazybokbzh/bodyfat_train.csv?dl=1")
+
+# Remove the fatBrozek and density variables
+bodyfat <- bodyfat %>%
+    select(-fatBrozek, -density)
+```
+
+Do your model experimentation here:
+
+```{r}
+
+```
+
+Getting adjusted R-squared and MSE:
+
+```{r}
+your_model <- lm(fatSiri ~ age, data = bodyfat)
+summary(your_model)$adj.r.squared
+
+mse <- function(mod) {
+    mean(residuals(mod)^2)
+}
+mse(your_model)
+```
+
+
+```{r}
+bodyfat_test <- read.csv("https://www.dropbox.com/s/7gizws208u0oywq/bodyfat_test.csv?dl=1")
+
+# Predict
+test_predictions <- predict(your_model, newdata = bodyfat_test)
+
+# Compute MSE
+# The $ extracts a particular column from a dataset
+mean((bodyfat_test$fatSiri - test_predictions)^2)
+```
+
