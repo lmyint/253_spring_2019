@@ -5,6 +5,8 @@ bookdown::gitbook:
   config:
     toc:
       collapse: section
+      before: |
+        <li><a href = "./">MATH 253: Machine Learning</a></li>
       after: |
         <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
     # download: [pdf]

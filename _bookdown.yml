@@ -1,6 +1,6 @@
 book_filename: "math253_manual"
 output_dir: docs/
-rmd_files: ["index.Rmd", "schedule.Rmd", "01-motivation-and-review.Rmd", "02-regression-assumptions.Rmd"]
+rmd_files: ["index.Rmd", "schedule.Rmd", "01-motivation-and-review.Rmd", "02-regression-assumptions.Rmd", "03-accuracy-metrics.Rmd"]
 language:
   ui:
     chapter_name: "Topic "

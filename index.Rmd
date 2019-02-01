@@ -1,4 +1,5 @@
 --- 
+title: "MATH 253: Machine Learning"
 site: bookdown::bookdown_site
 output:
   bookdown::gitbook:
@@ -12,10 +13,10 @@ github-repo: lmyint/253_spring_2019
 description: "This is the class activity manual for Math 253 at Macalester College."
 ---
 
-# MATH 253: Machine Learning {-}
-
 **Macalester College**    
 **Spring 2019**
+
+# Preface {-}
 
 <center>
 ![](images/ml_robot.jpg)

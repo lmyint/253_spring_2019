@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning</title>
+  <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  <meta name="github-repo" content="lmyint/253_spring_2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning" />
+  
+  <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="regression-assumptions.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.dv { color: #44aa43; } /* DecVal */
+code > span.bn { color: #44aa43; } /* BaseN */
+code > span.fl { color: #44aa43; } /* Float */
+code > span.ch { color: #049b0a; } /* Char */
+code > span.st { color: #049b0a; } /* String */
+code > span.co { color: #0066ff; font-style: italic; } /* Comment */
+code > span.al { color: #ffff00; } /* Alert */
+code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code > span.er { color: #ffff00; font-weight: bold; } /* Error */
+code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #049b0a; } /* SpecialChar */
+code > span.vs { color: #049b0a; } /* VerbatimString */
+code > span.ss { color: #049b0a; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href = "./">MATH 253: Machine Learning</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#tentative-overall-schedule"><i class="fa fa-check"></i>Tentative overall schedule</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2-128---21"><i class="fa fa-check"></i>Week 2: 1/28 - 2/1</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3-24---28"><i class="fa fa-check"></i>Week 3: 2/4 - 2/8</a></li>
+</ul></li>
+<li class="part"><span><b>I Regression: Model Evaluation</b></span></li>
+<li class="chapter" data-level="1" data-path="motivation-and-review.html"><a href="motivation-and-review.html"><i class="fa fa-check"></i><b>1</b> Motivation and Review</a><ul>
+<li class="chapter" data-level="1.1" data-path="motivation-and-review.html"><a href="motivation-and-review.html#activity-motivating-main-ideas"><i class="fa fa-check"></i><b>1.1</b> Activity: motivating main ideas</a><ul>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-a"><i class="fa fa-check"></i>Situation A</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-b"><i class="fa fa-check"></i>Situation B</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-c"><i class="fa fa-check"></i>Situation C</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="motivation-and-review.html"><a href="motivation-and-review.html#review-exercises"><i class="fa fa-check"></i><b>1.2</b> Review exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regression-assumptions.html"><a href="regression-assumptions.html"><i class="fa fa-check"></i><b>2</b> Regression Assumptions</a><ul>
+<li class="chapter" data-level="2.1" data-path="regression-assumptions.html"><a href="regression-assumptions.html#discussion"><i class="fa fa-check"></i><b>2.1</b> Discussion</a></li>
+<li class="chapter" data-level="2.2" data-path="regression-assumptions.html"><a href="regression-assumptions.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html"><i class="fa fa-check"></i><b>3</b> Accuracy Metrics for Regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#discussion-1"><i class="fa fa-check"></i><b>3.1</b> Discussion</a></li>
+<li class="chapter" data-level="3.2" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#exercises-1"><i class="fa fa-check"></i><b>3.2</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MATH 253: Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="accuracy-metrics-for-regression" class="section level1">
+<h1><span class="header-section-number">Topic 3</span> Accuracy Metrics for Regression</h1>
+<div id="discussion-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> Discussion</h2>
+<p><strong>Evaluating regression models</strong></p>
+<ol style="list-style-type: decimal">
+<li>Should meet assumptions required for statistical inference</li>
+<li><strong>Should explain a substantial proportion of the variation in the response</strong></li>
+<li><strong>Should produce accurate predictions</strong></li>
+</ol>
+<p>For both of these points, we can look at <strong>residuals</strong>.</p>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>Sum of squared residuals</strong></p>
+<p><span class="math display">\[RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y_1})^2 + (y_2 - \hat{y_2})^2 + \cdots + (y_n - \hat{y_n})^2\]</span></p>
+<ul>
+<li>The sum (and mean) of the residuals is always zero when an intercept is included in the linear regression model -&gt; add up the <em>squared</em> residuals</li>
+<li>Not very interpretable</li>
+<li>Due to missing values in predictors, sample size can vary from analysis to analysis (hard to compare RSS)</li>
+</ul>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>Mean squared error</strong></p>
+<p><span class="math display">\[MSE = \frac{RSS}{n} = \sum_{i=1}^n (y_i - \hat{y_i})^2\]</span></p>
+<ul>
+<li>More interpretable than RSS: on average how far are our predictions from the true values (in squared distance)?</li>
+</ul>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>R-squared</strong></p>
+<p>Define the <em>total sum of squares</em> (<span class="math inline">\(TSS\)</span>) as the sum of squared deviations of each response <span class="math inline">\(y_i\)</span> from the mean response <span class="math inline">\(\bar{y}\)</span>:</p>
+<p><span class="math display">\[TSS = \sum_{i=1}^n (y_i - \bar{y})^2\]</span></p>
+<p><span class="math display">\[R^2 = 1-\frac{RSS}{TSS} = \frac{\text{Var(fitted)}}{\text{Var(response)}}\]</span></p>
+<ul>
+<li>Most interpretable: the proportion of variation in the response that is explained by the model</li>
+</ul>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>Problems with R-squared and MSE</strong></p>
+<ul>
+<li>R-squared automatically increases with added predictors (even useless ones)</li>
+<li>MSE automatically decreases with added predictors (even useless ones)</li>
+<li>Example below: dataset with 20 cases. Random numbers are used as predictors.</li>
+</ul>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<ul>
+<li>Alternative metrics:
+<ul>
+<li>Instead of R-squared, use adjusted R-squared</li>
+<li>Instead of MSE, we’ll use cross-validation (coming up next)</li>
+</ul></li>
+</ul>
+<p><br> <br> <br> <br> <br></p>
+<p><strong>Overfitting</strong></p>
+<ul>
+<li>The example above is a demonstration of overfitting.</li>
+<li>With more and more predictors, greater chance that some are useless.</li>
+<li>Including useless predictors in a model is like reading too much into the noise.</li>
+<li>With overfitting, models don’t tend to generalize well.</li>
+</ul>
+<p><br> <br> <br> <br> <br></p>
+</div>
+<div id="exercises-1" class="section level2">
+<h2><span class="header-section-number">3.2</span> Exercises</h2>
+<p>You’ll be working a dataset containing physical measurements on 80 adult males. These measurements include body fat percentage estimates as well as body circumference measurements.</p>
+<ul>
+<li><code>fatBrozek</code>: Percent body fat using Brozek’s equation: 457/Density - 414.2</li>
+<li><code>fatSiri</code>: Percent body fat using Siri’s equation: 495/Density - 450</li>
+<li><code>density</code>: Density determined from underwater weighing (gm/cm^3).</li>
+<li><code>age</code>: Age (years)</li>
+<li><code>weight</code>: Weight (lbs)</li>
+<li><code>height</code>: Height (inches)</li>
+<li><code>neck</code>: Neck circumference (cm)</li>
+<li><code>chest</code>: Chest circumference (cm)</li>
+<li><code>abdomen</code>: Abdomen circumference (cm)</li>
+<li><code>hip</code>: Hip circumference (cm)</li>
+<li><code>thigh</code>: Thigh circumference (cm)</li>
+<li><code>knee</code>: Knee circumference (cm)</li>
+<li><code>ankle</code>: Ankle circumference (cm)</li>
+<li><code>biceps</code>: Biceps (extended) circumference (cm)</li>
+<li><code>forearm</code>: Forearm circumference (cm)</li>
+<li><code>wrist</code>: Wrist circumference (cm)</li>
+</ul>
+<p>It takes a lot of effort to estimate body fat percentage accurately through underwater weighing. The goal is to build the best predictive model for <code>fatSiri</code> using just circumference measurements, which are more easily attainable. (Don’t use <code>fatBrozek</code> or <code>density</code> as predictors.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)
+bodyfat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/js2gxnazybokbzh/bodyfat_train.csv?dl=1&quot;</span>)
+
+<span class="co"># Remove the fatBrozek and density variables</span>
+bodyfat &lt;-<span class="st"> </span>bodyfat <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>fatBrozek, <span class="op">-</span>density)</code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Using tools from Math 155 and 253 (e.g. exploratory plots, p-values, confidence intervals, adjusted R-squared), experiment with different models to try to build the best predictive model possible. What are the adjusted R-squared and MSE for this model?</li>
+</ol>
+<p><br></p>
+<p>Code notes: if you want to extract the adjusted R-squared from a fitted model, you can use the following.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">your_model &lt;-<span class="st"> </span><span class="kw">lm</span>(fatSiri <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> bodyfat)
+<span class="kw">summary</span>(your_model)<span class="op">$</span>adj.r.squared</code></pre></div>
+<p>And if you want to compute MSE, you can use the function below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mse &lt;-<span class="st"> </span><span class="cf">function</span>(mod) {
+    <span class="kw">mean</span>(<span class="kw">residuals</span>(mod)<span class="op">^</span><span class="dv">2</span>)
+}
+<span class="kw">mse</span>(your_model)</code></pre></div>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Now that you’ve selected your best model, deploy it in the real world by applying it to a new set of 172 adult males. The <code>predict()</code> function allows you to supply a fitted model and a new dataset of predictors (the <code>newdata</code> argument).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bodyfat_test &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/7gizws208u0oywq/bodyfat_test.csv?dl=1&quot;</span>)
+
+<span class="co"># Predict</span>
+test_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(your_model, <span class="dt">newdata =</span> bodyfat_test)
+
+<span class="co"># Compute MSE</span>
+<span class="co"># The $ extracts a particular column from a dataset</span>
+<span class="kw">mean</span>((bodyfat_test<span class="op">$</span>fatSiri <span class="op">-</span><span class="st"> </span>test_predictions)<span class="op">^</span><span class="dv">2</span>)</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Thinking about main themes</strong>
+<ol style="list-style-type: lower-alpha">
+<li>How did your MSE on the original dataset of 80 males compare to the MSE on the new data of 172 males?</li>
+<li>What conclusions can you draw from this exploration in relation to overfitting?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Thinking more about overfitting</strong>
+<ol style="list-style-type: lower-alpha">
+<li>Do you think that a model with more predictors or less predictors is more prone to overfitting? Why?</li>
+<li>The method used to find the coefficients in linear regression is called the <strong>least squares</strong> method. We find coefficients <span class="math inline">\(\hat{\beta}_1, \hat{\beta}_2, \ldots, \hat{\beta}_p\)</span> that minimize the sum of squared residuals <span class="math inline">\(RSS\)</span>. Given your answer in part a, can you think of a way to modify the least squares criterion to penalize weak predictors being included in a model? That is, can you brainstorm a possible penalty to add below?<br />
+<strong>Least squares criterion:</strong> find <span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_p\)</span> that minimize <span class="math inline">\(RSS\)</span><br />
+<strong>Penalized least squares criterion:</strong> find <span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_p\)</span> that minimize <span class="math inline">\(RSS + \text{penalty}\)</span><br />
+Suggestion: Draw inspiration from the “penalty” term in the adjusted R-squared formula from the video.</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li><strong>Extra!</strong> If you have time and are interested in learning about writing R functions, try the following.
+<ol style="list-style-type: lower-alpha">
+<li>Using the <code>mse()</code> function above as a guide, write a function that compute the MSE of a model on new data.
+<ul>
+<li>What inputs do you need? These must be supplied as <strong>arguments</strong> to the function. These are given in the parentheses.</li>
+<li>You can take multiple intermediate steps within the function. This is often recommended for multi-step tasks because it makes the code easier to read.</li>
+<li>Annotate the steps of your function with comments. (Start a comment line with a <code>#</code>.)</li>
+</ul></li>
+</ol></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="regression-assumptions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
