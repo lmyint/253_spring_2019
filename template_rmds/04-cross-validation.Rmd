@@ -1,0 +1,56 @@
+---
+title: "Cross-Validation"
+author: "Your Name"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+bodyfat_train <- read.csv("https://www.dropbox.com/s/js2gxnazybokbzh/bodyfat_train.csv?dl=1")
+
+# Remove the fatBrozek and density variables
+bodyfat_train <- bodyfat_train %>%
+    select(-fatBrozek, -density)
+```
+
+The 4 models to be considered:
+
+```{r}
+mod1 <- lm(fatSiri ~ age+weight+neck+abdomen+thigh+forearm, data = bodyfat_train)
+mod2 <- lm(fatSiri ~ age+weight+neck+abdomen+thigh+biceps+forearm, data = bodyfat_train)
+mod3 <- lm(fatSiri ~ age+weight+neck+chest+abdomen+hip+thigh+biceps+forearm, data = bodyfat_train)
+mod4 <- lm(fatSiri ~ ., data = bodyfat_train) # The . means all predictors
+```
+
+10-fold cross validation for `mod1`:
+
+```{r}
+# Load the package
+library(caret)
+
+# Set up what type of cross-validation is desired
+train_ctrl_cv10 <- trainControl(method = "cv", number = 10)
+
+# To ensure the same results each time the code is run
+set.seed(253)
+
+# Fit (train) the model as written in mod1
+# Also supply information about the type of CV desired for evaluating the model with the trControl argument
+# na.action = na.pass prevents errors if the data has missing values
+mod1_cv10 <- train(
+    fatSiri ~ age+weight+neck+abdomen+thigh+forearm,
+    data = bodyfat_train,
+    method = "lm",
+    trControl = train_ctrl_cv10,
+    na.action = na.pass
+)
+
+# The $ extracts components of an object
+# Peek at the "resample" part of mod1_cv10 - what info does it contain?
+mod1_cv10$resample
+
+# Estimate of test MSE
+# RMSE = sqaure root of MSE
+mean(mod1_cv10$resample$RMSE^2)
+```

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Topic 4 Cross-Validation | MATH 253: Machine Learning</title>
+  <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Topic 4 Cross-Validation | MATH 253: Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  <meta name="github-repo" content="lmyint/253_spring_2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Topic 4 Cross-Validation | MATH 253: Machine Learning" />
+  
+  <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="accuracy-metrics-for-regression.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.dv { color: #44aa43; } /* DecVal */
+code > span.bn { color: #44aa43; } /* BaseN */
+code > span.fl { color: #44aa43; } /* Float */
+code > span.ch { color: #049b0a; } /* Char */
+code > span.st { color: #049b0a; } /* String */
+code > span.co { color: #0066ff; font-style: italic; } /* Comment */
+code > span.al { color: #ffff00; } /* Alert */
+code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code > span.er { color: #ffff00; font-weight: bold; } /* Error */
+code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #049b0a; } /* SpecialChar */
+code > span.vs { color: #049b0a; } /* VerbatimString */
+code > span.ss { color: #049b0a; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href = "./">MATH 253: Machine Learning</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#tentative-overall-schedule"><i class="fa fa-check"></i>Tentative overall schedule</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2-128---21"><i class="fa fa-check"></i>Week 2: 1/28 - 2/1</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3-24---28"><i class="fa fa-check"></i>Week 3: 2/4 - 2/8</a></li>
+</ul></li>
+<li class="part"><span><b>I Regression: Model Evaluation</b></span></li>
+<li class="chapter" data-level="1" data-path="motivation-and-review.html"><a href="motivation-and-review.html"><i class="fa fa-check"></i><b>1</b> Motivation and Review</a><ul>
+<li class="chapter" data-level="1.1" data-path="motivation-and-review.html"><a href="motivation-and-review.html#activity-motivating-main-ideas"><i class="fa fa-check"></i><b>1.1</b> Activity: motivating main ideas</a><ul>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-a"><i class="fa fa-check"></i>Situation A</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-b"><i class="fa fa-check"></i>Situation B</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-c"><i class="fa fa-check"></i>Situation C</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="motivation-and-review.html"><a href="motivation-and-review.html#review-exercises"><i class="fa fa-check"></i><b>1.2</b> Review exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regression-assumptions.html"><a href="regression-assumptions.html"><i class="fa fa-check"></i><b>2</b> Regression Assumptions</a><ul>
+<li class="chapter" data-level="2.1" data-path="regression-assumptions.html"><a href="regression-assumptions.html#discussion"><i class="fa fa-check"></i><b>2.1</b> Discussion</a></li>
+<li class="chapter" data-level="2.2" data-path="regression-assumptions.html"><a href="regression-assumptions.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html"><i class="fa fa-check"></i><b>3</b> Accuracy Metrics for Regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#discussion-1"><i class="fa fa-check"></i><b>3.1</b> Discussion</a></li>
+<li class="chapter" data-level="3.2" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#exercises-1"><i class="fa fa-check"></i><b>3.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cross-validation.html"><a href="cross-validation.html"><i class="fa fa-check"></i><b>4</b> Cross-Validation</a><ul>
+<li class="chapter" data-level="4.1" data-path="cross-validation.html"><a href="cross-validation.html#discussion-2"><i class="fa fa-check"></i><b>4.1</b> Discussion</a></li>
+<li class="chapter" data-level="4.2" data-path="cross-validation.html"><a href="cross-validation.html#exercises-2"><i class="fa fa-check"></i><b>4.2</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MATH 253: Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="cross-validation" class="section level1">
+<h1><span class="header-section-number">Topic 4</span> Cross-Validation</h1>
+<div id="discussion-2" class="section level2">
+<h2><span class="header-section-number">4.1</span> Discussion</h2>
+<p><strong>Overfitting</strong></p>
+<p>From ISLR, page 32:</p>
+<blockquote>
+<p>When a given method yields a small training MSE but a large test MSE, we are said to be <strong>overfitting</strong> the data. This happens because our statistical learning procedure is working too hard to find patterns in the training data, and may be picking up some patterns that are just caused by random chance rather than by true [trends].</p>
+</blockquote>
+<blockquote>
+<p>When we overfit the training data, the test MSE will be very large because the supposed patterns that the method found in the training data simply don’t exist in the test data. Note that regardless of whether or not overfitting has occurred, we almost always expect the training MSE to be smaller than the test MSE because most statistical learning methods either directly or indirectly seek to minimize the training MSE. Overfitting refers specifically to the case in which a less flexible model would have yielded a smaller test MSE.</p>
+</blockquote>
+<p><br> <br></p>
+<p>“Flexibility” in linear regression refers to the number of coefficients</p>
+<ul>
+<li>More coefficients (more predictors) = more flexible</li>
+<li>Fewer coefficients (fewer predictors) = less flexible</li>
+</ul>
+<p><br> <br> <br> <br> <br></p>
+<p><strong>How do we prevent overfitting?</strong></p>
+<ul>
+<li>Want an accuracy metric that allows us to choose which of several models will be most accurate on <strong>new data</strong>
+<ul>
+<li>Adjusted R-squared is a good idea but restricted to linear regression</li>
+<li>Cross-validation is a much more general technique that allows estimation of the true error rate on new data (the <strong>test error</strong>)</li>
+</ul></li>
+<li>Use specific statistical learning methods suited to discourage including weak/useless predictors
+<ul>
+<li>Shrinkage methods (coming soon!)</li>
+</ul></li>
+</ul>
+<p><br> <br> <br> <br> <br></p>
+</div>
+<div id="exercises-2" class="section level2">
+<h2><span class="header-section-number">4.2</span> Exercises</h2>
+<p><strong>Goals</strong></p>
+<ul>
+<li>For what purposes would you use cross-validation?</li>
+<li>How is cross-validation useful for preventing overfitting?</li>
+</ul>
+<p><br> <br></p>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/04-cross-validation.Rmd">here</a>.</strong></p>
+<p>You’ll continue working on the body fat dataset from last time. The following variables were recorded.</p>
+<ul>
+<li><code>fatBrozek</code>: Percent body fat using Brozek’s equation: 457/Density - 414.2</li>
+<li><code>fatSiri</code>: Percent body fat using Siri’s equation: 495/Density - 450</li>
+<li><code>density</code>: Density determined from underwater weighing (gm/cm^3).</li>
+<li><code>age</code>: Age (years)</li>
+<li><code>weight</code>: Weight (lbs)</li>
+<li><code>height</code>: Height (inches)</li>
+<li><code>neck</code>: Neck circumference (cm)</li>
+<li><code>chest</code>: Chest circumference (cm)</li>
+<li><code>abdomen</code>: Abdomen circumference (cm)</li>
+<li><code>hip</code>: Hip circumference (cm)</li>
+<li><code>thigh</code>: Thigh circumference (cm)</li>
+<li><code>knee</code>: Knee circumference (cm)</li>
+<li><code>ankle</code>: Ankle circumference (cm)</li>
+<li><code>biceps</code>: Biceps (extended) circumference (cm)</li>
+<li><code>forearm</code>: Forearm circumference (cm)</li>
+<li><code>wrist</code>: Wrist circumference (cm)</li>
+</ul>
+<p>The focus is on predicting body fat percentage using Siri’s equation (<code>fatSiri</code>) from easily measured variables: age, weight, height, and circumferences.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)
+bodyfat_train &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/js2gxnazybokbzh/bodyfat_train.csv?dl=1&quot;</span>)
+
+<span class="co"># Remove the fatBrozek and density variables</span>
+bodyfat_train &lt;-<span class="st"> </span>bodyfat_train <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>fatBrozek, <span class="op">-</span>density)</code></pre></div>
+<ol style="list-style-type: decimal">
+<li><p><strong>4 models</strong><br />
+Consider the 4 models below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>abdomen<span class="op">+</span>thigh<span class="op">+</span>forearm, <span class="dt">data =</span> bodyfat_train)
+mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>abdomen<span class="op">+</span>thigh<span class="op">+</span>biceps<span class="op">+</span>forearm, <span class="dt">data =</span> bodyfat_train)
+mod3 &lt;-<span class="st"> </span><span class="kw">lm</span>(fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>chest<span class="op">+</span>abdomen<span class="op">+</span>hip<span class="op">+</span>thigh<span class="op">+</span>biceps<span class="op">+</span>forearm, <span class="dt">data =</span> bodyfat_train)
+mod4 &lt;-<span class="st"> </span><span class="kw">lm</span>(fatSiri <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> bodyfat_train) <span class="co"># The . means all predictors</span></code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Before looking at the summary tables, predict:
+<ul>
+<li>Which model will have the highest R squared?</li>
+<li>Which model will have the lowest training MSE?</li>
+</ul></li>
+<li>Find/compute the R squared and MSE for the 4 models to check your answers in part a.</li>
+<li>Which model do you think will perform worst on new test data? Why?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<p>We’ll use the <code>caret</code> package to perform cross-validation (and to run many different machine learning methods throughout the course). The <code>caret</code> package is a great resource for the machine learning community because it aggregates machine learning methods written by tons of different authors in tons of different R packages into one single package. The advantage is that instead of learning 10 different styles of code for 10 different machine learning methods, we can use fairly similar code throughout the course.</p>
+<p>Install the <code>caret</code> package by running <code>install.packages(&quot;caret&quot;)</code> in the Console.</p>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Cross-validation with the <code>caret</code> package</strong>
+<ol style="list-style-type: lower-alpha">
+<li><p>Use the code below to perform 10-fold cross validation for <code>mod1</code> to estimate the test MSE (<span class="math inline">\(\text{CV}_{(10)}\)</span>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the package</span>
+<span class="kw">library</span>(caret)
+
+<span class="co"># Set up what type of cross-validation is desired</span>
+train_ctrl_cv10 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+
+<span class="co"># To ensure the same results each time the code is run</span>
+<span class="kw">set.seed</span>(<span class="dv">253</span>)
+
+<span class="co"># Fit (train) the model as written in mod1</span>
+<span class="co"># Also supply information about the type of CV desired for evaluating the model with the trControl argument</span>
+<span class="co"># na.action = na.pass prevents errors if the data has missing values</span>
+mod1_cv10 &lt;-<span class="st"> </span><span class="kw">train</span>(
+    fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>abdomen<span class="op">+</span>thigh<span class="op">+</span>forearm,
+    <span class="dt">data =</span> bodyfat_train,
+    <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,
+    <span class="dt">trControl =</span> train_ctrl_cv10,
+    <span class="dt">na.action =</span> na.pass
+)
+
+<span class="co"># The $ extracts components of an object</span>
+<span class="co"># Peek at the &quot;resample&quot; part of mod1_cv10 - what info does it contain?</span>
+mod1_cv10<span class="op">$</span>resample
+
+<span class="co"># Estimate of test MSE</span>
+<span class="co"># RMSE = sqaure root of MSE</span>
+<span class="kw">mean</span>(mod1_cv10<span class="op">$</span>resample<span class="op">$</span>RMSE<span class="op">^</span><span class="dv">2</span>)</code></pre></div></li>
+<li>Adapt the code above to perform:
+<ul>
+<li>10-fold CV for model 2</li>
+<li>LOOCV for model 1 In doing so, look carefully at the structure of the code. What parts need to be repeated? What parts don’t?<br />
+(<em>Hint:</em> <code>nrow(dataset)</code> gives the number of cases in a dataset.)</li>
+</ul></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Looking at the evaluation metrics</strong><br />
+A completed table of evaluation metrics is below.
+<ol style="list-style-type: lower-alpha">
+<li>Which model performed the best on the training data?</li>
+<li>Which model performed best on the test set?</li>
+<li>Which model would be preferred using <span class="math inline">\(\text{CV}_{(10)}\)</span> or LOOCV estimates of the test error?</li>
+<li>How is cross-validation helping us avoid overfitting?</li>
+</ol></li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="center"><span class="math inline">\(R^2\)</span></th>
+<th align="center">Training MSE</th>
+<th align="center"><span class="math inline">\(\text{CV}_{(10)}\)</span></th>
+<th align="center">LOOCV</th>
+<th align="center">Test set MSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>mod1</code></td>
+<td align="center">0.8103</td>
+<td align="center">14.52153</td>
+<td align="center">17.21062</td>
+<td align="center">18.16816</td>
+<td align="center">23.92333</td>
+</tr>
+<tr class="even">
+<td align="left"><code>mod2</code></td>
+<td align="center">0.8146</td>
+<td align="center">14.18762</td>
+<td align="center">19.64114</td>
+<td align="center">19.29848</td>
+<td align="center">23.90547</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>mod3</code></td>
+<td align="center">0.816</td>
+<td align="center">14.08022</td>
+<td align="center">21.24115</td>
+<td align="center">20.28958</td>
+<td align="center">23.63958</td>
+</tr>
+<tr class="even">
+<td align="left"><code>mod4</code></td>
+<td align="center">0.8162</td>
+<td align="center">14.06917</td>
+<td align="center">21.88440</td>
+<td align="center">21.26073</td>
+<td align="center">24.65370</td>
+</tr>
+</tbody>
+</table>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Practical issues: choosing <span class="math inline">\(k\)</span></strong>
+<ol style="list-style-type: lower-alpha">
+<li>What do you think are the pros/cons of low vs. high <span class="math inline">\(k\)</span>?</li>
+<li>If possible, it is advisable to choose <span class="math inline">\(k\)</span> to be a divisor of the sample size. Why do you think that is?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li><p><strong>Extra! Writing R functions</strong>.<br />
+If you’re interested in learning about writing R functions, look at the following function that the instructor used to fill out the above evaluation metrics table.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">evaluate_model &lt;-<span class="st"> </span><span class="cf">function</span>(formula) {
+    train_ctrl_cv10 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+    train_ctrl_loocv &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="kw">nrow</span>(bodyfat_train))
+    mod_cv10 &lt;-<span class="st"> </span><span class="kw">train</span>(formula, <span class="dt">data =</span> bodyfat_train, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">trControl =</span> train_ctrl_cv10, <span class="dt">na.action =</span> na.pass)
+    mod_loocv &lt;-<span class="st"> </span><span class="kw">train</span>(formula, <span class="dt">data =</span> bodyfat_train, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">trControl =</span> train_ctrl_loocv, <span class="dt">na.action =</span> na.pass)
+    model_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(mod_cv10, <span class="dt">newdata =</span> bodyfat_test)
+    test_mse &lt;-<span class="st"> </span><span class="kw">mean</span>((bodyfat_test<span class="op">$</span>fatSiri <span class="op">-</span><span class="st"> </span>model_predictions)<span class="op">^</span><span class="dv">2</span>)
+    <span class="kw">c</span>(
+        <span class="dt">cv10 =</span> <span class="kw">mean</span>(mod_cv10<span class="op">$</span>resample<span class="op">$</span>RMSE<span class="op">^</span><span class="dv">2</span>),
+        <span class="dt">loocv =</span> <span class="kw">mean</span>(mod_loocv<span class="op">$</span>resample<span class="op">$</span>RMSE<span class="op">^</span><span class="dv">2</span>),
+        <span class="dt">test =</span> test_mse
+    )
+}
+
+<span class="kw">set.seed</span>(<span class="dv">253</span>)
+<span class="kw">evaluate_model</span>(fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>abdomen<span class="op">+</span>thigh<span class="op">+</span>forearm)
+<span class="kw">evaluate_model</span>(fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>abdomen<span class="op">+</span>thigh<span class="op">+</span>biceps<span class="op">+</span>forearm)
+<span class="kw">evaluate_model</span>(fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>chest<span class="op">+</span>abdomen<span class="op">+</span>hip<span class="op">+</span>thigh<span class="op">+</span>biceps<span class="op">+</span>forearm)
+<span class="kw">evaluate_model</span>(fatSiri <span class="op">~</span><span class="st"> </span>.)</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Step through each line and see if you can understand the structure.</li>
+<li>How would you modify the function to work on arbitrary data? How would you have to change the <strong>function arguments</strong> (within the parentheses on the first line)?</li>
+<li>How would you modify the function to allow the user to choose <span class="math inline">\(k\)</span>?</li>
+</ol></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="accuracy-metrics-for-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

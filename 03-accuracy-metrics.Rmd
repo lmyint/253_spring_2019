@@ -44,7 +44,7 @@ $$RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y}_1)^2 + (y_2 - \hat{y}_
 
 **Mean squared error**
 
-$$MSE = \frac{RSS}{n} = \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
+$$MSE = \frac{RSS}{n} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2$$
 
 - More interpretable than RSS: on average how far are our predictions from the true values (in squared distance)?
 
