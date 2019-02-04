@@ -26,10 +26,33 @@ Other topics + project work time: Weeks 12-14
 
 - **Monday:** Assumptions of linear regression ([Video](https://youtu.be/FFxUbXRuufM), [Slides](https://drive.google.com/file/d/1sXhuyKUHbKJlFtrNBgN2xLw1bu4mUplz/view?usp=sharing))    
     Related ISLR reading: Section 2.1 gives some general background that is not particular to linear regression assumptions but sets up some key foundational ideas.
-- **Friday:** Model evaluation metrics for regression ([Video](https://youtu.be/knHWpnDSnp4), [Slides](https://drive.google.com/file/d/1W-I3yoq6Zdo_HctnjfMxny3mRJPsi2iX/view?usp=sharing))
+- **Friday:** Model evaluation metrics for regression ([Video](https://youtu.be/knHWpnDSnp4), [Slides](https://drive.google.com/file/d/1W-I3yoq6Zdo_HctnjfMxny3mRJPsi2iX/view?usp=sharing))    
     Related ISLR reading: Sections 2.2.1-2.2.2 talk about MSE, training and test data, test error, cross-validation, and the bias-variance tradeoff. The bias-variance tradeoff will come up a little later in class, but feel free to preview the ideas now.
+
 
 ## Week 3: 2/4 - 2/8 {-}
 
 - **Monday:** Cross-validation ([Video](https://youtu.be/kjyUjqlahV8), [Slides](https://drive.google.com/file/d/1TnelbFeESHz3nwwbdzFOlcbVL1vTRgOg/view?usp=sharing))    
     Related ISLR reading: Section 5.1 is devoted to cross-validation. See also Sections 2.2.1-2.2.2.
+- **Wednesday:** We'll finish reviewing cross validation, then talk briefly about variable selection methods for **building models** ([Video](https://youtu.be/MExs9jBQrDM), [Slides](https://drive.google.com/file/d/1FjxtDLIX_VApYm9GQhUjb6qao43QjUHP/view?usp=sharing))    
+    Related ISLR reading: Section 6.1
+- **Friday:** Quiz 1. Remaining time will be left for working on homework.
+
+
+## Week 4: 2/11 - 2/15 {-}
+
+- **Monday:** Shrinkage/regularization methods for model building ([Video](https://youtu.be/R8WHvkXevsU), [Slides](https://drive.google.com/file/d/1t1N_oHfkuRNaobPQOV-yW_winDmpKGro/view?usp=sharing))    
+    Related ISLR reading: Section 6.2
+- **Wednesday:** Continue discussing shrinkage methods
+- **Friday:** K-nearest neighbors regression and the bias-variance tradeoff    
+    Related ISLR reading: Section 2.2.2 for the bias-variance tradeoff and Section 3.5 for K-nearest neighbors regression
+
+
+## Week 5: 2/18 - 2/22 {-}
+
+
+
+
+
+
+
