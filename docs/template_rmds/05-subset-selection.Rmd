@@ -1,0 +1,63 @@
+---
+title: "Subset Selection"
+author: "Your Name"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+bodyfat <- read.csv("http://www.macalester.edu/~ajohns24/data/bodyfatsub.csv")
+
+# Take out the redundant Density and HeightFt variables
+bodyfat <- bodyfat %>% 
+    select(-Density, -HeightFt)
+```
+
+Backward stepwise selection: by hand
+
+```{r}
+full_model <- lm(BodyFat ~ Age + Weight + Height + Neck + Chest + Abdomen + Hip + Thigh + Knee + Ankle + Biceps + Forearm + Wrist, data = bodyfat)
+```
+
+Backward stepwise selection with `caret`
+
+```{r}
+library(caret)
+
+# Set up cross validation information
+train_ctrl_cv10 <- trainControl(method = "cv", number = 10)
+
+# Perform backward stepwise selection
+# The first time you run this, you'll be prompted to install the "leaps" package
+set.seed(253)
+back_step <- train(
+    BodyFat ~ .,
+    data = bodyfat,
+    method = "leapBackward",
+    tuneGrid = data.frame(nvmax = 1:13),
+    trControl = train_ctrl_cv10,
+    metric = "RMSE"
+)
+```
+
+```{r}
+# Look at accuracy/error metrics for the different subset sizes
+back_step$results
+```
+
+```{r}
+# What tuning parameter gave the best performance?
+# i.e. What subset size gave the best model?
+back_step$bestTune
+```
+
+```{r}
+# Obtain the coefficients for the best model
+coefficients(back_step$finalModel, id = back_step$bestTune$nvmax)
+```
+
+```{r}
+# Use the best model to make predictions on new data
+predict(back_step, newdata = bodyfat)
+```

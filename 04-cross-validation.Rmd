@@ -148,7 +148,7 @@ Install the `caret` package by running `install.packages("caret")` in the Consol
         mod1_cv10$resample
 
         # Estimate of test MSE
-        # RMSE = sqaure root of MSE
+        # RMSE = square root of MSE
         mean(mod1_cv10$resample$RMSE^2)
         ```
     b. Adapt the code above to perform:
@@ -189,9 +189,10 @@ Model     $R^2$    Training MSE   $\text{CV}_{(10)}$    LOOCV     Test set MSE
 <br>
 <br>
 
-`r NextQ()`. **Extra! Writing R functions**.   
+`r NextQ()`. **Extra! Writing R functions**    
     If you're interested in learning about writing R functions, look at the following function that the instructor used to fill out the above evaluation metrics table.
     ```{r eval=FALSE}
+    bodyfat_test <- read.csv("https://www.dropbox.com/s/7gizws208u0oywq/bodyfat_test.csv?dl=1")
     evaluate_model <- function(formula) {
         train_ctrl_cv10 <- trainControl(method = "cv", number = 10)
         train_ctrl_loocv <- trainControl(method = "cv", number = nrow(bodyfat_train))

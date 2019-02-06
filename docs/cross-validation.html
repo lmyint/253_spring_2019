@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="accuracy-metrics-for-regression.html">
-
+<link rel="next" href="subset-selection.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -130,6 +130,11 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4" data-path="cross-validation.html"><a href="cross-validation.html"><i class="fa fa-check"></i><b>4</b> Cross-Validation</a><ul>
 <li class="chapter" data-level="4.1" data-path="cross-validation.html"><a href="cross-validation.html#discussion-2"><i class="fa fa-check"></i><b>4.1</b> Discussion</a></li>
 <li class="chapter" data-level="4.2" data-path="cross-validation.html"><a href="cross-validation.html#exercises-2"><i class="fa fa-check"></i><b>4.2</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Regression: Model Building</b></span></li>
+<li class="chapter" data-level="5" data-path="subset-selection.html"><a href="subset-selection.html"><i class="fa fa-check"></i><b>5</b> Subset Selection</a><ul>
+<li class="chapter" data-level="5.1" data-path="subset-selection.html"><a href="subset-selection.html#discussion-3"><i class="fa fa-check"></i><b>5.1</b> Discussion</a></li>
+<li class="chapter" data-level="5.2" data-path="subset-selection.html"><a href="subset-selection.html#exercises-3"><i class="fa fa-check"></i><b>5.2</b> Exercises</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
@@ -270,7 +275,7 @@ mod1_cv10 &lt;-<span class="st"> </span><span class="kw">train</span>(
 mod1_cv10<span class="op">$</span>resample
 
 <span class="co"># Estimate of test MSE</span>
-<span class="co"># RMSE = sqaure root of MSE</span>
+<span class="co"># RMSE = square root of MSE</span>
 <span class="kw">mean</span>(mod1_cv10<span class="op">$</span>resample<span class="op">$</span>RMSE<span class="op">^</span><span class="dv">2</span>)</code></pre></div></li>
 <li>Adapt the code above to perform:
 <ul>
@@ -347,9 +352,10 @@ A completed table of evaluation metrics is below.
 </ol>
 <p><br> <br> <br></p>
 <ol start="5" style="list-style-type: decimal">
-<li><p><strong>Extra! Writing R functions</strong>.<br />
+<li><p><strong>Extra! Writing R functions</strong><br />
 If you’re interested in learning about writing R functions, look at the following function that the instructor used to fill out the above evaluation metrics table.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">evaluate_model &lt;-<span class="st"> </span><span class="cf">function</span>(formula) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bodyfat_test &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/7gizws208u0oywq/bodyfat_test.csv?dl=1&quot;</span>)
+evaluate_model &lt;-<span class="st"> </span><span class="cf">function</span>(formula) {
     train_ctrl_cv10 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
     train_ctrl_loocv &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="kw">nrow</span>(bodyfat_train))
     mod_cv10 &lt;-<span class="st"> </span><span class="kw">train</span>(formula, <span class="dt">data =</span> bodyfat_train, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">trControl =</span> train_ctrl_cv10, <span class="dt">na.action =</span> na.pass)
@@ -377,13 +383,16 @@ If you’re interested in learning about writing R functions, look at the follow
 
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="accuracy-metrics-for-regression.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="accuracy-metrics-for-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="subset-selection.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
