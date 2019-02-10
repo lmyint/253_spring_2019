@@ -86,7 +86,7 @@ bodyfat <- bodyfat %>%
 <br>
 
 `r NextQ()`. **Planning backward selection using CV**    
-    Using p-values to perform backward selection by hand is convenient but not the most direct way to target predictive accuracy. Outline the steps that you would take to use cross validation to perform backward selection. (Write an algorithm in words.)
+    Using p-values to perform backward selection by hand is convenient but not the most direct way to target predictive accuracy. Outline the steps that you would take to use cross-validation to perform backward selection. (Write an algorithm in words.)
 
 <br>
 <br>
@@ -94,12 +94,12 @@ bodyfat <- bodyfat %>%
 <br>
 
 `r NextQ()`. **Backward stepwise selection in `caret`**    
-    We can use the `caret` package to perform backward stepwise selection with cross validation as shown below. Just focus on the structure of the code and how different parts of the output are used.    
+    We can use the `caret` package to perform backward stepwise selection with cross-validation as shown below. (**Note:** CV is only used to pick among the best 1, 2, 3, ..., and 13 variable models. To find the best 1, 2, 3, ..., and 13 variable models, training MSE is used. `caret` uses training MSE because within a subset size, all models have the same number of coefficients, which makes both ordinary R-squared and training MSE ok.) Just focus on the structure of the code and how different parts of the output are used.    
     Is there a use case that you are interested in but don't see below? Feel free to ask the instructor about it!
     ```{r eval=FALSE}
     library(caret)
     
-    # Set up cross validation information
+    # Set up cross-validation information
     train_ctrl_cv10 <- trainControl(method = "cv", number = 10)
 
     # Perform backward stepwise selection

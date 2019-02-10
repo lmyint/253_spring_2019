@@ -136,6 +136,9 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.1" data-path="subset-selection.html"><a href="subset-selection.html#discussion-3"><i class="fa fa-check"></i><b>5.1</b> Discussion</a></li>
 <li class="chapter" data-level="5.2" data-path="subset-selection.html"><a href="subset-selection.html#exercises-3"><i class="fa fa-check"></i><b>5.2</b> Exercises</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html"><i class="fa fa-check"></i><b>6</b> Shrinkage/Regularization</a><ul>
+<li class="chapter" data-level="6.1" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html#exercises-4"><i class="fa fa-check"></i><b>6.1</b> Exercises</a></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
 
@@ -180,6 +183,17 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <p><span class="math display">\[MSE = \frac{RSS}{n} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2\]</span></p>
 <ul>
 <li>More interpretable than RSS: on average how far are our predictions from the true values (in squared distance)?</li>
+<li>Interpretation downside: the units are squared units</li>
+<li>Square root of MSE (<strong>RMSE = root mean squared error</strong>) is often used:<br />
+<span class="math inline">\(RMSE = \sqrt{MSE}\)</span><br />
+It’s tempting to try to interpret RMSE as the average distance of our predictions from the true values because the units align with the response variable, but it’s not technically quite right due to the square root.</li>
+</ul>
+<p><br> <br> <br> <br> <br> <br></p>
+<p><strong>Mean absolute error</strong></p>
+<p><span class="math display">\[MAE = \frac{1}{n}\sum_{i=1}^n \|y_i - \hat{y}_i\|\]</span></p>
+<p>Where <span class="math inline">\(\|y_i - \hat{y}_i\|\)</span> indicates the absolute value of the residual</p>
+<ul>
+<li>Very interpretable: on average how far are our predictions from the true values</li>
 </ul>
 <p><br> <br> <br> <br> <br> <br></p>
 <p><strong>R-squared</strong></p>
@@ -187,7 +201,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <p><span class="math display">\[TSS = \sum_{i=1}^n (y_i - \bar{y})^2\]</span></p>
 <p><span class="math display">\[R^2 = 1-\frac{RSS}{TSS} = \frac{\text{Var(fitted)}}{\text{Var(response)}}\]</span></p>
 <ul>
-<li>Most interpretable: the proportion of variation in the response that is explained by the model</li>
+<li>Very interpretable: the proportion of variation in the response that is explained by the model</li>
 </ul>
 <p><br> <br> <br> <br> <br> <br></p>
 <p><strong>Problems with R-squared and MSE</strong></p>

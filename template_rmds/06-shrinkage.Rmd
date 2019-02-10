@@ -1,0 +1,158 @@
+---
+title: "Shrinkage/Regularization"
+author: "Your Name"
+output: html_document
+---
+
+```{r}
+# Load the data
+library(ISLR)
+data(Hitters)
+
+# Examine the data codebook
+?Hitters
+```
+
+**Get to know the `Hitters` data**
+
+```{r}
+
+```
+
+**Developing some intuition**
+
+```{r}
+least_squares_mod <- lm(Salary ~ ., data = Hitters)
+coefficients(least_squares_mod)
+```
+
+```{r}
+# Estimate test error with caret
+```
+
+**LASSO for specific $\lambda$**
+
+```{r}
+set.seed(74)
+lasso_mod_lambda10 <- train(
+    Salary ~ .,
+    data = Hitters,
+    method = "glmnet",
+    trControl = trainControl(method = "cv", number = 7),
+    tuneGrid = data.frame(alpha = 1, lambda = 10),
+    metric = "RMSE",
+    na.action = na.omit
+)
+
+# Model coefficients for lambda = 10
+# The .'s indicate that the coefficient is 0
+coefficients(lasso_mod_lambda10$finalModel, 10)
+```
+
+```{r}
+set.seed(74)
+lasso_mod_lambda100 <- train(
+    Salary ~ .,
+    data = Hitters,
+    method = "glmnet",
+    trControl = trainControl(method = "cv", number = 7),
+    tuneGrid = data.frame(alpha = 1, lambda = 100),
+    metric = "RMSE",
+    na.action = na.omit
+)
+
+# Model coefficients for lambda = 100
+coefficients(lasso_mod_lambda100$finalModel, 100)
+```
+
+
+**LASSO for a variety of $\lambda$**
+
+```{r}
+# Create a grid of lambda values
+lambdas <- 10^seq(-3, 3, length.out = 100)
+
+# Fit LASSO models for all of the lambdas
+set.seed(74)
+lasso_mod <- train(
+    Salary ~ .,
+    data = Hitters,
+    method = "glmnet",
+    trControl = trainControl(method = "cv", number = 7),
+    tuneGrid = data.frame(alpha = 1, lambda = lambdas),
+    metric = "RMSE",
+    na.action = na.omit
+)
+
+# Plot summary of coefficient estimates
+plot(lasso_mod$finalModel, xvar = "lambda", label = TRUE, col = rainbow(20))
+
+# What variables do the numbers correspond to?
+rownames(lasso_mod$finalModel$beta)
+```
+
+```{r}
+# Zoom in
+plot(lasso_mod$finalModel, xvar = "lambda", label = TRUE, col = rainbow(20), ylim = c(-10,10))
+
+# What is variable 6?
+rownames(lasso_mod$finalModel$beta)[6]
+```
+
+
+**Picking $\lambda$**
+
+```{r}
+# Plot a summary of the performance of the different models
+plot(lasso_mod)
+```
+
+```{r}
+# Repeat the earlier train() code but use this set of lambdas
+lambdas <- seq(0, 50, length.out = 100)
+```
+
+
+**Picking $\lambda$: accounting for uncertainty**
+
+```{r}
+best_lambdas <- function(model) {
+    # Extract the results table
+    res <- model$results
+    # Extract the K in K-fold CV
+    k <- model$control$number
+    # Compute the standard error (SE) of the RMSE estimate
+    res$rmse_se <- res$RMSESD/sqrt(k)
+    # Which lambda resulted in the lowest RMSE?
+    index_lambda_min <- which.min(res$RMSE)
+    lambda_min <- res$lambda[index_lambda_min]
+    # Compute 1 SE below and above the minimum RMSE
+    res$rmse_lower <- res$RMSE - res$rmse_se
+    res$rmse_upper <- res$RMSE + res$rmse_se
+    rmse_lower <- res$RMSE[index_lambda_min] - res$rmse_se[index_lambda_min]
+    rmse_upper <- res$RMSE[index_lambda_min] + res$rmse_se[index_lambda_min]
+    res$within_1se <- res$RMSE >= rmse_lower & res$RMSE <= rmse_upper
+    index_lambda_1se <- max(which(res$within_1se))
+    lambda_1se <- res$lambda[index_lambda_1se]
+    p <- ggplot(res, aes(x = lambda, y = RMSE)) +
+        geom_pointrange(aes(ymin = rmse_lower, ymax = rmse_upper))
+    print(p)
+    output <- res[c(index_lambda_min, index_lambda_1se),c("lambda", "RMSE")]
+    rownames(output) <- c("lambda_min", "lambda_1se")
+    output
+}
+
+lambda_choices <- best_lambdas(lasso_mod)
+lambda_choices
+```
+
+```{r}
+# Coefficients for the lambda_min LASSO model
+coefficients(lasso_mod$finalModel, lambda_choices["lambda_min", "lambda"])
+
+# Coefficients for the lambda_1se LASSO model
+coefficients(lasso_mod$finalModel, lambda_choices["lambda_1se", "lambda"])
+```
+
+
+

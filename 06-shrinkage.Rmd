@@ -1,0 +1,211 @@
+# Shrinkage/Regularization
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+```
+
+## Exercises
+
+**You can download a template RMarkdown file to start from [here](template_rmds/06-shrinkage.Rmd).**
+
+We'll explore LASSO modeling using the `Hitters` dataset in the `ISLR` package (associated with the optional textbook). You'll need to install the ISLR package in the Console first. You should also install the `glmnet` package as we'll be using it subsequently for fitting LASSO models.
+
+```{r eval=FALSE}
+install.packages(c("ISLR", "glmnet"))
+```
+
+```{r eval=FALSE}
+# Load the data
+library(ISLR)
+data(Hitters)
+
+# Examine the data codebook
+?Hitters
+```
+
+The `Hitters` dataset contains a number of stats on major league baseball players in 1987. Our goal will be to build a regression model that predicts player `Salary`.
+
+
+`r NextQ()`. **Get to know the `Hitters` data**
+    a. Peek at the first few rows.
+    b. How many players are in the dataset?
+    c. How many possible predictors of salary are there?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Developing some intuition**    
+    A natural model to start with is one with all possible predictors. The following model is fit with ordinary (not penalized) least squares:
+    ```{r eval=FALSE}
+    least_squares_mod <- lm(Salary ~ ., data = Hitters)
+    coefficients(least_squares_mod)
+    ```
+    a. Use `caret` to perform 7-fold cross-validation to estimate the test error of this model. Use the straight average of the RMSE column instead of squaring the values first. (Why 7? Think about the number of cases in the folds.)
+    b. How do you think the estimated test error would change with fewer predictors?
+    c. Briefly describe how the output of a stepwise selection procedure could help you choose a smaller model (a model with fewer predictors).
+    d. This model fit with ordinary least squares corresponds to a special case of penalized least squares. What is the value of $\lambda$ in this special case?
+    e. As $\lambda$ increases, what would you expect to happen to the number of predictors that remain in the model?    
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **LASSO for specific $\lambda$**
+    a. The code below fits a LASSO model with $\lambda = 10$. This value of $\lambda$ is specified in the `tuneGrid` argument. The `alpha = 1` specifies the LASSO method specifically (the `glmnet` method has other purposes).
+        ```{r eval=FALSE}
+        set.seed(74)
+        lasso_mod_lambda10 <- train(
+            Salary ~ .,
+            data = Hitters,
+            method = "glmnet",
+            trControl = trainControl(method = "cv", number = 7),
+            tuneGrid = data.frame(alpha = 1, lambda = 10),
+            metric = "RMSE",
+            na.action = na.omit
+        )
+
+        # Model coefficients for lambda = 10
+        # The .'s indicate that the coefficient is 0
+        coefficients(lasso_mod_lambda10$finalModel, 10)
+        ```
+    b. How many variables remain in the LASSO model with $\lambda=10$? How do their coefficients compare to the corresponding variables in the least squares model?    
+    c. Fit the LASSO using $\lambda=100$.    
+        ```{r eval=FALSE}
+        set.seed(74)
+        lasso_mod_lambda100 <- train(
+            Salary ~ .,
+            data = Hitters,
+            method = "glmnet",
+            trControl = trainControl(method = "cv", number = 7),
+            tuneGrid = data.frame(alpha = 1, lambda = 100),
+            metric = "RMSE",
+            na.action = na.omit
+        )
+
+        # Model coefficients for lambda = 100
+        coefficients(lasso_mod_lambda100$finalModel, 100)
+        ```
+    d. How many variables remain in the LASSO model with $\lambda=100$? Is this model "bigger" or smaller than the LASSO with $\lambda=10$? How do the variables' coefficients compare to the corresponding variables in the least squares model and the LASSO with $\lambda=10$?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **LASSO for a variety of $\lambda$**    
+    There are infinitely many $\lambda$ we could use. It would be too tedious to examine these one at a time. The following code fits LASSO models across a **grid** of $\lambda$ values and makes a summary plot of the coefficient estimates as a function of $\lambda$.
+    ```{r eval=FALSE}
+    # Create a grid of lambda values
+    lambdas <- 10^seq(-3, 3, length.out = 100)
+
+    # Fit LASSO models for all of the lambdas
+    set.seed(74)
+    lasso_mod <- train(
+        Salary ~ .,
+        data = Hitters,
+        method = "glmnet",
+        trControl = trainControl(method = "cv", number = 7),
+        tuneGrid = data.frame(alpha = 1, lambda = lambdas),
+        metric = "RMSE",
+        na.action = na.omit
+    )
+
+    # Plot summary of coefficient estimates
+    plot(lasso_mod$finalModel, xvar = "lambda", label = TRUE, col = rainbow(20))
+
+    # What variables do the numbers correspond to?
+    rownames(lasso_mod$finalModel$beta)
+    ```
+    There's a lot of information in this plot!
+    - Each colored line corresponds to a different predictor. The small number to the left of each line indicates a predictor by its position in `rownames(lasso_mod$finalModel$beta)`.
+    - The x-axis reflects the range of different $\lambda$ values considered in `lasso_mod` (the `lambdas` vector that we created).
+    - At each $\lambda$, the y-axis reflects the coefficient estimates for the predictors in the corresponding LASSO model.
+    - At each $\lambda$, the numbers at the top of the plot indicate how many predictors remain in the corresponding model.
+
+    \
+
+    a. Very roughly eyeball the coefficient estimates when $log(\lambda) = -2$. Do they look like they correspond to the coefficient estimates from ordinary least squares in exercise 2?
+    b. Why do all of the lines head toward y = 0 on the far right of the plot?
+    c. We can zoom in on the plot by setting the y-axis limits to go from -10 to 10 with `ylim` as below. Compare the lines for variables 6 and 15. What are variables 6 and 15? Which seems to be a more "important" or "persistent" variable? Does this make sense in context?
+        ```{r eval=FALSE}
+        # Zoom in
+        plot(lasso_mod$finalModel, xvar = "lambda", label = TRUE, col = rainbow(20), ylim = c(-10,10))
+
+        # What is variable 6?
+        rownames(lasso_mod$finalModel$beta)[6]
+        ```
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Picking $\lambda$**    
+    In order to pick which $\lambda$ (hence LASSO model) is "best", we can compare the 7-fold CV error rate for each model. `caret` has actually done that for us when it `train()`ed the model. We can look at a plot of those results:
+    ```{r eval=FALSE}
+    # Plot a summary of the performance of the different models
+    plot(lasso_mod)
+    ```
+    This figure plots cross-validation estimates of the RMSE (y-axis) versus value of $\lambda$ (regularization parameter).
+    a. Comment on the shape of the plot. The RMSE's go down at the very beginning then start going back up. Why do you think that is?
+    b. Roughly, what value of $\lambda$ results in the best model?
+    c. This plot indicates that we tried many $\lambda$ values that were pretty bad. (Why?) Let's fit LASSO models over a better grid of $\lambda$ values. Modify the previous code to use the following grid and remake `lasso_mod` and the previous plot:
+        ```{r eval=FALSE}
+        lambdas <- seq(0, 50, length.out = 100)
+        ```
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Picking $\lambda$: accounting for uncertainty**    
+    Each of the points on the previous plot arose from taking the mean RMSE over 7 cross-validation iterations. Those 7 RMSE estimates have a standard deviation and standard error too. You can use the custom `best_lambdas()` function to make a plot of estimated test RMSE versus $\lambda$ that also shows information about the standard errors. The `best_lambdas()` function also prints information about some reasonable choices for good $\lambda$ values.
+    ```{r eval=FALSE}
+    best_lambdas <- function(model) {
+        # Extract the results table
+        res <- model$results
+        # Extract the K in K-fold CV
+        k <- model$control$number
+        # Compute the standard error (SE) of the RMSE estimate
+        res$rmse_se <- res$RMSESD/sqrt(k)
+        # Which lambda resulted in the lowest RMSE?
+        index_lambda_min <- which.min(res$RMSE)
+        lambda_min <- res$lambda[index_lambda_min]
+        # Compute 1 SE below and above the minimum RMSE
+        res$rmse_lower <- res$RMSE - res$rmse_se
+        res$rmse_upper <- res$RMSE + res$rmse_se
+        rmse_lower <- res$RMSE[index_lambda_min] - res$rmse_se[index_lambda_min]
+        rmse_upper <- res$RMSE[index_lambda_min] + res$rmse_se[index_lambda_min]
+        res$within_1se <- res$RMSE >= rmse_lower & res$RMSE <= rmse_upper
+        index_lambda_1se <- max(which(res$within_1se))
+        lambda_1se <- res$lambda[index_lambda_1se]
+        p <- ggplot(res, aes(x = lambda, y = RMSE)) +
+            geom_pointrange(aes(ymin = rmse_lower, ymax = rmse_upper))
+        print(p)
+        output <- res[c(index_lambda_min, index_lambda_1se),c("lambda", "RMSE")]
+        rownames(output) <- c("lambda_min", "lambda_1se")
+        output
+    }
+
+    lambda_choices <- best_lambdas(lasso_mod)
+    lambda_choices
+    ```
+    a. The first row of printed output shows a choice for $\lambda$ called `lambda_min`, the $\lambda$ at which the observed CV error was smallest. The second row shows a choice called `lambda_1se`, the largest $\lambda$ for which the corresponding LASSO model has a CV error that's still within 1 standard error of that for the LASSO using `lambda_min`. Explain why we might use the LASSO with `lambda_1se` instead of `lambda_min`.    
+    b. How does the CV-estimated RMSE of these models compare to that of the original ordinary least squares model in exercise 2?    
+    c. Look at the coefficients of LASSO models corresponding to both choices of $\lambda$. How do the coefficients differ between `lambda_min` and `lambda_1se`? How do they differ between these two LASSO models?
+        ```{r eval=FALSE}
+        # Coefficients for the lambda_min LASSO model
+        coefficients(lasso_mod$finalModel, lambda_choices["lambda_min", "lambda"])
+
+        # Coefficients for the lambda_1se LASSO model
+        coefficients(lasso_mod$finalModel, lambda_choices["lambda_1se", "lambda"])
+        ```
+
+
+
+

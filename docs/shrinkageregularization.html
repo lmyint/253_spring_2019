@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Topic 6 Shrinkage/Regularization | MATH 253: Machine Learning</title>
+  <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Topic 6 Shrinkage/Regularization | MATH 253: Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  <meta name="github-repo" content="lmyint/253_spring_2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Topic 6 Shrinkage/Regularization | MATH 253: Machine Learning" />
+  
+  <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="subset-selection.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.dv { color: #44aa43; } /* DecVal */
+code > span.bn { color: #44aa43; } /* BaseN */
+code > span.fl { color: #44aa43; } /* Float */
+code > span.ch { color: #049b0a; } /* Char */
+code > span.st { color: #049b0a; } /* String */
+code > span.co { color: #0066ff; font-style: italic; } /* Comment */
+code > span.al { color: #ffff00; } /* Alert */
+code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code > span.er { color: #ffff00; font-weight: bold; } /* Error */
+code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #049b0a; } /* SpecialChar */
+code > span.vs { color: #049b0a; } /* VerbatimString */
+code > span.ss { color: #049b0a; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href = "./">MATH 253: Machine Learning</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#tentative-overall-schedule"><i class="fa fa-check"></i>Tentative overall schedule</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2-128---21"><i class="fa fa-check"></i>Week 2: 1/28 - 2/1</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3-24---28"><i class="fa fa-check"></i>Week 3: 2/4 - 2/8</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-4-211---215"><i class="fa fa-check"></i>Week 4: 2/11 - 2/15</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-5-218---222"><i class="fa fa-check"></i>Week 5: 2/18 - 2/22</a></li>
+</ul></li>
+<li class="part"><span><b>I Regression: Model Evaluation</b></span></li>
+<li class="chapter" data-level="1" data-path="motivation-and-review.html"><a href="motivation-and-review.html"><i class="fa fa-check"></i><b>1</b> Motivation and Review</a><ul>
+<li class="chapter" data-level="1.1" data-path="motivation-and-review.html"><a href="motivation-and-review.html#activity-motivating-main-ideas"><i class="fa fa-check"></i><b>1.1</b> Activity: motivating main ideas</a><ul>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-a"><i class="fa fa-check"></i>Situation A</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-b"><i class="fa fa-check"></i>Situation B</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-c"><i class="fa fa-check"></i>Situation C</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="motivation-and-review.html"><a href="motivation-and-review.html#review-exercises"><i class="fa fa-check"></i><b>1.2</b> Review exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regression-assumptions.html"><a href="regression-assumptions.html"><i class="fa fa-check"></i><b>2</b> Regression Assumptions</a><ul>
+<li class="chapter" data-level="2.1" data-path="regression-assumptions.html"><a href="regression-assumptions.html#discussion"><i class="fa fa-check"></i><b>2.1</b> Discussion</a></li>
+<li class="chapter" data-level="2.2" data-path="regression-assumptions.html"><a href="regression-assumptions.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html"><i class="fa fa-check"></i><b>3</b> Accuracy Metrics for Regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#discussion-1"><i class="fa fa-check"></i><b>3.1</b> Discussion</a></li>
+<li class="chapter" data-level="3.2" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#exercises-1"><i class="fa fa-check"></i><b>3.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cross-validation.html"><a href="cross-validation.html"><i class="fa fa-check"></i><b>4</b> Cross-Validation</a><ul>
+<li class="chapter" data-level="4.1" data-path="cross-validation.html"><a href="cross-validation.html#discussion-2"><i class="fa fa-check"></i><b>4.1</b> Discussion</a></li>
+<li class="chapter" data-level="4.2" data-path="cross-validation.html"><a href="cross-validation.html#exercises-2"><i class="fa fa-check"></i><b>4.2</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Regression: Model Building</b></span></li>
+<li class="chapter" data-level="5" data-path="subset-selection.html"><a href="subset-selection.html"><i class="fa fa-check"></i><b>5</b> Subset Selection</a><ul>
+<li class="chapter" data-level="5.1" data-path="subset-selection.html"><a href="subset-selection.html#discussion-3"><i class="fa fa-check"></i><b>5.1</b> Discussion</a></li>
+<li class="chapter" data-level="5.2" data-path="subset-selection.html"><a href="subset-selection.html#exercises-3"><i class="fa fa-check"></i><b>5.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html"><i class="fa fa-check"></i><b>6</b> Shrinkage/Regularization</a><ul>
+<li class="chapter" data-level="6.1" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html#exercises-4"><i class="fa fa-check"></i><b>6.1</b> Exercises</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MATH 253: Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="shrinkageregularization" class="section level1">
+<h1><span class="header-section-number">Topic 6</span> Shrinkage/Regularization</h1>
+<div id="exercises-4" class="section level2">
+<h2><span class="header-section-number">6.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/06-shrinkage.Rmd">here</a>.</strong></p>
+<p>We’ll explore LASSO modeling using the <code>Hitters</code> dataset in the <code>ISLR</code> package (associated with the optional textbook). You’ll need to install the ISLR package in the Console first. You should also install the <code>glmnet</code> package as we’ll be using it subsequently for fitting LASSO models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;ISLR&quot;</span>, <span class="st">&quot;glmnet&quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the data</span>
+<span class="kw">library</span>(ISLR)
+<span class="kw">data</span>(Hitters)
+
+<span class="co"># Examine the data codebook</span>
+?Hitters</code></pre></div>
+<p>The <code>Hitters</code> dataset contains a number of stats on major league baseball players in 1987. Our goal will be to build a regression model that predicts player <code>Salary</code>.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Get to know the <code>Hitters</code> data</strong>
+<ol style="list-style-type: lower-alpha">
+<li>Peek at the first few rows.</li>
+<li>How many players are in the dataset?</li>
+<li>How many possible predictors of salary are there?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p><strong>Developing some intuition</strong><br />
+A natural model to start with is one with all possible predictors. The following model is fit with ordinary (not penalized) least squares:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">least_squares_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(Salary <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> Hitters)
+<span class="kw">coefficients</span>(least_squares_mod)</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Use <code>caret</code> to perform 7-fold cross-validation to estimate the test error of this model. Use the straight average of the RMSE column instead of squaring the values first. (Why 7? Think about the number of cases in the folds.)</li>
+<li>How do you think the estimated test error would change with fewer predictors?</li>
+<li>Briefly describe how the output of a stepwise selection procedure could help you choose a smaller model (a model with fewer predictors).</li>
+<li>This model fit with ordinary least squares corresponds to a special case of penalized least squares. What is the value of <span class="math inline">\(\lambda\)</span> in this special case?</li>
+<li>As <span class="math inline">\(\lambda\)</span> increases, what would you expect to happen to the number of predictors that remain in the model?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>LASSO for specific <span class="math inline">\(\lambda\)</span></strong>
+<ol style="list-style-type: lower-alpha">
+<li><p>The code below fits a LASSO model with <span class="math inline">\(\lambda = 10\)</span>. This value of <span class="math inline">\(\lambda\)</span> is specified in the <code>tuneGrid</code> argument. The <code>alpha = 1</code> specifies the LASSO method specifically (the <code>glmnet</code> method has other purposes).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">74</span>)
+lasso_mod_lambda10 &lt;-<span class="st"> </span><span class="kw">train</span>(
+    Salary <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> Hitters,
+    <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">7</span>),
+    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">alpha =</span> <span class="dv">1</span>, <span class="dt">lambda =</span> <span class="dv">10</span>),
+    <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,
+    <span class="dt">na.action =</span> na.omit
+)
+
+<span class="co"># Model coefficients for lambda = 10</span>
+<span class="co"># The .&#39;s indicate that the coefficient is 0</span>
+<span class="kw">coefficients</span>(lasso_mod_lambda10<span class="op">$</span>finalModel, <span class="dv">10</span>)</code></pre></div></li>
+<li>How many variables remain in the LASSO model with <span class="math inline">\(\lambda=10\)</span>? How do their coefficients compare to the corresponding variables in the least squares model?<br />
+</li>
+<li><p>Fit the LASSO using <span class="math inline">\(\lambda=100\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">74</span>)
+lasso_mod_lambda100 &lt;-<span class="st"> </span><span class="kw">train</span>(
+    Salary <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> Hitters,
+    <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">7</span>),
+    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">alpha =</span> <span class="dv">1</span>, <span class="dt">lambda =</span> <span class="dv">100</span>),
+    <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,
+    <span class="dt">na.action =</span> na.omit
+)
+
+<span class="co"># Model coefficients for lambda = 100</span>
+<span class="kw">coefficients</span>(lasso_mod_lambda100<span class="op">$</span>finalModel, <span class="dv">100</span>)</code></pre></div></li>
+<li><p>How many variables remain in the LASSO model with <span class="math inline">\(\lambda=100\)</span>? Is this model “bigger” or smaller than the LASSO with <span class="math inline">\(\lambda=10\)</span>? How do the variables’ coefficients compare to the corresponding variables in the least squares model and the LASSO with <span class="math inline">\(\lambda=10\)</span>?</p></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><p><strong>LASSO for a variety of <span class="math inline">\(\lambda\)</span></strong><br />
+There are infinitely many <span class="math inline">\(\lambda\)</span> we could use. It would be too tedious to examine these one at a time. The following code fits LASSO models across a <strong>grid</strong> of <span class="math inline">\(\lambda\)</span> values and makes a summary plot of the coefficient estimates as a function of <span class="math inline">\(\lambda\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a grid of lambda values</span>
+lambdas &lt;-<span class="st"> </span><span class="dv">10</span><span class="op">^</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dt">length.out =</span> <span class="dv">100</span>)
+
+<span class="co"># Fit LASSO models for all of the lambdas</span>
+<span class="kw">set.seed</span>(<span class="dv">74</span>)
+lasso_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
+    Salary <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> Hitters,
+    <span class="dt">method =</span> <span class="st">&quot;glmnet&quot;</span>,
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">7</span>),
+    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">alpha =</span> <span class="dv">1</span>, <span class="dt">lambda =</span> lambdas),
+    <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,
+    <span class="dt">na.action =</span> na.omit
+)
+
+<span class="co"># Plot summary of coefficient estimates</span>
+<span class="kw">plot</span>(lasso_mod<span class="op">$</span>finalModel, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="kw">rainbow</span>(<span class="dv">20</span>))
+
+<span class="co"># What variables do the numbers correspond to?</span>
+<span class="kw">rownames</span>(lasso_mod<span class="op">$</span>finalModel<span class="op">$</span>beta)</code></pre></div>
+There’s a lot of information in this plot!
+<ul>
+<li>Each colored line corresponds to a different predictor. The small number to the left of each line indicates a predictor by its position in <code>rownames(lasso_mod$finalModel$beta)</code>.</li>
+<li>The x-axis reflects the range of different <span class="math inline">\(\lambda\)</span> values considered in <code>lasso_mod</code> (the <code>lambdas</code> vector that we created).</li>
+<li>At each <span class="math inline">\(\lambda\)</span>, the y-axis reflects the coefficient estimates for the predictors in the corresponding LASSO model.</li>
+<li>At each <span class="math inline">\(\lambda\)</span>, the numbers at the top of the plot indicate how many predictors remain in the corresponding model.</li>
+</ul>
+<br />
+
+<ol style="list-style-type: lower-alpha">
+<li>Very roughly eyeball the coefficient estimates when <span class="math inline">\(log(\lambda) = -2\)</span>. Do they look like they correspond to the coefficient estimates from ordinary least squares in exercise 2?</li>
+<li>Why do all of the lines head toward y = 0 on the far right of the plot?</li>
+<li><p>We can zoom in on the plot by setting the y-axis limits to go from -10 to 10 with <code>ylim</code> as below. Compare the lines for variables 6 and 15. What are variables 6 and 15? Which seems to be a more “important” or “persistent” variable? Does this make sense in context?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Zoom in</span>
+<span class="kw">plot</span>(lasso_mod<span class="op">$</span>finalModel, <span class="dt">xvar =</span> <span class="st">&quot;lambda&quot;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="kw">rainbow</span>(<span class="dv">20</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">10</span>,<span class="dv">10</span>))
+
+<span class="co"># What is variable 6?</span>
+<span class="kw">rownames</span>(lasso_mod<span class="op">$</span>finalModel<span class="op">$</span>beta)[<span class="dv">6</span>]</code></pre></div></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li><p><strong>Picking <span class="math inline">\(\lambda\)</span></strong><br />
+In order to pick which <span class="math inline">\(\lambda\)</span> (hence LASSO model) is “best”, we can compare the 7-fold CV error rate for each model. <code>caret</code> has actually done that for us when it <code>train()</code>ed the model. We can look at a plot of those results:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Plot a summary of the performance of the different models</span>
+<span class="kw">plot</span>(lasso_mod)</code></pre></div>
+This figure plots cross-validation estimates of the RMSE (y-axis) versus value of <span class="math inline">\(\lambda\)</span> (regularization parameter).
+<ol style="list-style-type: lower-alpha">
+<li>Comment on the shape of the plot. The RMSE’s go down at the very beginning then start going back up. Why do you think that is?</li>
+<li>Roughly, what value of <span class="math inline">\(\lambda\)</span> results in the best model?</li>
+<li><p>This plot indicates that we tried many <span class="math inline">\(\lambda\)</span> values that were pretty bad. (Why?) Let’s fit LASSO models over a better grid of <span class="math inline">\(\lambda\)</span> values. Modify the previous code to use the following grid and remake <code>lasso_mod</code> and the previous plot:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lambdas &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dt">length.out =</span> <span class="dv">100</span>)</code></pre></div></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="6" style="list-style-type: decimal">
+<li><p><strong>Picking <span class="math inline">\(\lambda\)</span>: accounting for uncertainty</strong><br />
+Each of the points on the previous plot arose from taking the mean RMSE over 7 cross-validation iterations. Those 7 RMSE estimates have a standard deviation and standard error too. You can use the custom <code>best_lambdas()</code> function to make a plot of estimated test RMSE versus <span class="math inline">\(\lambda\)</span> that also shows information about the standard errors. The <code>best_lambdas()</code> function also prints information about some reasonable choices for good <span class="math inline">\(\lambda\)</span> values.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">best_lambdas &lt;-<span class="st"> </span><span class="cf">function</span>(model) {
+    <span class="co"># Extract the results table</span>
+    res &lt;-<span class="st"> </span>model<span class="op">$</span>results
+    <span class="co"># Extract the K in K-fold CV</span>
+    k &lt;-<span class="st"> </span>model<span class="op">$</span>control<span class="op">$</span>number
+    <span class="co"># Compute the standard error (SE) of the RMSE estimate</span>
+    res<span class="op">$</span>rmse_se &lt;-<span class="st"> </span>res<span class="op">$</span>RMSESD<span class="op">/</span><span class="kw">sqrt</span>(k)
+    <span class="co"># Which lambda resulted in the lowest RMSE?</span>
+    index_lambda_min &lt;-<span class="st"> </span><span class="kw">which.min</span>(res<span class="op">$</span>RMSE)
+    lambda_min &lt;-<span class="st"> </span>res<span class="op">$</span>lambda[index_lambda_min]
+    <span class="co"># Compute 1 SE below and above the minimum RMSE</span>
+    res<span class="op">$</span>rmse_lower &lt;-<span class="st"> </span>res<span class="op">$</span>RMSE <span class="op">-</span><span class="st"> </span>res<span class="op">$</span>rmse_se
+    res<span class="op">$</span>rmse_upper &lt;-<span class="st"> </span>res<span class="op">$</span>RMSE <span class="op">+</span><span class="st"> </span>res<span class="op">$</span>rmse_se
+    rmse_lower &lt;-<span class="st"> </span>res<span class="op">$</span>RMSE[index_lambda_min] <span class="op">-</span><span class="st"> </span>res<span class="op">$</span>rmse_se[index_lambda_min]
+    rmse_upper &lt;-<span class="st"> </span>res<span class="op">$</span>RMSE[index_lambda_min] <span class="op">+</span><span class="st"> </span>res<span class="op">$</span>rmse_se[index_lambda_min]
+    res<span class="op">$</span>within_1se &lt;-<span class="st"> </span>res<span class="op">$</span>RMSE <span class="op">&gt;=</span><span class="st"> </span>rmse_lower <span class="op">&amp;</span><span class="st"> </span>res<span class="op">$</span>RMSE <span class="op">&lt;=</span><span class="st"> </span>rmse_upper
+    index_lambda_1se &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">which</span>(res<span class="op">$</span>within_1se))
+    lambda_1se &lt;-<span class="st"> </span>res<span class="op">$</span>lambda[index_lambda_1se]
+    p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(res, <span class="kw">aes</span>(<span class="dt">x =</span> lambda, <span class="dt">y =</span> RMSE)) <span class="op">+</span>
+<span class="st">        </span><span class="kw">geom_pointrange</span>(<span class="kw">aes</span>(<span class="dt">ymin =</span> rmse_lower, <span class="dt">ymax =</span> rmse_upper))
+    <span class="kw">print</span>(p)
+    output &lt;-<span class="st"> </span>res[<span class="kw">c</span>(index_lambda_min, index_lambda_1se),<span class="kw">c</span>(<span class="st">&quot;lambda&quot;</span>, <span class="st">&quot;RMSE&quot;</span>)]
+    <span class="kw">rownames</span>(output) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;lambda_min&quot;</span>, <span class="st">&quot;lambda_1se&quot;</span>)
+    output
+}
+
+lambda_choices &lt;-<span class="st"> </span><span class="kw">best_lambdas</span>(lasso_mod)
+lambda_choices</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>The first row of printed output shows a choice for <span class="math inline">\(\lambda\)</span> called <code>lambda_min</code>, the <span class="math inline">\(\lambda\)</span> at which the observed CV error was smallest. The second row shows a choice called <code>lambda_1se</code>, the largest <span class="math inline">\(\lambda\)</span> for which the corresponding LASSO model has a CV error that’s still within 1 standard error of that for the LASSO using <code>lambda_min</code>. Explain why we might use the LASSO with <code>lambda_1se</code> instead of <code>lambda_min</code>.<br />
+</li>
+<li>How does the CV-estimated RMSE of these models compare to that of the original ordinary least squares model in exercise 2?<br />
+</li>
+<li><p>Look at the coefficients of LASSO models corresponding to both choices of <span class="math inline">\(\lambda\)</span>. How do the coefficients differ between <code>lambda_min</code> and <code>lambda_1se</code>? How do they differ between these two LASSO models?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Coefficients for the lambda_min LASSO model</span>
+<span class="kw">coefficients</span>(lasso_mod<span class="op">$</span>finalModel, lambda_choices[<span class="st">&quot;lambda_min&quot;</span>, <span class="st">&quot;lambda&quot;</span>])
+
+<span class="co"># Coefficients for the lambda_1se LASSO model</span>
+<span class="kw">coefficients</span>(lasso_mod<span class="op">$</span>finalModel, lambda_choices[<span class="st">&quot;lambda_1se&quot;</span>, <span class="st">&quot;lambda&quot;</span>])</code></pre></div></li>
+</ol></li>
+</ol>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="subset-selection.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

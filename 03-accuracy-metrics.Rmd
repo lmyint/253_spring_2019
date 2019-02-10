@@ -47,6 +47,25 @@ $$RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y}_1)^2 + (y_2 - \hat{y}_
 $$MSE = \frac{RSS}{n} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2$$
 
 - More interpretable than RSS: on average how far are our predictions from the true values (in squared distance)?
+- Interpretation downside: the units are squared units
+- Square root of MSE (**RMSE = root mean squared error**) is often used:    
+    $RMSE = \sqrt{MSE}$    
+    It's tempting to try to interpret RMSE as the average distance of our predictions from the true values because the units align with the response variable, but it's not technically quite right due to the square root.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+**Mean absolute error**
+
+$$MAE = \frac{1}{n}\sum_{i=1}^n \|y_i - \hat{y}_i\|$$
+
+Where $\|y_i - \hat{y}_i\|$ indicates the absolute value of the residual
+
+- Very interpretable: on average how far are our predictions from the true values
 
 <br>
 <br>
@@ -63,7 +82,7 @@ $$TSS = \sum_{i=1}^n (y_i - \bar{y})^2$$
 
 $$R^2 = 1-\frac{RSS}{TSS} = \frac{\text{Var(fitted)}}{\text{Var(response)}}$$
 
-- Most interpretable: the proportion of variation in the response that is explained by the model
+- Very interpretable: the proportion of variation in the response that is explained by the model
 
 <br>
 <br>
