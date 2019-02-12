@@ -1,0 +1,75 @@
+# (APPENDIX) Appendix {-} 
+
+# Cross-Validation
+
+If you're keen on learning more about R programming and want to try implementing the methods we've talked about in class, you're in the right place!
+
+You'll learn the programming tools needed to implement cross-validation here.
+
+The goal will be to write an R function that performs cross-validation for ordinary least squares linear regression models. Along the way, you'll learn about objects, subsetting operations, `for`-loops, and writing functions in R.
+
+## Objects
+
+Read the [Vectors](https://adv-r.hadley.nz/vectors-chap.html) section of the free online [Advanced R](https://adv-r.hadley.nz/) book by Hadley Wickham.
+
+## Subsetting
+
+Read the [Subsetting](https://adv-r.hadley.nz/subsetting.html) section of Advanced R.
+
+## Writing R functions
+
+Read the [Functions](https://r4ds.had.co.nz/functions.html) chapter of [R for Data Science](https://r4ds.had.co.nz/) by Garrett Grolemund and Hadley Wickham.
+
+## `for`-loops and control flow
+
+Read the [Iteration](https://r4ds.had.co.nz/iteration.html) chapter of [R for Data Science](https://r4ds.had.co.nz/).
+
+Also read the [Control flow](https://adv-r.hadley.nz/control-flow.html) chapter of Advanced R to learn about `if`-statements.
+
+
+## Building our cross-validation function!
+
+Work through the steps below to build up our cross-validation function.
+
+**Step 1:** Create the skeleton body for a function called `cross_validation` that takes the following input arguments:
+
+- `data`: the training dataset (a `data.frame` object)
+- `formula`: the model formula for the linear regression model (e.g. `resp~x1+x2`). This is a special type of R object called (reasonably) a `formula` object.
+- `k`: the k in k-fold cross-validation
+- `response`: a `character` object giving the name of the response variable
+
+**Step 2:** Devise a way to randomly split the data into $k$ folds. There are many ways to potentially do this, but here's an idea that I have in mind:
+
+- Randomly reorder the data.
+- Then add a new "variable" column that repeats 1,2,3,...k,1,2,3,...,k until the last row.
+
+If you want to try my idea, look at the help pages for the the `sample_n()` function in the `dplyr` package and the `rep()` function. (You can enter `?dplyr::sample_n` and `?rep` into the Console.) You'll need to be comfortable subsetting `data.frame`'s. Use either the earlier reading, or look at the `filter()` function available in `dplyr`.
+
+If you come up with another idea and want help implementing it, feel free to ask!
+
+**Step 3:** Set up an output container object to hold the evaluation metric computed in each iteration of cross-validation. Also write the skeleton of a `for`-loop.
+
+**Step 4:** Write the `for`-loop body to perform the steps needed to estimate the test error in this iteration. Feel free to use whatever evaluation metric you desire. It may be helpful to write a function for computing that evaluation metric.
+
+<br>
+<br>
+<br>
+
+If you want to add more capability to your function, try the following for some extra challenge:
+
+- Remove the `response` argument. Try to extract it from the formula. To help with this, look into the `as.character()` function, and the `str_split()` function in the `stringr` package.
+- Add an argument called `metric` that will be a character object specifying what evaluation metric to use. You should create functions for each of the metrics that you'll allow the user to specify.
+- Allow the `k` argument to be a character object where the user inputs "loocv" instead of a number. Your function should still support numerical `k` though.
+
+
+
+
+## Aside: `apply()` functions
+
+R provides a family of `apply()` functions (`apply()`, `lapply()`, `sapply()`, `tapply()`, `mapply()`) that do similar things to `for`-loops but tackle specialized tasks. The main feature that is different between these functions and `for`-loops is that these functions create the output objects from looping automatically. In contrast, `for`-loops require you to set up a vector container beforehand to store the outputs being created in the loop.
+
+You can learn more about the `apply()` functions [here](https://www.datacamp.com/community/tutorials/r-tutorial-apply-family).
+
+It is a common misconception in the R community that these functions are faster than `for`-loops. This isn't true. People often like `apply()` functions for their readability, but everyone has their personal preferences. You can see more of the discussion in [this issue](https://www.r-project.org/doc/Rnews/Rnews_2008-1.pdf) of R News and on [this StackOverflow thread](https://stackoverflow.com/questions/7142767/why-are-loops-slow-in-r/7142982#7142982).
+
+

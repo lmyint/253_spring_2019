@@ -164,7 +164,9 @@ The `Hitters` dataset contains a number of stats on major league baseball player
 <br>
 
 `r NextQ()`. **Picking $\lambda$: accounting for uncertainty**    
-    Each of the points on the previous plot arose from taking the mean RMSE over 7 cross-validation iterations. Those 7 RMSE estimates have a standard deviation and standard error too. You can use the custom `best_lambdas()` function to make a plot of estimated test RMSE versus $\lambda$ that also shows information about the standard errors. The `best_lambdas()` function also prints information about some reasonable choices for good $\lambda$ values.
+    Each of the points on the previous plot arose from taking the mean RMSE over 7 cross-validation iterations. Those 7 RMSE estimates have a standard deviation and standard error too. You can use the custom `best_lambdas()` function to make a plot of estimated test RMSE versus $\lambda$ that also shows information about the standard errors.    
+    In particular, the plot shows points that exactly correspond to the previous plot. The additional lines show 1 standard error above and below the RMSE estimate. In essence, the span of the lines indicates a confidence interval.    
+    The `best_lambdas()` function also prints information about some reasonable choices for good $\lambda$ values.
     ```{r eval=FALSE}
     best_lambdas <- function(model) {
         # Extract the results table
@@ -197,7 +199,7 @@ The `Hitters` dataset contains a number of stats on major league baseball player
     ```
     a. The first row of printed output shows a choice for $\lambda$ called `lambda_min`, the $\lambda$ at which the observed CV error was smallest. The second row shows a choice called `lambda_1se`, the largest $\lambda$ for which the corresponding LASSO model has a CV error that's still within 1 standard error of that for the LASSO using `lambda_min`. Explain why we might use the LASSO with `lambda_1se` instead of `lambda_min`.    
     b. How does the CV-estimated RMSE of these models compare to that of the original ordinary least squares model in exercise 2?    
-    c. Look at the coefficients of LASSO models corresponding to both choices of $\lambda$. How do the coefficients differ between `lambda_min` and `lambda_1se`? How do they differ between these two LASSO models?
+    c. Look at the coefficients of LASSO models corresponding to both choices of $\lambda$. How do the coefficients differ between `lambda_min` and `lambda_1se`? Does one model's coefficients seem more sensible contextually? The instructor does not have a deep enough understanding of baseball, but you might!    
         ```{r eval=FALSE}
         # Coefficients for the lambda_min LASSO model
         coefficients(lasso_mod$finalModel, lambda_choices["lambda_min", "lambda"])
