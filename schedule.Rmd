@@ -44,7 +44,7 @@ Other topics + project work time: Weeks 12-14
 - **Monday:** Shrinkage/regularization methods for model building ([Video](https://youtu.be/R8WHvkXevsU), [Slides](https://drive.google.com/file/d/1t1N_oHfkuRNaobPQOV-yW_winDmpKGro/view?usp=sharing))    
     Related ISLR reading: Section 6.2
 - **Wednesday:** Continue discussing shrinkage methods
-- **Friday:** K-nearest neighbors regression and the bias-variance tradeoff    
+- **Friday:** K-nearest neighbors regression and the bias-variance tradeoff ([Video](https://youtu.be/BvQVovMefsM), [Slides](https://drive.google.com/file/d/1CgOmRP6c_WDFfPyPz972rG-ivTTJqiLE/view?usp=sharing))    
     Related ISLR reading: Section 2.2.2 for the bias-variance tradeoff and Section 3.5 for K-nearest neighbors regression
 
 

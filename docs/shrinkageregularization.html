@@ -137,7 +137,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="5.2" data-path="subset-selection.html"><a href="subset-selection.html#exercises-3"><i class="fa fa-check"></i><b>5.2</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html"><i class="fa fa-check"></i><b>6</b> Shrinkage/Regularization</a><ul>
-<li class="chapter" data-level="6.1" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html#exercises-4"><i class="fa fa-check"></i><b>6.1</b> Exercises</a></li>
+<li class="chapter" data-level="6.1" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html#discussion-4"><i class="fa fa-check"></i><b>6.1</b> Discussion</a></li>
+<li class="chapter" data-level="6.2" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html#exercises-4"><i class="fa fa-check"></i><b>6.2</b> Exercises</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="cross-validation-1.html"><a href="cross-validation-1.html"><i class="fa fa-check"></i><b>A</b> Cross-Validation</a><ul>
@@ -170,8 +171,53 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="shrinkageregularization" class="section level1">
 <h1><span class="header-section-number">Topic 6</span> Shrinkage/Regularization</h1>
+<div id="discussion-4" class="section level2">
+<h2><span class="header-section-number">6.1</span> Discussion</h2>
+<p><strong>Exploring doing LASSO by hand</strong></p>
+<p>I took a subset of the <code>Hitters</code> dataset to focus on only the <code>Walks</code> and <code>Assists</code> variables.</p>
+<p>I made this <code>penalized_rss()</code> function to compute the penalized sum of squared residuals given a value for the <code>lambda</code> penalty and guesses for <code>beta1</code> (for <code>Walks</code>) and for <code>beta2</code> (<code>Assists</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">penalized_rss &lt;-<span class="st"> </span><span class="cf">function</span>(lambda, beta1, beta2) {
+    <span class="co"># Predict salary using beta1, beta2 and predictor info</span>
+    pred &lt;-<span class="st"> </span>hitters_subs<span class="op">$</span>Walks<span class="op">*</span>beta1 <span class="op">+</span><span class="st"> </span>hitters_subs<span class="op">$</span>Assists<span class="op">*</span>beta2
+    <span class="co"># Compute residuals</span>
+    resid &lt;-<span class="st"> </span>hitters_subs<span class="op">$</span>Salary <span class="op">-</span><span class="st"> </span>pred
+    <span class="co"># Compute RSS</span>
+    rss &lt;-<span class="st"> </span><span class="kw">sum</span>(resid<span class="op">^</span><span class="dv">2</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+    <span class="co"># Compute penalized RSS</span>
+    prss &lt;-<span class="st"> </span>rss <span class="op">+</span><span class="st"> </span>lambda<span class="op">*</span>(<span class="kw">abs</span>(beta1) <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(beta2))
+    prss
+}</code></pre></div>
+<p>I wanted to compute the penalized RSS for many different combinations of <code>lambda</code>, <code>beta1</code>, and <code>beta2</code>. Here are some of those combinations:</p>
+<pre><code>##  lambda beta1 beta2
+##   1e+03   1.4   7.2
+##   1e+02   3.2   4.4
+##   0e+00   2.0   2.0
+##   1e+05   1.0   7.8
+##   1e+03   1.6   5.2
+##   1e+02   2.8   0.4</code></pre>
+<p>I then actually computed the penalized RSS for these combinations using the <code>penalized_rss()</code> function.</p>
+<pre><code>##  lambda beta1 beta2  pen_rss
+##   1e+03   1.4   7.2 53150907
+##   1e+02   3.2   4.4 52964196
+##   0e+00   2.0   2.0 53098255
+##   1e+05   1.0   7.8 54062874
+##   1e+03   1.6   5.2 53133494
+##   1e+02   2.8   0.4 53024238</code></pre>
+<p>For each <code>lambda</code> value that I tried, I manually fit a LASSO model by finding the <code>beta1</code> and <code>beta2</code> values that minimized the penalized RSS. These are shown here:</p>
+<pre><code>## # A tibble: 6 x 4
+##    lambda beta1 beta2   pen_rss
+##     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1       0    10   9.8 52264853.
+## 2     100    10   9.6 52266813.
+## 3    1000    10   8   52283711.
+## 4   10000    10   0   52392761.
+## 5  100000    10   0   53292761.
+## 6 1000000     0   0   53319113.</code></pre>
+<p><strong>Thought exercise:</strong> How do the results above demonstrate the shrinkage property of LASSO?</p>
+<p><br> <br> <br></p>
+</div>
 <div id="exercises-4" class="section level2">
-<h2><span class="header-section-number">6.1</span> Exercises</h2>
+<h2><span class="header-section-number">6.2</span> Exercises</h2>
 <p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/06-shrinkage.Rmd">here</a>.</strong></p>
 <p>We’ll explore LASSO modeling using the <code>Hitters</code> dataset in the <code>ISLR</code> package (associated with the optional textbook). You’ll need to install the ISLR package in the Console first. You should also install the <code>glmnet</code> package as we’ll be using it subsequently for fitting LASSO models.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;ISLR&quot;</span>, <span class="st">&quot;glmnet&quot;</span>))</code></pre></div>
