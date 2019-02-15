@@ -50,6 +50,11 @@ Other topics + project work time: Weeks 12-14
 
 ## Week 5: 2/18 - 2/22 {-}
 
+- **Monday:** Modeling nonlinear trends with natural splines ([Video](https://youtu.be/D06d88NLdR4), [Slides](https://drive.google.com/file/d/1DdLxf-qbzKNClSoeQNIVPW2xZILDK5Jk/view?usp=sharing))    
+    Related ISLR reading: Sections 7.1-7.4
+- **Wednesday:** Local regression and generalized additive models    
+    Related ISLR reading: Sections 7.6-7.7
+- **Friday:** Quiz 2. Remaining time for a review activity.
 
 
 

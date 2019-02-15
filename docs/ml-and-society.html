@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Topic 5 Subset Selection | MATH 253: Machine Learning</title>
+  <title>ML and Society | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Topic 5 Subset Selection | MATH 253: Machine Learning" />
+  <meta property="og:title" content="ML and Society | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 5 Subset Selection | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="ML and Society | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="cross-validation.html">
-<link rel="next" href="shrinkageregularization.html">
+<link rel="prev" href="schedule.html">
+<link rel="next" href="motivation-and-review.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -175,113 +175,27 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="subset-selection" class="section level1">
-<h1><span class="header-section-number">Topic 5</span> Subset Selection</h1>
-<div id="discussion-3" class="section level2">
-<h2><span class="header-section-number">5.1</span> Discussion</h2>
-<div class="figure">
-<img src="images/class_flow2.png" />
-
-</div>
-<p><br> <br> <br> <br></p>
-<p><strong>Subset selection methods</strong></p>
+<div id="ml-and-society" class="section level1 unnumbered">
+<h1>ML and Society</h1>
+<p>Below are some links relating to the role that machine learning plays a role in our society and in various disciplines.</p>
+<p>If you come across something interesting and would like to share it here, feel free to email the instructor!</p>
 <ul>
-<li>Automated methods that take different strategies for exploring subsets of the predictors</li>
-<li>Stepwise selection methods: add or remove variables one at a time</li>
-<li>Best subset selection: brute force method that tries all possible subsets of predictors</li>
+<li><a href="https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G">Amazon scraps secret AI recruiting tool that showed bias against women</a></li>
+<li>WSJ Podcast: <a href="https://itunes.apple.com/us/podcast/wsjs-the-future-of-everything/id1234320525?mt=2&amp;i=1000429776935">Machine Love: Dating in the Digital Age</a> (Thanks, Meera!)</li>
+<li><a href="https://www.symmetrymagazine.org/article/data-scientists-face-off-in-lsst-machine-learning-competition">ML and astrophysics</a> (Thanks, Karen!)</li>
 </ul>
-<p><br> <br> <br> <br> <br> <br></p>
-</div>
-<div id="exercises-3" class="section level2">
-<h2><span class="header-section-number">5.2</span> Exercises</h2>
-<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/05-subset-selection.Rmd">here</a>.</strong></p>
-<p>We’ll continue using the body fat dataset to explore subset selection methods.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(dplyr)
-bodyfat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;http://www.macalester.edu/~ajohns24/data/bodyfatsub.csv&quot;</span>)
-
-<span class="co"># Take out the redundant Density and HeightFt variables</span>
-bodyfat &lt;-<span class="st"> </span>bodyfat <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>Density, <span class="op">-</span>HeightFt)</code></pre></div>
-<ol style="list-style-type: decimal">
-<li><p><strong>Backward stepwise selection: by hand</strong><br />
-In the backward stepwise procedure, we start with the full model, <code>full_model</code>, with <em>all</em> predictors:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">full_model &lt;-<span class="st"> </span><span class="kw">lm</span>(BodyFat <span class="op">~</span><span class="st"> </span>Age <span class="op">+</span><span class="st"> </span>Weight <span class="op">+</span><span class="st"> </span>Height <span class="op">+</span><span class="st"> </span>Neck <span class="op">+</span><span class="st"> </span>Chest <span class="op">+</span><span class="st"> </span>Abdomen <span class="op">+</span><span class="st"> </span>Hip <span class="op">+</span><span class="st"> </span>Thigh <span class="op">+</span><span class="st"> </span>Knee <span class="op">+</span><span class="st"> </span>Ankle <span class="op">+</span><span class="st"> </span>Biceps <span class="op">+</span><span class="st"> </span>Forearm <span class="op">+</span><span class="st"> </span>Wrist, <span class="dt">data =</span> bodyfat)</code></pre></div>
-<p>Then…</p>
-<ul>
-<li><p>Identify which predictor contributes the <em>least</em> to the model. One approach is to identify the least significant predictor.</p></li>
-<li><p>Fit a new model which eliminates this predictor.</p></li>
-<li><p>Identify the least significant predictor in this model.</p></li>
-<li><p>Fit a new model which eliminates this predictor.</p></li>
-<li><p>Repeat 1 more time to get the hang of it.</p></li>
-</ul></li>
-</ol>
-<p><br> <br> <br> <br></p>
-<ol start="2" style="list-style-type: decimal">
-<li><strong>Interpreting the results</strong>
-<ol style="list-style-type: lower-alpha">
-<li>Examine which predictors remain after the previous exercise. Are you surprised that, for example, <code>Wrist</code> is still in the model but <code>Weight</code> is not? Does this mean that <code>Wrist</code> is a better predictor of body fat percentage than <code>Weight</code> is?</li>
-<li><em>Forward selection</em> is another stepwise technique. Can you guess how this differs from backward selection?</li>
-<li><em>Best subset selection</em> is another subset selection technique that looks at every possible subset of predictors, fits all of these models, and picks the best one. From the perspective of computational time, why is this not a preferable approach?</li>
-</ol></li>
-</ol>
-<p><br> <br> <br> <br></p>
-<ol start="3" style="list-style-type: decimal">
-<li><strong>Planning backward selection using CV</strong><br />
-Using p-values to perform backward selection by hand is convenient but not the most direct way to target predictive accuracy. Outline the steps that you would take to use cross-validation to perform backward selection. (Write an algorithm in words.)</li>
-</ol>
-<p><br> <br> <br> <br></p>
-<ol start="4" style="list-style-type: decimal">
-<li><p><strong>Backward stepwise selection in <code>caret</code></strong><br />
-We can use the <code>caret</code> package to perform backward stepwise selection with cross-validation as shown below. (<strong>Note:</strong> CV is only used to pick among the best 1, 2, 3, …, and 13 variable models. To find the best 1, 2, 3, …, and 13 variable models, training MSE is used. <code>caret</code> uses training MSE because within a subset size, all models have the same number of coefficients, which makes both ordinary R-squared and training MSE ok.) Just focus on the structure of the code and how different parts of the output are used.<br />
-Is there a use case that you are interested in but don’t see below? Feel free to ask the instructor about it!</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
-
-<span class="co"># Set up cross-validation information</span>
-train_ctrl_cv10 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
-
-<span class="co"># Perform backward stepwise selection</span>
-<span class="co"># The first time you run this, you&#39;ll be prompted to install the &quot;leaps&quot; package</span>
-<span class="kw">set.seed</span>(<span class="dv">253</span>)
-back_step &lt;-<span class="st"> </span><span class="kw">train</span>(
-    BodyFat <span class="op">~</span><span class="st"> </span>.,
-    <span class="dt">data =</span> bodyfat,
-    <span class="dt">method =</span> <span class="st">&quot;leapBackward&quot;</span>,
-    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">nvmax =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">13</span>),
-    <span class="dt">trControl =</span> train_ctrl_cv10,
-    <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>
-)
-
-<span class="co"># Look at accuracy/error metrics for the different subset sizes</span>
-back_step<span class="op">$</span>results
-
-<span class="co"># What tuning parameter gave the best performance?</span>
-<span class="co"># i.e. What subset size gave the best model?</span>
-back_step<span class="op">$</span>bestTune
-
-<span class="co"># Obtain the coefficients for the best model</span>
-<span class="kw">coefficients</span>(back_step<span class="op">$</span>finalModel, <span class="dt">id =</span> back_step<span class="op">$</span>bestTune<span class="op">$</span>nvmax)
-
-<span class="co"># Use the best model to make predictions on new data</span>
-<span class="kw">predict</span>(back_step, <span class="dt">newdata =</span> bodyfat)</code></pre></div>
-<p>Some notes about the code:</p>
-<ul>
-<li>The <code>BodyFat ~ .</code> formula tells R that <code>BodyFat</code> is the response and that all predictors (specified with the <code>.</code>) will be considered.</li>
-<li>The <code>tuneGrid</code> argument allows us to input tuning parameters into the fitting process. The tuning parameters here are the number of variables included in the models (<code>nvmax</code>). This can vary from 1 to 13 (the maximum number of predictors possible).</li>
-<li>The <code>metric</code> argument indicates how the best of the 1-variable, 2-variable, etc. models will be chosen. We’ll use RMSE (root mean squared error).</li>
-<li>When you look at <code>back_step$results</code>, you’ll see a matrix of output. The rows correspond to the different subset sizes. For each subset size you’ll see the RMSE, <span class="math inline">\(R^2\)</span>, and MAE accuracy/error metrics. Recall that these are estimates that arise by taking the mean of the values given in the 10 CV iterations. The 10 values from the 10 iterations also have a standard deviation. These are reported in the last 3 columns. What use might the standard deviation have in picking a final model?</li>
-</ul></li>
-</ol>
 
 </div>
-</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="cross-validation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="shrinkageregularization.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="schedule.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="motivation-and-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
