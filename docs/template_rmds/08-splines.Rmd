@@ -1,0 +1,131 @@
+---
+title: "Splines"
+author: "Your Name"
+output: html_document
+---
+
+```{r}
+# Load packages and data
+library(dplyr)
+library(ggplot2)
+library(caret)
+library(ISLR)
+data(College)
+
+# Examine the data codebook
+?College
+```
+
+
+**Get to know the `College` data**
+
+```{r}
+# Peek at first few rows, how many cases/variables?
+"Macalester College" %in% rownames(College)
+```
+
+<br>
+<br>
+<br>
+<br>
+
+**Some data cleaning**
+
+```{r}
+college_subs <- College %>%
+    mutate(adm_rate = Accept/Apps) %>%
+    select(Outstate, Private, Top10perc, Room.Board, PhD, S.F.Ratio, perc.alumni, Expend, Grad.Rate, adm_rate)
+```
+
+**Baseline parametric vs. nonparametric**    
+
+Parametric ordinary least squares (OLS) model:
+
+```{r}
+set.seed(2019)
+# OLS model
+```
+
+
+KNN models:
+
+```{r eval=FALSE}
+set.seed(2019)
+knn_mod_allpred <- train(
+    Outstate ~ .,
+    data = college_subs,
+    method = "knn",
+    tuneGrid = data.frame(k = seq(1,100,5)),
+    trControl = trainControl(method = "cv", number = 10),
+    metric = "RMSE",
+    na.action = na.omit
+)
+```
+
+
+```{r eval=FALSE}
+plot(knn_mod_allpred)
+knn_mod_allpred$results
+knn_mod_allpred$bestTune
+```
+
+
+
+**Considering splines**
+
+```{r eval=FALSE}
+# Visual exploration of PhD, S.F.Ratio, perc.alumni
+ggplot(college_subs, aes(x = ???, y = ???)) +
+    geom_point() +
+    geom_smooth(color = "blue") +
+    geom_smooth(method = "lm", color = "red")
+```
+
+Splines "by hand"
+
+```{r eval=FALSE}
+library(splines)
+# Create 4 new spline "variables" (corresponds to 3 knots)
+spline_terms_phd <- ns(college_subs$PhD, df = 4)
+spline_terms_phd <- as.data.frame(spline_terms_phd)
+# Give the variables the names spline1, ..., spline4
+colnames(spline_terms_phd) <- paste0("spline", 1:4)
+# Add in a new column for the response variable
+spline_terms_phd$Outstate <- college_subs$Outstate
+# Peek at this new "dataset"
+head(spline_terms_phd)
+# Fit an OLS model with these spline variables
+manual_spline_mod <- lm(Outstate ~ spline1+spline2+spline3+spline4, data = spline_terms_phd)
+# Create a dataset with the original PhD variable and the predictions from the spline model
+manual_spline_mod_output <- data.frame(
+    PhD = college_subs$PhD,
+    Outstate = fitted.values(manual_spline_mod)
+)
+# Overlay the scatterplot with our spline model's predictions
+ggplot(college_subs, aes(x = PhD, y = Outstate)) +
+    geom_point() +
+    geom_smooth(color = "blue") +
+    geom_smooth(method = "lm", color = "red") +
+    geom_point(data = manual_spline_mod_output, color = "green", aes(x = PhD, y = Outstate))
+```
+
+
+**Do splines help?**
+
+```{r eval=FALSE}
+set.seed(2019)
+spline_mod <- train(
+    Outstate ~ Private+ns(Top10perc, df=4)+ns(Room.Board, df=4)+ns(PhD, df=4)+ns(S.F.Ratio, df=4)+ns(perc.alumni, df=4)+ns(Expend, df=4)+ns(Grad.Rate, df=4)+ns(adm_rate, df=4),
+    data = college_subs,
+    method = "lm",
+    trControl = trainControl(method = "cv", number = 10),
+    na.action = na.omit
+)
+```
+
+
+
+
+
+
+

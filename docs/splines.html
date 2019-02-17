@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning</title>
+  <title>Topic 8 Splines | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 8 Splines | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 8 Splines | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="regression-assumptions.html">
-<link rel="next" href="cross-validation.html">
+<link rel="prev" href="knn-bias-variance-tradeoff.html">
+<link rel="next" href="cross-validation-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -178,170 +178,142 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="accuracy-metrics-for-regression" class="section level1">
-<h1><span class="header-section-number">Topic 3</span> Accuracy Metrics for Regression</h1>
-<div id="discussion-1" class="section level2">
-<h2><span class="header-section-number">3.1</span> Discussion</h2>
-<p><strong>Evaluating regression models</strong></p>
-<ol style="list-style-type: decimal">
-<li>Should meet assumptions required for statistical inference</li>
-<li><strong>Should explain a substantial proportion of the variation in the response</strong></li>
-<li><strong>Should produce accurate predictions</strong></li>
-</ol>
-<p>For both of these points, we can look at <strong>residuals</strong>.</p>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Sum of squared residuals</strong></p>
-<p><span class="math display">\[RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y}_1)^2 + (y_2 - \hat{y}_2)^2 + \cdots + (y_n - \hat{y}_n)^2\]</span></p>
-<ul>
-<li>The sum (and mean) of the residuals is always zero when an intercept is included in the linear regression model -&gt; add up the <em>squared</em> residuals</li>
-<li>Not very interpretable</li>
-<li>Due to missing values in predictors, sample size can vary from analysis to analysis (hard to compare RSS)</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Mean squared error</strong></p>
-<p><span class="math display">\[MSE = \frac{RSS}{n} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2\]</span></p>
-<ul>
-<li>More interpretable than RSS: on average how far are our predictions from the true values (in squared distance)?</li>
-<li>Interpretation downside: the units are squared units</li>
-<li>Square root of MSE (<strong>RMSE = root mean squared error</strong>) is often used:<br />
-<span class="math inline">\(RMSE = \sqrt{MSE}\)</span><br />
-It’s tempting to try to interpret RMSE as the average distance of our predictions from the true values because the units align with the response variable, but it’s not technically quite right due to the square root.</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Mean absolute error</strong></p>
-<p><span class="math display">\[MAE = \frac{1}{n}\sum_{i=1}^n \|y_i - \hat{y}_i\|\]</span></p>
-<p>Where <span class="math inline">\(\|y_i - \hat{y}_i\|\)</span> indicates the absolute value of the residual</p>
-<ul>
-<li>Very interpretable: on average how far are our predictions from the true values</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>R-squared</strong></p>
-<p>Define the <em>total sum of squares</em> (<span class="math inline">\(TSS\)</span>) as the sum of squared deviations of each response <span class="math inline">\(y_i\)</span> from the mean response <span class="math inline">\(\bar{y}\)</span>:</p>
-<p><span class="math display">\[TSS = \sum_{i=1}^n (y_i - \bar{y})^2\]</span></p>
-<p><span class="math display">\[R^2 = 1-\frac{RSS}{TSS} = \frac{\text{Var(fitted)}}{\text{Var(response)}}\]</span></p>
-<ul>
-<li>Very interpretable: the proportion of variation in the response that is explained by the model</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Problems with R-squared and MSE</strong></p>
-<ul>
-<li>R-squared automatically increases with added predictors (even useless ones)</li>
-<li>MSE automatically decreases with added predictors (even useless ones)</li>
-<li>Example below: dataset with 20 cases. Random numbers are used as predictors.</li>
-</ul>
-<p><img src="math253_manual_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
-<ul>
-<li>Alternative metrics:
-<ul>
-<li>Instead of R-squared, use adjusted R-squared</li>
-<li>Instead of MSE, we’ll use cross-validation (coming up next)</li>
-</ul></li>
-</ul>
-<p><br> <br> <br> <br> <br></p>
-<p><strong>Overfitting</strong></p>
-<ul>
-<li>The example above is a demonstration of overfitting.</li>
-<li>With more and more predictors, greater chance that some are useless.</li>
-<li>Including useless predictors in a model is like reading too much into the noise.</li>
-<li>With overfitting, models don’t tend to generalize well.</li>
-</ul>
-<p><br> <br> <br> <br> <br></p>
-</div>
-<div id="exercises-1" class="section level2">
-<h2><span class="header-section-number">3.2</span> Exercises</h2>
-<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/03-accuracy-metrics.Rmd">here</a>.</strong></p>
-<p>You’ll be working a dataset containing physical measurements on 80 adult males. These measurements include body fat percentage estimates as well as body circumference measurements.</p>
-<ul>
-<li><code>fatBrozek</code>: Percent body fat using Brozek’s equation: 457/Density - 414.2</li>
-<li><code>fatSiri</code>: Percent body fat using Siri’s equation: 495/Density - 450</li>
-<li><code>density</code>: Density determined from underwater weighing (gm/cm^3).</li>
-<li><code>age</code>: Age (years)</li>
-<li><code>weight</code>: Weight (lbs)</li>
-<li><code>height</code>: Height (inches)</li>
-<li><code>neck</code>: Neck circumference (cm)</li>
-<li><code>chest</code>: Chest circumference (cm)</li>
-<li><code>abdomen</code>: Abdomen circumference (cm)</li>
-<li><code>hip</code>: Hip circumference (cm)</li>
-<li><code>thigh</code>: Thigh circumference (cm)</li>
-<li><code>knee</code>: Knee circumference (cm)</li>
-<li><code>ankle</code>: Ankle circumference (cm)</li>
-<li><code>biceps</code>: Biceps (extended) circumference (cm)</li>
-<li><code>forearm</code>: Forearm circumference (cm)</li>
-<li><code>wrist</code>: Wrist circumference (cm)</li>
-</ul>
-<p>It takes a lot of effort to estimate body fat percentage accurately through underwater weighing. The goal is to build the best predictive model for <code>fatSiri</code> using just circumference measurements, which are more easily attainable. (Don’t use <code>fatBrozek</code> or <code>density</code> as predictors.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<div id="splines" class="section level1">
+<h1><span class="header-section-number">Topic 8</span> Splines</h1>
+<div id="exercises-6" class="section level2">
+<h2><span class="header-section-number">8.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/08-splines.Rmd">here</a>.</strong></p>
+<p>We’ll explore KNN regression and modeling with splines using the <code>College</code> dataset in the <code>ISLR</code> package (associated with our optional textbook). You’ll need to install the <code>splines</code> package as we’ll be using it subsequently.</p>
+<p>Our goal will be to build a model that predicts out-of-state tuition (<code>Outstate</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load packages and data</span>
 <span class="kw">library</span>(dplyr)
-bodyfat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/js2gxnazybokbzh/bodyfat_train.csv?dl=1&quot;</span>)
+<span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(caret)
+<span class="kw">library</span>(ISLR)
+<span class="kw">data</span>(College)
 
-<span class="co"># Remove the fatBrozek and density variables</span>
-bodyfat &lt;-<span class="st"> </span>bodyfat <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>fatBrozek, <span class="op">-</span>density)</code></pre></div>
+<span class="co"># Examine the data codebook</span>
+?College</code></pre></div>
+<p><br> <br> <br> <br></p>
 <ol style="list-style-type: decimal">
-<li>Using tools from Math 155 and 253 (e.g. exploratory plots, p-values, confidence intervals, adjusted R-squared), experiment with different models to try to build the best predictive model possible. What are the adjusted R-squared and MSE for this model?</li>
+<li><strong>Get to know the <code>College</code> data</strong>
+<ol style="list-style-type: lower-alpha">
+<li>Peek at the first few rows.</li>
+<li>How many colleges are in the dataset?</li>
+<li>How many possible predictors of <code>Outstate</code> are there?</li>
+<li><p>Is Mac one of the colleges in this data? The code to check this quickly is below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="st">&quot;Macalester College&quot;</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">rownames</span>(College)</code></pre></div>
+<p>If you are curious about working with strings in R, you might check out the <code>stringr</code> package. Example code is below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(stringr)
+<span class="kw">rownames</span>(College)[<span class="kw">str_detect</span>(<span class="kw">rownames</span>(College), <span class="st">&quot;Mac&quot;</span>)]
+<span class="kw">rownames</span>(College)[<span class="kw">str_detect</span>(<span class="kw">rownames</span>(College), <span class="st">&quot;Olaf&quot;</span>)]</code></pre></div></li>
+</ol></li>
 </ol>
-<p><br></p>
-<p>Code notes: if you want to extract the adjusted R-squared from a fitted model, you can use the following.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">your_model &lt;-<span class="st"> </span><span class="kw">lm</span>(fatSiri <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> bodyfat)
-<span class="kw">summary</span>(your_model)<span class="op">$</span>adj.r.squared</code></pre></div>
-<p>And if you want to compute MSE, you can use the function below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mse &lt;-<span class="st"> </span><span class="cf">function</span>(mod) {
-    <span class="kw">mean</span>(<span class="kw">residuals</span>(mod)<span class="op">^</span><span class="dv">2</span>)
-}
-<span class="kw">mse</span>(your_model)</code></pre></div>
-<p><br> <br> <br></p>
+<p><br> <br></p>
+<p>We’ll actually work with a subset of the predictors for the rest of the exercises:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">college_subs &lt;-<span class="st"> </span>College <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">adm_rate =</span> Accept<span class="op">/</span>Apps) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">select</span>(Outstate, Private, Top10perc, Room.Board, PhD, S.F.Ratio, perc.alumni, Expend, Grad.Rate, adm_rate)</code></pre></div>
+<p><br> <br> <br> <br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Now that you’ve selected your best model, deploy it in the real world by applying it to a new set of 172 adult males. The <code>predict()</code> function allows you to supply a fitted model and a new dataset of predictors (the <code>newdata</code> argument).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bodyfat_test &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/7gizws208u0oywq/bodyfat_test.csv?dl=1&quot;</span>)
-
-<span class="co"># Predict</span>
-test_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(your_model, <span class="dt">newdata =</span> bodyfat_test)
-
-<span class="co"># Compute MSE</span>
-<span class="co"># The $ extracts a particular column from a dataset</span>
-<span class="kw">mean</span>((bodyfat_test<span class="op">$</span>fatSiri <span class="op">-</span><span class="st"> </span>test_predictions)<span class="op">^</span><span class="dv">2</span>)</code></pre></div></li>
+<li><strong>Baseline parametric vs. nonparametric</strong><br />
+(Throughout, include <code>set.seed(2019)</code> in each code chunk just before you use <code>train()</code>.)
+<ol style="list-style-type: lower-alpha">
+<li>Fit a parametric ordinary least squares (OLS) model of <code>Outstate</code> as a function of all predictors, and use 10-fold cross-validation to estimate the test error of this model. Use the straight average of the RMSE column.</li>
+<li><p>We’ll fit nonparametric KNN models to this data and compare performance. The code below fits KNN models for <span class="math inline">\(k = 1,6,\ldots,96\)</span>. (<code>seq(1,100,5)</code> generates a regular sequence from 1 to 100 jumping by 5.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2019</span>)
+knn_mod_allpred &lt;-<span class="st"> </span><span class="kw">train</span>(
+    Outstate <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> college_subs,
+    <span class="dt">method =</span> <span class="st">&quot;knn&quot;</span>,
+    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">k =</span> <span class="kw">seq</span>(<span class="dv">1</span>,<span class="dv">100</span>,<span class="dv">5</span>)),
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),
+    <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,
+    <span class="dt">na.action =</span> na.omit
+)</code></pre></div></li>
+<li><p>Models <code>train()</code>ed by <code>caret</code> have several features in common. We can use <code>plot()</code> on the object resulting from <code>train()</code> to plot test RMSE versus the tuning parameter.<br />
+Comment on the shape of this curve and how it is related to the bias-variance tradeoff.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(knn_mod_allpred)</code></pre></div></li>
+<li><p>We can also look at estimated test errors and their associated uncertainty with <code>$results</code>. We can also see the optimal value of the tuning parameter with <code>$bestTune</code>.<br />
+How does the best KNN model compare to the OLS model in terms of estimated test error?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knn_mod_allpred<span class="op">$</span>results
+knn_mod_allpred<span class="op">$</span>bestTune</code></pre></div></li>
+<li><p>In machine learning, nonparametric methods tend to suffer from something called the <strong>curse of dimensionality</strong>. Do some Googling or search our ISLR textbook for this term.<br />
+In your own words, explain what the curse of dimensionality is and why KNN suffers from it.</p></li>
+</ol></li>
 </ol>
-<p><br> <br> <br></p>
+<p><br> <br> <br> <br></p>
 <ol start="3" style="list-style-type: decimal">
-<li><strong>Thinking about main themes</strong>
+<li><strong>Considering splines</strong>
 <ol style="list-style-type: lower-alpha">
-<li>How did your MSE on the original dataset of 80 males compare to the MSE on the new data of 172 males?</li>
-<li>What conclusions can you draw from this exploration in relation to overfitting?</li>
+<li><p>We should first visually explore the data. Make scatterplots of the response versus the following predictors: <code>PhD</code>, <code>S.F.Ratio</code>, <code>perc.alumni</code>. Add a smooth trend line in blue and a linear trend line in red, as below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(college_subs, <span class="kw">aes</span>(<span class="dt">x =</span> ???, <span class="dt">y =</span> ???)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>)</code></pre></div></li>
+<li>Based on these plots, do you think that a spline model would improve test error?</li>
+<li><p>Let’s fit a spline model “by hand”. Nothing for you to modify here, but step through the code below and make sure you understand the logic of what we’re trying to show.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(splines)
+<span class="co"># Create 4 new spline &quot;variables&quot; (corresponds to 3 knots)</span>
+spline_terms_phd &lt;-<span class="st"> </span><span class="kw">ns</span>(college_subs<span class="op">$</span>PhD, <span class="dt">df =</span> <span class="dv">4</span>)
+spline_terms_phd &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(spline_terms_phd)
+<span class="co"># Give the variables the names spline1, ..., spline4</span>
+<span class="kw">colnames</span>(spline_terms_phd) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;spline&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)
+<span class="co"># Add in a new column for the response variable</span>
+spline_terms_phd<span class="op">$</span>Outstate &lt;-<span class="st"> </span>college_subs<span class="op">$</span>Outstate
+<span class="co"># Peek at this new &quot;dataset&quot;</span>
+<span class="kw">head</span>(spline_terms_phd)
+<span class="co"># Fit an OLS model with these spline variables</span>
+manual_spline_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(Outstate <span class="op">~</span><span class="st"> </span>spline1<span class="op">+</span>spline2<span class="op">+</span>spline3<span class="op">+</span>spline4, <span class="dt">data =</span> spline_terms_phd)
+<span class="co"># Create a dataset with the original PhD variable and the predictions from the spline model</span>
+manual_spline_mod_output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">PhD =</span> college_subs<span class="op">$</span>PhD,
+    <span class="dt">Outstate =</span> <span class="kw">fitted.values</span>(manual_spline_mod)
+)
+<span class="co"># Overlay the scatterplot with our spline model&#39;s predictions</span>
+<span class="kw">ggplot</span>(college_subs, <span class="kw">aes</span>(<span class="dt">x =</span> PhD, <span class="dt">y =</span> Outstate)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>(<span class="dt">data =</span> manual_spline_mod_output, <span class="dt">color =</span> <span class="st">&quot;green&quot;</span>, <span class="kw">aes</span>(<span class="dt">x =</span> PhD, <span class="dt">y =</span> Outstate))</code></pre></div></li>
 </ol></li>
 </ol>
-<p><br> <br> <br></p>
+<p><strong>Note:</strong> <code>df</code> in the <code>ns()</code> function stands for “degrees of freedom” and is equal to the number of new spline variables created. <code>df</code> is equal to number of knots plus 1.</p>
+<p><br> <br> <br> <br></p>
 <ol start="4" style="list-style-type: decimal">
-<li><strong>Thinking more about overfitting</strong>
+<li><strong>Do splines help?</strong>
 <ol style="list-style-type: lower-alpha">
-<li>Do you think that a model with more predictors or less predictors is more prone to overfitting? Why?</li>
-<li>The method used to find the coefficients in linear regression is called the <strong>least squares</strong> method. We find coefficients <span class="math inline">\(\hat{\beta}_1, \hat{\beta}_2, \ldots, \hat{\beta}_p\)</span> that minimize the sum of squared residuals <span class="math inline">\(RSS\)</span>. Given your answer in part a, can you think of a way to modify the least squares criterion to penalize weak predictors being included in a model? That is, can you brainstorm a possible penalty to add below?<br />
-<strong>Least squares criterion:</strong> find <span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_p\)</span> that minimize <span class="math inline">\(RSS\)</span><br />
-<strong>Penalized least squares criterion:</strong> find <span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_p\)</span> that minimize <span class="math inline">\(RSS + \text{penalty}\)</span><br />
-Suggestion: Draw inspiration from the “penalty” term in the adjusted R-squared formula from the video.</li>
+<li><p>We can actually use <code>ns()</code> to create spline variables automatically when we write model formulas. Use the code below to fit a spline model that uses 3 knots for all of the quantitative predictors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2019</span>)
+spline_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
+    Outstate <span class="op">~</span><span class="st"> </span>Private<span class="op">+</span><span class="kw">ns</span>(Top10perc, <span class="dt">df=</span><span class="dv">4</span>)<span class="op">+</span><span class="kw">ns</span>(Room.Board, <span class="dt">df=</span><span class="dv">4</span>)<span class="op">+</span><span class="kw">ns</span>(PhD, <span class="dt">df=</span><span class="dv">4</span>)<span class="op">+</span><span class="kw">ns</span>(S.F.Ratio, <span class="dt">df=</span><span class="dv">4</span>)<span class="op">+</span><span class="kw">ns</span>(perc.alumni, <span class="dt">df=</span><span class="dv">4</span>)<span class="op">+</span><span class="kw">ns</span>(Expend, <span class="dt">df=</span><span class="dv">4</span>)<span class="op">+</span><span class="kw">ns</span>(Grad.Rate, <span class="dt">df=</span><span class="dv">4</span>)<span class="op">+</span><span class="kw">ns</span>(adm_rate, <span class="dt">df=</span><span class="dv">4</span>),
+    <span class="dt">data =</span> college_subs,
+    <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),
+    <span class="dt">na.action =</span> na.omit
+)</code></pre></div></li>
+<li>Why do we use <code>method = &quot;lm&quot;</code>?</li>
+<li><p>Estimate the test RMSE of <code>spline_mod</code>. How does this model compare to the original OLS model?</p></li>
 </ol></li>
 </ol>
-<p><br> <br> <br></p>
+<p><br> <br> <br> <br></p>
 <ol start="5" style="list-style-type: decimal">
-<li><strong>Extra!</strong> If you have time and are interested in learning about writing R functions, try the following.
-<ol style="list-style-type: lower-alpha">
-<li>Using the <code>mse()</code> function above as a guide, write a function that compute the MSE of a model on new data.
-<ul>
-<li>What inputs do you need? These must be supplied as <strong>arguments</strong> to the function. These are given in the parentheses.</li>
-<li>You can take multiple intermediate steps within the function. This is often recommended for multi-step tasks because it makes the code easier to read.</li>
-<li>Annotate the steps of your function with comments. (Start a comment line with a <code>#</code>.)</li>
-</ul></li>
-</ol></li>
+<li><strong>Splines and the bias-variance tradeoff</strong><br />
+What tuning parameter is associated with splines? Add the spline tuning parameter to your BVT diagram from last time.</li>
 </ol>
 
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="regression-assumptions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cross-validation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="knn-bias-variance-tradeoff.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

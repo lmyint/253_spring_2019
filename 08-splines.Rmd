@@ -1,0 +1,178 @@
+# Splines
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+```
+
+
+## Exercises
+
+**You can download a template RMarkdown file to start from [here](template_rmds/08-splines.Rmd).**
+
+We'll explore KNN regression and modeling with splines using the `College` dataset in the `ISLR` package (associated with our optional textbook). You'll need to install the `splines` package as we'll be using it subsequently.
+
+Our goal will be to build a model that predicts out-of-state tuition (`Outstate`).
+
+```{r eval=FALSE}
+# Load packages and data
+library(dplyr)
+library(ggplot2)
+library(caret)
+library(ISLR)
+data(College)
+
+# Examine the data codebook
+?College
+```
+
+<br>
+<br>
+<br>
+<br>
+
+
+`r NextQ()`. **Get to know the `College` data**
+    a. Peek at the first few rows.
+    b. How many colleges are in the dataset?
+    c. How many possible predictors of `Outstate` are there?
+    d. Is Mac one of the colleges in this data? The code to check this quickly is below:
+        ```{r eval=FALSE}
+        "Macalester College" %in% rownames(College)
+        ```
+        If you are curious about working with strings in R, you might check out the `stringr` package. Example code is below:
+        ```{r eval=FALSE}
+        library(stringr)
+        rownames(College)[str_detect(rownames(College), "Mac")]
+        rownames(College)[str_detect(rownames(College), "Olaf")]
+        ```
+
+<br>
+<br>
+
+We'll actually work with a subset of the predictors for the rest of the exercises:
+
+```{r eval=FALSE}
+college_subs <- College %>%
+    mutate(adm_rate = Accept/Apps) %>%
+    select(Outstate, Private, Top10perc, Room.Board, PhD, S.F.Ratio, perc.alumni, Expend, Grad.Rate, adm_rate)
+```
+
+<br>
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Baseline parametric vs. nonparametric**    
+    (Throughout, include `set.seed(2019)` in each code chunk just before you use `train()`.)
+    a. Fit a parametric ordinary least squares (OLS) model of `Outstate` as a function of all predictors, and use 10-fold cross-validation to estimate the test error of this model. Use the straight average of the RMSE column.
+    b. We'll fit nonparametric KNN models to this data and compare performance. The code below fits KNN models for $k = 1,6,\ldots,96$. (`seq(1,100,5)` generates a regular sequence from 1 to 100 jumping by 5.)
+        ```{r eval=FALSE}
+        set.seed(2019)
+        knn_mod_allpred <- train(
+            Outstate ~ .,
+            data = college_subs,
+            method = "knn",
+            tuneGrid = data.frame(k = seq(1,100,5)),
+            trControl = trainControl(method = "cv", number = 10),
+            metric = "RMSE",
+            na.action = na.omit
+        )
+        ```
+    c. Models `train()`ed by `caret` have several features in common. We can use `plot()` on the object resulting from `train()` to plot test RMSE versus the tuning parameter.    
+    Comment on the shape of this curve and how it is related to the bias-variance tradeoff.
+        ```{r eval=FALSE}
+        plot(knn_mod_allpred)
+        ```
+    d. We can also look at estimated test errors and their associated uncertainty with `$results`. We can also see the optimal value of the tuning parameter with `$bestTune`.    
+    How does the best KNN model compare to the OLS model in terms of estimated test error?
+        ```{r eval=FALSE}
+        knn_mod_allpred$results
+        knn_mod_allpred$bestTune
+        ```
+    e. In machine learning, nonparametric methods tend to suffer from something called the **curse of dimensionality**. Do some Googling or search our ISLR textbook for this term.    
+    In your own words, explain what the curse of dimensionality is and why KNN suffers from it.
+
+<br>
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Considering splines**
+    a. We should first visually explore the data. Make scatterplots of the response versus the following predictors: `PhD`, `S.F.Ratio`, `perc.alumni`. Add a smooth trend line in blue and a linear trend line in red, as below.
+        ```{r eval=FALSE}
+        ggplot(college_subs, aes(x = ???, y = ???)) +
+            geom_point() +
+            geom_smooth(color = "blue") +
+            geom_smooth(method = "lm", color = "red")
+        ```
+    b. Based on these plots, do you think that a spline model would improve test error?
+    c. Let's fit a spline model "by hand". Nothing for you to modify here, but step through the code below and make sure you understand the logic of what we're trying to show.
+        ```{r eval=FALSE}
+        library(splines)
+        # Create 4 new spline "variables" (corresponds to 3 knots)
+        spline_terms_phd <- ns(college_subs$PhD, df = 4)
+        spline_terms_phd <- as.data.frame(spline_terms_phd)
+        # Give the variables the names spline1, ..., spline4
+        colnames(spline_terms_phd) <- paste0("spline", 1:4)
+        # Add in a new column for the response variable
+        spline_terms_phd$Outstate <- college_subs$Outstate
+        # Peek at this new "dataset"
+        head(spline_terms_phd)
+        # Fit an OLS model with these spline variables
+        manual_spline_mod <- lm(Outstate ~ spline1+spline2+spline3+spline4, data = spline_terms_phd)
+        # Create a dataset with the original PhD variable and the predictions from the spline model
+        manual_spline_mod_output <- data.frame(
+            PhD = college_subs$PhD,
+            Outstate = fitted.values(manual_spline_mod)
+        )
+        # Overlay the scatterplot with our spline model's predictions
+        ggplot(college_subs, aes(x = PhD, y = Outstate)) +
+            geom_point() +
+            geom_smooth(color = "blue") +
+            geom_smooth(method = "lm", color = "red") +
+            geom_point(data = manual_spline_mod_output, color = "green", aes(x = PhD, y = Outstate))
+        ```
+
+**Note:** `df` in the `ns()` function stands for "degrees of freedom" and is equal to the number of new spline variables created. `df` is equal to number of knots plus 1.
+
+<br>
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Do splines help?**
+    a. We can actually use `ns()` to create spline variables automatically when we write model formulas. Use the code below to fit a spline model that uses 3 knots for all of the quantitative predictors.
+        ```{r eval=FALSE}
+        set.seed(2019)
+        spline_mod <- train(
+            Outstate ~ Private+ns(Top10perc, df=4)+ns(Room.Board, df=4)+ns(PhD, df=4)+ns(S.F.Ratio, df=4)+ns(perc.alumni, df=4)+ns(Expend, df=4)+ns(Grad.Rate, df=4)+ns(adm_rate, df=4),
+            data = college_subs,
+            method = "lm",
+            trControl = trainControl(method = "cv", number = 10),
+            na.action = na.omit
+        )
+        ```
+    b. Why do we use `method = "lm"`?
+    c. Estimate the test RMSE of `spline_mod`. How does this model compare to the original OLS model?
+
+<br>
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Splines and the bias-variance tradeoff**    
+    What tuning parameter is associated with splines? Add the spline tuning parameter to your BVT diagram from last time.
+
+
+
+
+
+
+
+
