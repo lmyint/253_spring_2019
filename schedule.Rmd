@@ -52,7 +52,7 @@ Other topics + project work time: Weeks 12-14
 
 - **Monday:** Modeling nonlinear trends with natural splines ([Video](https://youtu.be/D06d88NLdR4), [Slides](https://drive.google.com/file/d/1DdLxf-qbzKNClSoeQNIVPW2xZILDK5Jk/view?usp=sharing))    
     Related ISLR reading: Sections 7.1-7.4
-- **Wednesday:** Local regression and generalized additive models    
+- **Wednesday:** Local regression and generalized additive models ([Video](https://youtu.be/0PQKHlwh49A), [Slides](https://drive.google.com/file/d/1-CMS6C6_0Jb_3_PbNgJrQYRCDWHEpuyB/view?usp=sharing))    
     Related ISLR reading: Sections 7.6-7.7
 - **Friday:** Quiz 2. Remaining time for a review activity.
 
