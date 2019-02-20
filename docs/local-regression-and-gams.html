@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Topic 2 Regression Assumptions | MATH 253: Machine Learning</title>
+  <title>Topic 9 Local Regression and GAMs | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Topic 2 Regression Assumptions | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 9 Local Regression and GAMs | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 2 Regression Assumptions | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 9 Local Regression and GAMs | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="motivation-and-review.html">
-<link rel="next" href="accuracy-metrics-for-regression.html">
+<link rel="prev" href="splines.html">
+<link rel="next" href="cross-validation-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -183,173 +183,99 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="regression-assumptions" class="section level1">
-<h1><span class="header-section-number">Topic 2</span> Regression Assumptions</h1>
-<div id="discussion" class="section level2">
-<h2><span class="header-section-number">2.1</span> Discussion</h2>
-<div class="figure">
-<img src="images/class_flow1.png" />
-
-</div>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Regression tasks</strong></p>
-<p>In regression tasks, our goal is to build a model (a function) <span class="math inline">\(f\)</span> that predicts the quantitative response values well:</p>
-<p><span class="math display">\[y = f(x) + \varepsilon\]</span></p>
+<div id="local-regression-and-gams" class="section level1">
+<h1><span class="header-section-number">Topic 9</span> Local Regression and GAMs</h1>
+<div id="discussion-7" class="section level2">
+<h2><span class="header-section-number">9.1</span> Discussion</h2>
+<p><strong>Local regression</strong></p>
 <ul>
-<li><span class="math inline">\(y\)</span>: quantitative response variable</li>
-<li><span class="math inline">\(x = (x_1, x_2, \ldots, x_p)\)</span>: are <span class="math inline">\(p\)</span> explanatory variables, predictors, features</li>
-<li><span class="math inline">\(f(x)\)</span> is a function that captures the underlying trend/relationship between the response and the predictors</li>
-<li><span class="math inline">\(\varepsilon\)</span> is random unexplainable error/noise</li>
+<li>Main tool: LOESS = locally estimated scatterplot smoothing</li>
+<li>Fit local linear regression models, using only a subset of the data</li>
+<li>How is this different from KNN regression?</li>
 </ul>
-<p>The linear regression model you learned about in MATH 155 is a special case of <span class="math inline">\(f\)</span>:</p>
-<p><span class="math display">\[
-\begin{align*}
-y &amp;= f(x) + \varepsilon \\
-&amp;= \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p + \varepsilon
-\end{align*}
-\]</span></p>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Evaluating regression models</strong></p>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;
+## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-80-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><br> <br> <br></p>
+<p><strong>Generalized additive models</strong></p>
+<p>Instead of assuming <strong>linear</strong> relationships between predictors and the response…</p>
+<p><span class="math display">\[\text{Outstate} = \beta_0 + \beta_1\text{Private} + \beta_2\text{PhD} + \beta_3\text{Expend} + \varepsilon\]</span></p>
+<p>…let’s be more general and say that the relationships can be arbitrary functions?</p>
+<p><span class="math display">\[\text{Outstate} = \beta_0 + f_1(\text{Private}) + f_2(\text{PhD}) + f_3(\text{Expend}) + \varepsilon\]</span></p>
+<ul>
+<li>If the functions <span class="math inline">\(f_1, f_2, f_3\)</span> can be described with splines, then the model is just like an ordinary linear regression model and can be fit with least squares.</li>
+<li>Usually we have these functions be described with LOESS functions</li>
+</ul>
+<p><br> <br> <br></p>
+</div>
+<div id="exercises-7" class="section level2">
+<h2><span class="header-section-number">9.2</span> Exercises</h2>
 <ol style="list-style-type: decimal">
-<li>Should meet assumptions required for statistical inference</li>
-<li>Should explain a substantial proportion of the variation in the response</li>
-<li>Should produce accurate predictions</li>
-</ol>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Linear regression assumptions</strong></p>
-<p><span class="math display">\[\varepsilon \stackrel{ind}{\sim} N(0, \sigma^2)\]</span></p>
-<p>Assumptions are to ensure that statistical inference procedures (p-values, confidence intervals) “work as advertised”:</p>
+<li><strong>Writing pseudocode for LOESS</strong><br />
+Pseudocode is an algorithm in words. Write pseudocode for the LOESS algorithm assuming that you are supplied the predictor <span class="math inline">\(x\)</span>, response <span class="math inline">\(y\)</span>, a span of 0.4. Your algorithm will use local <em>linear</em> fits. Assume that ordinary least squares rather than weighted least squares is used.<br />
+Start from the following:
 <ul>
-<li>The process of creating a 95% CI is a <strong>procedure</strong> (add and subtract about 2 standard errors from the estimate).
+<li>Set up a grid of <span class="math inline">\(x\)</span> values from the minimum to maximum <span class="math inline">\(x\)</span></li>
+<li>For each <span class="math inline">\(x\)</span> in the grid:
 <ul>
-<li>It “works as advertised” if in 95% of possible samples it creates intervals that contain the true population value. (The other 5% of samples are unlucky ones.)</li>
-<li>It does not “work as advertised” if only 90% of possible samples result in intervals (95% CIs) that contain the true population value.</li>
+<li>Step 1</li>
+<li>Step 2…</li>
 </ul></li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-</div>
-<div id="exercises" class="section level2">
-<h2><span class="header-section-number">2.2</span> Exercises</h2>
-<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/02-regression-assumptions.Rmd">here</a>.</strong></p>
-<p>We will continue looking at the New York housing data. Each case (row) in the dataset is a house in New York, and on each house, we have information on several variables. We’ll focus on the response variable <code>Price</code> (in dollars) and a single predictor variable <code>Age</code> (in years).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load required packages</span>
-<span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(dplyr)
-
-<span class="co"># Read in the data</span>
-homes &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;http://sites.williams.edu/rdeveaux/files/2014/09/Saratoga.txt&quot;</span>)
-
-<span class="co"># Look at the first 6 rows</span>
-<span class="kw">head</span>(homes)</code></pre></div>
-<pre><code>##    Price Lot.Size Waterfront Age Land.Value New.Construct Central.Air
-## 1 132500     0.09          0  42      50000             0           0
-## 2 181115     0.92          0   0      22300             0           0
-## 3 109000     0.19          0 133       7300             0           0
-## 4 155000     0.41          0  13      18700             0           0
-## 5  86060     0.11          0   0      15000             1           1
-## 6 120000     0.68          0  31      14000             0           0
-##   Fuel.Type Heat.Type Sewer.Type Living.Area Pct.College Bedrooms
-## 1         3         4          2         906          35        2
-## 2         2         3          2        1953          51        3
-## 3         2         3          3        1944          51        4
-## 4         2         2          2        1944          51        3
-## 5         2         2          3         840          51        2
-## 6         2         2          2        1152          22        4
-##   Fireplaces Bathrooms Rooms
-## 1          1       1.0     5
-## 2          0       2.5     6
-## 3          1       1.0     8
-## 4          1       1.5     5
-## 5          0       1.0     3
-## 6          1       1.0     8</code></pre>
-<p>We will pretend that the <code>homes</code> dataset contains the full population of New York houses. Let’s draw a random sample of 500 houses from the “population”. We can do this with the <code>sample_n()</code> function available in the <code>dplyr</code> package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Randomly sample 500 homes</span>
-homes_sample &lt;-<span class="st"> </span><span class="kw">sample_n</span>(homes, <span class="dt">size =</span> <span class="dv">500</span>)</code></pre></div>
-<ol style="list-style-type: decimal">
-<li><strong>Checking the independence assumption</strong><br />
-In thinking about what the cases are, do you think the independence assumption holds?</li>
+</ul></li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><strong>A first try at a model</strong>
+<li><p><strong>The LOESS tuning parameter</strong><br />
+When you use <code>geom_smooth</code> in <code>ggplot</code> the smooth line is drawn by LOESS by default. The main tuning parameter we modify is <code>span</code>. The <code>span</code> gives the percent of data used in the local linear fit.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(College, <span class="kw">aes</span>(<span class="dt">x =</span> Expend, <span class="dt">y =</span> Outstate)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">span =</span> <span class="fl">0.1</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Span: 0.1&quot;</span>)
+<span class="kw">ggplot</span>(College, <span class="kw">aes</span>(<span class="dt">x =</span> Expend, <span class="dt">y =</span> Outstate)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">span =</span> <span class="fl">0.4</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Span: 0.4&quot;</span>)
+<span class="kw">ggplot</span>(College, <span class="kw">aes</span>(<span class="dt">x =</span> Expend, <span class="dt">y =</span> Outstate)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">span =</span> <span class="fl">0.8</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Span: 0.8&quot;</span>)</code></pre></div>
+<img src="math253_manual_files/figure-html/unnamed-chunk-82-1.png" width="960" style="display: block; margin: auto;" />
 <ol style="list-style-type: lower-alpha">
-<li><p>Visualize the relationship between house price and house age with a scatterplot and smooth trend line. How would you describe the overall shape of the trend? Is it linear?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(homes_sample, <span class="kw">aes</span>(<span class="dt">x =</span> ???, <span class="dt">y =</span> ???)) <span class="op">+</span>
-<span class="st">    </span>geom_???() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_smooth</span>()</code></pre></div></li>
-<li><p>Using our sample (<code>homes_sample</code>), fit a linear regression model where <code>Price</code> is predicted by <code>Age</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the model</span>
-mod1 &lt;-<span class="st"> </span><span class="kw">lm</span>(Price <span class="op">~</span><span class="st"> </span>Age, <span class="dt">data =</span> homes_sample)
-
-<span class="co"># Display the summary table</span>
-<span class="kw">summary</span>(mod1)</code></pre></div></li>
-<li><p>Check the trend and homoskedasticity assumptions by plotting the residuals versus the fitted (predicted) values. The points should be evenly scattered around the y = 0 line. Do you think these assumptions are met?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Put the residuals and predicted values into a dataset</span>
-mod1_output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">residual =</span> <span class="kw">residuals</span>(mod1),
-    <span class="dt">predicted =</span> <span class="kw">fitted.values</span>(mod1)
-)
-
-<span class="co"># Plot</span>
-<span class="kw">ggplot</span>(mod1_output, <span class="kw">aes</span>(<span class="dt">x =</span> ???, <span class="dt">y =</span> ???)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="co"># Add a smooth trend</span>
-<span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="dv">0</span>, <span class="dt">color =</span> <span class="st">&quot;red&quot;</span>) <span class="co"># Add the y = 0 line</span></code></pre></div></li>
-<li><p>Check the normality assumption by making a QQ-plot of the residuals. In a QQ-plot, each residual (y-axis) is plotted against its theoretical corresponding value from a standard normal distribution (<span class="math inline">\(N(0,1^2)\)</span>) on the x-axis. That is, the first quartile of the residuals is plotted against the first quartile of <span class="math inline">\(N(0,1^2)\)</span>, the median of the residuals is plotted against the median of <span class="math inline">\(N(0,1^2)\)</span>, and so on. If the residuals follow a normal distribution, then the points should fall on a line. Do you think the normality assumption holds?</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(mod1_output, <span class="kw">aes</span>(<span class="dt">sample =</span> residual)) <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_qq</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_qq_line</span>()</code></pre></div></li>
+<li>Put <code>span</code> on our bias-variance tradeoff diagram along with labels for bias, variance, complexity, and flexibility.</li>
+<li>How would you expect a plot of test RMSE versus <code>span</code> to look? Why?</li>
 </ol></li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="3" style="list-style-type: decimal">
-<li><strong>A second model</strong><br />
-The diagnostic plots we made above suggest that key assumptions are not being met. Let’s explore how <strong>transforming</strong> variables can help us meet those assumptions.
-<ol style="list-style-type: lower-alpha">
-<li><p>One of the most common <em>variable transformations</em> that can help fix an unmet homoskedasticity assumption is a logarithmic transformation of the response variable. We will also try to better model the nonlinear shape of the <code>Price</code> vs. <code>Age</code> trend by using a logarithmic transformation. The <code>mutate()</code> function in the <code>dplyr</code> package allows us to create these new transformed variables:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># log() = natural logarithm</span>
-<span class="co"># The %&gt;% is a &quot;pipe&quot;: it takes the dataset to the left and provides it as input to the code that follows</span>
-homes_sample &lt;-<span class="st"> </span>homes_sample <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">mutate</span>(
-        <span class="dt">log_price =</span> <span class="kw">log</span>(Price),
-        <span class="dt">log_age =</span> <span class="kw">log</span>(Age <span class="op">+</span><span class="st"> </span><span class="dv">1</span>) <span class="co"># Some Age&#39;s are 0, so add 1 to prevent log(0), which is undefined</span>
-    )</code></pre></div></li>
-<li><p>Fit a linear regression model where <code>log_price</code> is predicted by <code>log_age</code> and obtain the residuals and fitted values:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mod2 &lt;-<span class="st"> </span><span class="kw">lm</span>(???, <span class="dt">data =</span> homes_sample)
-mod2_output &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
-    <span class="dt">residual =</span> <span class="kw">residuals</span>(???),
-    <span class="dt">predicted =</span> <span class="kw">fitted.values</span>(???)
-)</code></pre></div></li>
-<li><p>Check the trend, homoskedasticity, and normality assumptions for <code>mod2</code>. Do these assumptions seem to hold better for <code>mod1</code> or <code>mod2</code>?</p></li>
-</ol></li>
+<li><p><strong>GAMs</strong><br />
+We can fit GAMs in R by installing the <code>gam</code> package. Within <code>caret</code>, we can specify <code>gamLoess</code> for the method. We specify two values for the <code>span</code> tuning parameter: 0.4 and 0.5. We also have to say the degree of the local polynomial that we’re fitting in each small window: degree=1 for a linear fit.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">set.seed</span>(<span class="dv">2019</span>)
+gam_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
+    Outstate <span class="op">~</span><span class="st"> </span>Private <span class="op">+</span><span class="st"> </span>Room.Board <span class="op">+</span><span class="st"> </span>PhD <span class="op">+</span><span class="st"> </span>perc.alumni <span class="op">+</span><span class="st"> </span>Expend,
+    <span class="dt">data =</span> College,
+    <span class="dt">method =</span> <span class="st">&quot;gamLoess&quot;</span>,
+    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">span =</span> <span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.5</span>), <span class="dt">degree =</span> <span class="dv">1</span>),
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),
+    <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,
+    <span class="dt">na.action =</span> na.omit
+)</code></pre></div>
+<p>You can plot each LOESS component by calling the <code>plot()</code> function on the <code>finalModel</code> component <code>gam_mod</code>. (This is the model with the best set of tuning parameters.) This will produce a sequence of 5 plots, each illustrating a different smooth <span class="math inline">\(\hat{f}_i(x_i)\)</span> that describes how out-of-state tuition changes with that predictor, <em>holding constant</em> the other predictors.<br />
+That is, pick any 2 points on a plot. The difference in <span class="math inline">\(y\)</span> values gives the change in out-of-state tuition associated with the change in <span class="math inline">\(x\)</span> values, holding constant the other predictors.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)) <span class="co"># Set up a plot grid with 2 rows and 3 cols</span>
+<span class="kw">plot</span>(gam_mod<span class="op">$</span>finalModel)</code></pre></div>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-84-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Pick 1 or 2 of these plots and interpret your findings in context. Anything surprising or interesting?</p></li>
 </ol>
 <p><br> <br> <br></p>
-<ol start="4" style="list-style-type: decimal">
-<li><strong>Implications for statistical inference</strong><br />
-Since we have the entire population of New York homes, we can investigate whether or not confidence intervals “work as advertised” for the two models we investigated.
-<ol style="list-style-type: lower-alpha">
-<li><p>Display the 95% confidence intervals for the coefficients in <code>mod1</code> and <code>mod2</code> with the <code>confint()</code> function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(mod1)
-<span class="kw">confint</span>(mod2)</code></pre></div>
-By fitting the <code>Price ~ Age</code> model in the full population, we know that the true population value of the <code>Age</code> coefficient is -636.2551305.<br />
-And by fitting the <code>log_price ~ log_age</code> model in the full population, we know that the true population value of the <code>log_age</code> coefficient is -0.134966.<br />
-Does the 95% confidence interval “work as advertised” in this case?</li>
-<li><p>But what we did in part a just looked at one sample. If the 95% CI truly were working as advertised, 95% of samples would create 95% CIs that contain the true population value. We can run some simulations and see how 95% CIs “work” in 1000 different samples.<br />
-We find that for <code>mod1</code>, 95% CIs contain the true value of the <code>Age</code> coefficient 899 times.<br />
-We find that for <code>mod2</code>, 95% CIs contain the true value of the <code>log_age</code> coefficient 964 times.<br />
-With regards to statistical inference, what can you conclude about assumption violations and fixing those violations?</p></li>
-</ol></li>
-</ol>
+<p><strong>Note:</strong> If you want to read about how GAMs are fit, you can read about the <strong>backfitting algorithm</strong> in ISLR Section 7.7. When we want LOESS representations for the individual predictor functions, backfitting must be performed. Backfitting can sometimes run into computational issues but is fine most of the time. Least squares is more stable overall, and we can use least squares if we want spline representations of the individual predictor functions. The decision making point is whether we want spline or LOESS representations.</p>
 
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="motivation-and-review.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="accuracy-metrics-for-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="splines.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

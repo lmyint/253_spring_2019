@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="knn-bias-variance-tradeoff.html">
-<link rel="next" href="cross-validation-1.html">
+<link rel="next" href="local-regression-and-gams.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -147,7 +147,12 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="7.2" data-path="knn-bias-variance-tradeoff.html"><a href="knn-bias-variance-tradeoff.html#exercises-5"><i class="fa fa-check"></i><b>7.2</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="splines.html"><a href="splines.html"><i class="fa fa-check"></i><b>8</b> Splines</a><ul>
-<li class="chapter" data-level="8.1" data-path="splines.html"><a href="splines.html#exercises-6"><i class="fa fa-check"></i><b>8.1</b> Exercises</a></li>
+<li class="chapter" data-level="8.1" data-path="splines.html"><a href="splines.html#discussion-6"><i class="fa fa-check"></i><b>8.1</b> Discussion</a></li>
+<li class="chapter" data-level="8.2" data-path="splines.html"><a href="splines.html#exercises-6"><i class="fa fa-check"></i><b>8.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html"><i class="fa fa-check"></i><b>9</b> Local Regression and GAMs</a><ul>
+<li class="chapter" data-level="9.1" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#discussion-7"><i class="fa fa-check"></i><b>9.1</b> Discussion</a></li>
+<li class="chapter" data-level="9.2" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#exercises-7"><i class="fa fa-check"></i><b>9.2</b> Exercises</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="cross-validation-1.html"><a href="cross-validation-1.html"><i class="fa fa-check"></i><b>A</b> Cross-Validation</a><ul>
@@ -180,8 +185,86 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="splines" class="section level1">
 <h1><span class="header-section-number">Topic 8</span> Splines</h1>
+<div id="discussion-6" class="section level2">
+<h2><span class="header-section-number">8.1</span> Discussion</h2>
+<p><strong>Goal: model nonlinear trends in data</strong></p>
+<ul>
+<li>We’ve seen that KNN regression can learn nonlinear functions.</li>
+<li>We’ll see that splines can do the same.</li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Splines are a means of performing variable transformations</strong></p>
+<ul>
+<li>Let’s say that <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> are related with a logarithmic trend: <span class="math inline">\(y = \log(x) + \varepsilon\)</span>.</li>
+<li>We <strong>transform</strong> <span class="math inline">\(x\)</span> to make a new variable called <span class="math inline">\(x_{\text{new}}\)</span>, with <span class="math inline">\(x_{\text{new}}=\log(x)\)</span>.</li>
+<li>Then the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x_{\text{new}}\)</span> will be linear.</li>
+<li><strong>We do the same thing with splines.</strong>
+<ul>
+<li>But with splines, we create multiple transformed variables.</li>
+</ul></li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>How does the <code>ns()</code> function work?</strong></p>
+<ul>
+<li>If I want to split my quantitative predictor into <span class="math inline">\(r\)</span> regions, I’ll make <span class="math inline">\(r-1\)</span> cuts (<span class="math inline">\(r-1\)</span> <strong>knots</strong>).
+<ul>
+<li>Usually the knots are placed at regularly spaced quantiles (e.g. 25, 50, 75 for 3 knots)</li>
+</ul></li>
+<li>This number of regions <span class="math inline">\(r\)</span> is called the <strong>degrees of freedom</strong> (<code>df</code>) parameter. This is a tuning parameter of splines.</li>
+<li>Using only the quantitative predictor and <code>df</code> as inputs, <code>ns()</code> knows:
+<ul>
+<li>The exact number of transformation functions to use (this number is equal to <code>df</code>)</li>
+<li>The exact formulas of the transformation functions (they’re polynomial functions)</li>
+</ul></li>
+<li>How does R know the exact formulas of the transformation functions?
+<ul>
+<li>Calculus and linear algebra</li>
+</ul></li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Example</strong></p>
+<p>Suppose we break our predictor variable into 3 regions (2 knots).</p>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-66-1.png" width="960" style="display: block; margin: auto;" /></p>
+<ul>
+<li>We want to find coefficients for the following polynomials in the 3 regions:
+<ul>
+<li>Region 1: <span class="math inline">\(a_0 + a_1x + a_2x^2 + a_3x^3\)</span></li>
+<li>Region 2: <span class="math inline">\(a_4 + a_5x + a_6x^2 + a_7x^3\)</span></li>
+<li>Region 3: <span class="math inline">\(a_8 + a_9x + a_{10}x^2 + a_{11}x^3\)</span></li>
+</ul></li>
+<li>We need to make sure that, at the knots, the polynomials are continuous and have continuous first and second derivatives.</li>
+<li>We also make sure that at the minimum and maximum <span class="math inline">\(x\)</span>, the function is linear.</li>
+</ul>
+<p><br> <br></p>
+<p>When you run <code>ns()</code>, R doesn’t give these functions directly but does give a mathematically “nice” representation of those 3 functions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">sort</span>(college_subs<span class="op">$</span>PhD)
+spline_terms &lt;-<span class="st"> </span><span class="kw">ns</span>(x, <span class="dt">df =</span> <span class="dv">3</span>)
+<span class="kw">matplot</span>(x, spline_terms, <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="dt">lwd =</span> <span class="dv">6</span>, <span class="dt">xlab =</span> <span class="st">&quot;PhD&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Spline function&quot;</span>, <span class="dt">cex.axis =</span> <span class="fl">1.5</span>, <span class="dt">cex.lab =</span> <span class="fl">1.5</span>)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend =</span> <span class="kw">paste</span>(<span class="st">&quot;Spline function&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>), <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">lty =</span> <span class="st">&quot;solid&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>)</code></pre></div>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-67-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>(If you’ve taken linear algebra, this is a <em>basis representation</em>.)</p>
+<p>To <strong>use</strong> these transformation functions, we plug in the original PhD’s and get out 3 transformed versions of PhD. You can think of these transformations as corresponding to the polynomials in the 3 regions.</p>
+<p><br> <br> <br></p>
+<p><strong>Some predictions made from splines</strong></p>
+<ul>
+<li>Red line: linear fit</li>
+<li>Blue line: LOESS fit</li>
+<li>Orange line: spline fit with degrees of freedom (regions) = 4 (3 knots)</li>
+<li>Green line: spline fit with degrees of freedom (regions) = 20 (19 knots)</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gridExtra)
+p1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(college_subs, <span class="kw">aes</span>(<span class="dt">x =</span> PhD, <span class="dt">y =</span> Outstate)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
+p2 &lt;-<span class="st"> </span>p1 <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">ns</span>(x, <span class="dt">df =</span> <span class="dv">4</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">col =</span> <span class="st">&quot;orange&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
+p3 &lt;-<span class="st"> </span>p2 <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">formula =</span> y <span class="op">~</span><span class="st"> </span>splines<span class="op">::</span><span class="kw">ns</span>(x, <span class="dt">df =</span> <span class="dv">20</span>), <span class="dt">se =</span> <span class="ot">FALSE</span>, <span class="dt">col =</span> <span class="st">&quot;limegreen&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
+<span class="kw">grid.arrange</span>(p1, p2, p3, <span class="dt">ncol =</span> <span class="dv">3</span>)</code></pre></div>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-68-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><br> <br> <br> <br></p>
+</div>
 <div id="exercises-6" class="section level2">
-<h2><span class="header-section-number">8.1</span> Exercises</h2>
+<h2><span class="header-section-number">8.2</span> Exercises</h2>
 <p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/08-splines.Rmd">here</a>.</strong></p>
 <p>We’ll explore KNN regression and modeling with splines using the <code>College</code> dataset in the <code>ISLR</code> package (associated with our optional textbook). You’ll need to install the <code>splines</code> package as we’ll be using it subsequently.</p>
 <p>Our goal will be to build a model that predicts out-of-state tuition (<code>Outstate</code>).</p>
@@ -304,16 +387,13 @@ What tuning parameter is associated with splines? Add the spline tuning paramete
 
 </div>
 </div>
-
-
-
             </section>
 
           </div>
         </div>
       </div>
 <a href="knn-bias-variance-tradeoff.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="local-regression-and-gams.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

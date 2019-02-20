@@ -8,7 +8,120 @@ NextQ <- function() {
     question_num <<- question_num + 1
     question_num
 }
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
 ```
+
+## Discussion
+
+**Goal: model nonlinear trends in data**
+
+- We've seen that KNN regression can learn nonlinear functions.
+- We'll see that splines can do the same.
+
+<br>
+<br>
+<br>
+
+**Splines are a means of performing variable transformations**
+
+- Let's say that $y$ and $x$ are related with a logarithmic trend: $y = \log(x) + \varepsilon$.
+- We **transform** $x$ to make a new variable called $x_{\text{new}}$, with $x_{\text{new}}=\log(x)$.
+- Then the relationship between $y$ and $x_{\text{new}}$ will be linear.
+- **We do the same thing with splines.**
+    - But with splines, we create multiple transformed variables.
+
+
+```{r echo=FALSE, message=FALSE}
+library(ISLR)
+library(splines)
+library(dplyr)
+data(College)
+college_subs <- College %>%
+    mutate(adm_rate = Accept/Apps) %>%
+    select(Outstate, Private, Top10perc, Room.Board, PhD, S.F.Ratio, perc.alumni, Expend, Grad.Rate, adm_rate)
+```
+
+
+<br>
+<br>
+<br>
+
+**How does the `ns()` function work?**
+
+- If I want to split my quantitative predictor into $r$ regions, I'll make $r-1$ cuts ($r-1$ **knots**).
+    - Usually the knots are placed at regularly spaced quantiles (e.g. 25, 50, 75 for 3 knots)
+- This number of regions $r$ is called the **degrees of freedom** (`df`) parameter. This is a tuning parameter of splines.
+- Using only the quantitative predictor and `df` as inputs, `ns()` knows:
+    - The exact number of transformation functions to use (this number is equal to `df`)
+    - The exact formulas of the transformation functions (they're polynomial functions)
+- How does R know the exact formulas of the transformation functions?
+    - Calculus and linear algebra
+
+<br>
+<br>
+<br>
+
+**Example**
+
+Suppose we break our predictor variable into 3 regions (2 knots).
+
+```{r echo=FALSE}
+plot(college_subs$PhD, college_subs$Outstate, pch = 16, xlab = "PhD", ylab = "Outstate")
+knot_locs <- quantile(college_subs$PhD, c(1/3, 2/3))
+abline(v = knot_locs, lwd = 6, lty = "dashed", col = "red")
+text(x = c(50,74,90), y = 21000, paste("Region", 1:3), col = "red", cex = 1.5)
+```
+
+- We want to find coefficients for the following polynomials in the 3 regions:
+    - Region 1: $a_0 + a_1x + a_2x^2 + a_3x^3$
+    - Region 2: $a_4 + a_5x + a_6x^2 + a_7x^3$
+    - Region 3: $a_8 + a_9x + a_{10}x^2 + a_{11}x^3$
+- We need to make sure that, at the knots, the polynomials are continuous and have continuous first and second derivatives.
+- We also make sure that at the minimum and maximum $x$, the function is linear.
+
+<br>
+<br>
+
+When you run `ns()`, R doesn't give these functions directly but does give a mathematically "nice" representation of those 3 functions:
+
+```{r}
+x <- sort(college_subs$PhD)
+spline_terms <- ns(x, df = 3)
+matplot(x, spline_terms, type = "l", lty = "solid", lwd = 6, xlab = "PhD", ylab = "Spline function", cex.axis = 1.5, cex.lab = 1.5)
+legend("topleft", legend = paste("Spline function", 1:3), col = 1:3, lty = "solid", bty = "n", cex = 1.5)
+```
+
+(If you've taken linear algebra, this is a *basis representation*.)
+
+To **use** these transformation functions, we plug in the original PhD's and get out 3 transformed versions of PhD. You can think of these transformations as corresponding to the polynomials in the 3 regions.
+
+<br>
+<br>
+<br>
+
+**Some predictions made from splines**
+
+- Red line: linear fit
+- Blue line: LOESS fit
+- Orange line: spline fit with degrees of freedom (regions) = 4 (3 knots)
+- Green line: spline fit with degrees of freedom (regions) = 20 (19 knots)
+
+```{r}
+library(gridExtra)
+p1 <- ggplot(college_subs, aes(x = PhD, y = Outstate)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE, col = "red", lwd = 3) +
+    geom_smooth(method = "loess", se = FALSE, col = "blue", lwd = 3)
+p2 <- p1 + geom_smooth(method = "lm", formula = y ~ splines::ns(x, df = 4), se = FALSE, col = "orange", lwd = 3)
+p3 <- p2 + geom_smooth(method = "lm", formula = y ~ splines::ns(x, df = 20), se = FALSE, col = "limegreen", lwd = 3)
+grid.arrange(p1, p2, p3, ncol = 3)
+```
+
+<br>
+<br>
+<br>
+<br>
 
 
 ## Exercises

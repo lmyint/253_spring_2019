@@ -1,0 +1,137 @@
+# Local Regression and GAMs
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
+```
+
+## Discussion
+
+**Local regression**
+
+- Main tool: LOESS = locally estimated scatterplot smoothing
+- Fit local linear regression models, using only a subset of the data
+- How is this different from KNN regression?
+
+```{r echo=FALSE}
+p1 <- ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
+    geom_smooth(lwd = 3)
+p2 <- ggplot(College, aes(x = PhD, y = Outstate)) + geom_point() +
+    geom_smooth(lwd = 3)
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+<br>
+<br>
+<br>
+
+**Generalized additive models**
+
+Instead of assuming **linear** relationships between predictors and the response...
+
+$$\text{Outstate} = \beta_0 + \beta_1\text{Private} + \beta_2\text{PhD} + \beta_3\text{Expend} + \varepsilon$$
+
+...let's be more general and say that the relationships can be arbitrary functions?
+
+$$\text{Outstate} = \beta_0 + f_1(\text{Private}) + f_2(\text{PhD}) + f_3(\text{Expend}) + \varepsilon$$
+
+- If the functions $f_1, f_2, f_3$ can be described with splines, then the model is just like an ordinary linear regression model and can be fit with least squares.
+- Usually we have these functions be described with LOESS functions
+
+<br>
+<br>
+<br>
+
+## Exercises
+
+`r NextQ()`. **Writing pseudocode for LOESS**    
+    Pseudocode is an algorithm in words. Write pseudocode for the LOESS algorithm assuming that you are supplied the predictor $x$, response $y$, a span of 0.4. Your algorithm will use local *linear* fits. Assume that ordinary least squares rather than weighted least squares is used.    
+    Start from the following:
+    - Set up a grid of $x$ values from the minimum to maximum $x$
+    - For each $x$ in the grid:
+        - Step 1
+        - Step 2...
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **The LOESS tuning parameter**    
+    When you use `geom_smooth` in `ggplot` the smooth line is drawn by LOESS by default. The main tuning parameter we modify is `span`. The `span` gives the percent of data used in the local linear fit.
+    ```{r eval=FALSE}
+    ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
+        geom_smooth(span = 0.1, lwd = 3) + labs(title = "Span: 0.1")
+    ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
+        geom_smooth(span = 0.4, lwd = 3) + labs(title = "Span: 0.4")
+    ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
+        geom_smooth(span = 0.8, lwd = 3) + labs(title = "Span: 0.8")
+    ```
+    ```{r echo=FALSE, message=FALSE, fig.height=8}
+    library(gridExtra)
+    p1 <- ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
+        geom_smooth(span = 0.1, lwd = 3) + labs(title = "Span: 0.1")
+    p2 <- ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
+        geom_smooth(span = 0.4, lwd = 3) + labs(title = "Span: 0.4")
+    p3 <- ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
+        geom_smooth(span = 0.8, lwd = 3) + labs(title = "Span: 0.8")
+    grid.arrange(p1, p2, p3, ncol = 2, nrow = 2)
+    ```
+    a. Put `span` on our bias-variance tradeoff diagram along with labels for bias, variance, complexity, and flexibility.
+    b. How would you expect a plot of test RMSE versus `span` to look? Why?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **GAMs**    
+    We can fit GAMs in R by installing the `gam` package. Within `caret`, we can specify `gamLoess` for the method. We specify two values for the `span` tuning parameter: 0.4 and 0.5. We also have to say the degree of the local polynomial that we're fitting in each small window: degree=1 for a linear fit.
+    ```{r fig.height=10, warning=FALSE, message=FALSE}
+    library(caret)
+    set.seed(2019)
+    gam_mod <- train(
+        Outstate ~ Private + Room.Board + PhD + perc.alumni + Expend,
+        data = College,
+        method = "gamLoess",
+        tuneGrid = data.frame(span = c(0.4, 0.5), degree = 1),
+        trControl = trainControl(method = "cv", number = 10),
+        metric = "RMSE",
+        na.action = na.omit
+    )
+    ```
+    You can plot each LOESS component by calling the `plot()` function on the `finalModel` component `gam_mod`. (This is the model with the best set of tuning parameters.) This will produce a sequence of 5 plots, each illustrating a different smooth $\hat{f}_i(x_i)$ that describes how out-of-state tuition changes with that predictor, *holding constant* the other predictors.    
+    That is, pick any 2 points on a plot. The difference in $y$ values gives the change in out-of-state tuition associated with the change in $x$ values, holding constant the other predictors.
+    ```{r}
+    par(mfrow = c(2,3)) # Set up a plot grid with 2 rows and 3 cols
+    plot(gam_mod$finalModel)
+    ```
+
+    Pick 1 or 2 of these plots and interpret your findings in context. Anything surprising or interesting?
+
+<br>
+<br>
+<br>
+
+**Note:** If you want to read about how GAMs are fit, you can read about the **backfitting algorithm** in ISLR Section 7.7. When we want LOESS representations for the individual predictor functions, backfitting must be performed. Backfitting can sometimes run into computational issues but is fine most of the time. Least squares is more stable overall, and we can use least squares if we want spline representations of the individual predictor functions. The decision making point is whether we want spline or LOESS representations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
