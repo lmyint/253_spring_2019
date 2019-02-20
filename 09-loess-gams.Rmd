@@ -20,7 +20,12 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
 - Fit local linear regression models, using only a subset of the data
 - How is this different from KNN regression?
 
-```{r echo=FALSE}
+```{r echo=FALSE, warning=FALSE, messsage=FALSE}
+library(ISLR)
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+data(College)
 p1 <- ggplot(College, aes(x = Expend, y = Outstate)) + geom_point() +
     geom_smooth(lwd = 3)
 p2 <- ggplot(College, aes(x = PhD, y = Outstate)) + geom_point() +
@@ -106,15 +111,25 @@ $$\text{Outstate} = \beta_0 + f_1(\text{Private}) + f_2(\text{PhD}) + f_3(\text{
         na.action = na.omit
     )
     ```
-    You can plot each LOESS component by calling the `plot()` function on the `finalModel` component `gam_mod`. (This is the model with the best set of tuning parameters.) This will produce a sequence of 5 plots, each illustrating a different smooth $\hat{f}_i(x_i)$ that describes how out-of-state tuition changes with that predictor, *holding constant* the other predictors.    
+    You can plot each LOESS component by calling the `plot()` function on the `finalModel` component `gam_mod`. (This is the model with the best set of tuning parameters.) This will produce a sequence of 5 plots, each illustrating a different smooth $\hat{f}_i(x_i)$ that describes how out-of-state tuition changes with that predictor, *holding constant* the other predictors. The dotted lines show 2 standard errors.    
     That is, pick any 2 points on a plot. The difference in $y$ values gives the change in out-of-state tuition associated with the change in $x$ values, holding constant the other predictors.
     ```{r}
     par(mfrow = c(2,3)) # Set up a plot grid with 2 rows and 3 cols
-    plot(gam_mod$finalModel)
+    plot(gam_mod$finalModel, se = TRUE, col = "red", lwd = 3) # lwd = line width
     ```
 
-    Pick 1 or 2 of these plots and interpret your findings in context. Anything surprising or interesting?
+    a. Pick 1 or 2 of these plots and interpret your findings in context. Anything surprising or interesting?
+    b. If instead of LOESS representations for the 4 quantitative variables, we wanted spline representations, we can fit a least squares model with spline terms. We can then view the spline components using `plot.Gam()` from the `GAM` package.
+        ```{r}
+        library(gam) # Load for plot.Gam()
+        spline_mod <- lm(Outstate ~ Private + ns(Room.Board, df=4) + ns(PhD, df=4) + ns(perc.alumni, df=4) + ns(Expend, df=4), data = College)
+        par(mfrow = c(2,3))
+        plot.Gam(spline_mod, se = TRUE, col = "red", lwd = 3)
+        ```
 
+        How do the spline and LOESS components compare?
+
+<br>
 <br>
 <br>
 <br>
