@@ -57,7 +57,7 @@ Other topics + project work time: Weeks 12-14
 - **Friday:** Quiz 2. Remaining time for a review activity.
 
 
+## Week 6: 2/25 - 3/1 {-}
 
-
-
-
+- **Monday:** Logistic regression ([Video](https://youtu.be/_9_h4sl7W5A), [Slides](https://drive.google.com/file/d/1DbMFCoHuiVSGh9IxSpQNPRZ9lxQMAlzo/view?usp=sharing))    
+    Related ISLR reading: Sections 4.1-4.3

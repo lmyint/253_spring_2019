@@ -137,16 +137,54 @@ $$\text{Outstate} = \beta_0 + f_1(\text{Private}) + f_2(\text{PhD}) + f_3(\text{
 **Note:** If you want to read about how GAMs are fit, you can read about the **backfitting algorithm** in ISLR Section 7.7. When we want LOESS representations for the individual predictor functions, backfitting must be performed. Backfitting can sometimes run into computational issues but is fine most of the time. Least squares is more stable overall, and we can use least squares if we want spline representations of the individual predictor functions. The decision making point is whether we want spline or LOESS representations.
 
 
+## How to choose between methods?!?
+
+We've covered many tools. Let's unpack their pros and cons in different settings as well as some ideas that will carry on as we talk about classification.
+
+```
+Ordinary linear regression
+    |                                   GAMs and LOESS
+    |                                     |   
+    |                                     |           KNN
+<---|-------------------------------------|------------|------->
+parametric                                          nonparametric
+```
+
+**KNN regression**
+
+- I introduced KNN as a means of introducing the idea of nonparametric methods. The idea of nonparametric methods is going to carry through to classification, coming up next!
+- Pros:
+    - KNN is a nonparametric method, which might be preferable if we don't believe that a parametric model, such as a linear regression model (even with spline terms), holds or if we don't want to assume a parametric model. How to check? Revisit our regression assumptions! Fit a model with the potential predictors, and look at diagnostic plots.
+- Cons:
+    - Look back at the video to visualize the functions learned by KNN for different values of K. Even with large K, the function learned looks "blocky" and has sharp angles. Thus, KNN doesn't look smooth until we increase K a lot, but at that point, we might suffer from too much bias in the bias-variance tradeoff.
+    - The curse of dimensionality. This curse may seem kind of odd in that, normally, we want a lot of predictors. But as we've seen having a lot of predictors, makes distances between cases potentially quite large, rendering the nearest neighbors to a case actually quite dissimilar. But we can save ourselves in two ways:
+        - Much bigger sample size! Sometimes this is feasible.
+        - Reduce dimensionality! The technique of **dimension reduction** is an unsupervised learning technique that combines existing predictors into a smaller set of predictors. We'll talk about a technique called PCA later in the semester.
+
+**Splines**
+
+- Pros:
+    - Splines pretty nicely cover all sorts of nonlinear trends and are computationally very attractive because spline terms fit exactly into a least squares linear regression framework. Least squares models are very easy to fit computationally.
+- Cons:
+    - Splines are still under the umbrella of a parametric model, because we assume the form $y = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p$. Really, this is a tiny con. Splines are capable of being quite flexible given enough knots. In this sense, splines are pretty nonparametric even though they outwardly take on a parametric-looking form.
+    - It is possible to create multidimensional splines by creating interactions between spline terms for different predictors. This suffers from the curse of dimensionality like KNN because we are trying to estimate a wavy surface in a large dimensional (many variable) space where data points will only sparsely cover the many many regions of the space.
+
+**LOESS**
+
+- Pros:
+    - I find LOESS very interpretable. At each test case, a local linear model is fit, which fits well with the idea that if you zoom enough into any function (no matter how curvy), you'll see a line.
+    - LOESS is a popular way to see smooth trends on scatterplots, which is why `ggplot` uses it in `geom_smooth()`.
+- Cons:
+    - If there are a lot of data points, fitting a LOESS over the entire range of the predictor can be slow because so many local linear regressions must be fit.    
+    We can avoid this if we don't actually need the fit over the entire range. If we want to just make a prediction about the response for a test case, we only need to fit the local regression at the x value for that test case.
 
 
+**GAMs**
 
-
-
-
-
-
-
-
-
+- Whether the indvidual functions within a GAM are represented with LOESS or splines, the models are still generally called GAMs. But when you describe your model, you should say whether you are using a LOESS or spline representation
+- Pros:
+    - GAMs have the interpretability of linear regresson models (relationships for one predictor hold constant the other predictors), and they also flexibly model nonlinearity.
+- Cons:
+    - GAM still make the assumption that you add up the individual functions of the predictors (linear combination of the functions). (Why add? Why not a product or quotient?) Still, this additivity allows for its interpretability, which is a definite plus.
 
 

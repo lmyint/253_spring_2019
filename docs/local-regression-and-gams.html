@@ -109,6 +109,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3-24---28"><i class="fa fa-check"></i>Week 3: 2/4 - 2/8</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-4-211---215"><i class="fa fa-check"></i>Week 4: 2/11 - 2/15</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-5-218---222"><i class="fa fa-check"></i>Week 5: 2/18 - 2/22</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-6-225---31"><i class="fa fa-check"></i>Week 6: 2/25 - 3/1</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ml-and-society.html"><a href="ml-and-society.html"><i class="fa fa-check"></i>ML and Society</a></li>
 <li class="part"><span><b>I Regression: Model Evaluation</b></span></li>
@@ -153,6 +154,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="9" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html"><i class="fa fa-check"></i><b>9</b> Local Regression and GAMs</a><ul>
 <li class="chapter" data-level="9.1" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#discussion-7"><i class="fa fa-check"></i><b>9.1</b> Discussion</a></li>
 <li class="chapter" data-level="9.2" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#exercises-7"><i class="fa fa-check"></i><b>9.2</b> Exercises</a></li>
+<li class="chapter" data-level="9.3" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#how-to-choose-between-methods"><i class="fa fa-check"></i><b>9.3</b> How to choose between methods?!?</a></li>
 </ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="cross-validation-1.html"><a href="cross-validation-1.html"><i class="fa fa-check"></i><b>A</b> Cross-Validation</a><ul>
@@ -272,6 +274,70 @@ spline_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(Outstate <sp
 </ol>
 <p><br> <br> <br> <br></p>
 <p><strong>Note:</strong> If you want to read about how GAMs are fit, you can read about the <strong>backfitting algorithm</strong> in ISLR Section 7.7. When we want LOESS representations for the individual predictor functions, backfitting must be performed. Backfitting can sometimes run into computational issues but is fine most of the time. Least squares is more stable overall, and we can use least squares if we want spline representations of the individual predictor functions. The decision making point is whether we want spline or LOESS representations.</p>
+</div>
+<div id="how-to-choose-between-methods" class="section level2">
+<h2><span class="header-section-number">9.3</span> How to choose between methods?!?</h2>
+<p>We’ve covered many tools. Let’s unpack their pros and cons in different settings as well as some ideas that will carry on as we talk about classification.</p>
+<pre><code>Ordinary linear regression
+    |                                   GAMs and LOESS
+    |                                     |   
+    |                                     |           KNN
+&lt;---|-------------------------------------|------------|-------&gt;
+parametric                                          nonparametric</code></pre>
+<p><strong>KNN regression</strong></p>
+<ul>
+<li>I introduced KNN as a means of introducing the idea of nonparametric methods. The idea of nonparametric methods is going to carry through to classification, coming up next!</li>
+<li>Pros:
+<ul>
+<li>KNN is a nonparametric method, which might be preferable if we don’t believe that a parametric model, such as a linear regression model (even with spline terms), holds or if we don’t want to assume a parametric model. How to check? Revisit our regression assumptions! Fit a model with the potential predictors, and look at diagnostic plots.</li>
+</ul></li>
+<li>Cons:
+<ul>
+<li>Look back at the video to visualize the functions learned by KNN for different values of K. Even with large K, the function learned looks “blocky” and has sharp angles. Thus, KNN doesn’t look smooth until we increase K a lot, but at that point, we might suffer from too much bias in the bias-variance tradeoff.</li>
+<li>The curse of dimensionality. This curse may seem kind of odd in that, normally, we want a lot of predictors. But as we’ve seen having a lot of predictors, makes distances between cases potentially quite large, rendering the nearest neighbors to a case actually quite dissimilar. But we can save ourselves in two ways:
+<ul>
+<li>Much bigger sample size! Sometimes this is feasible.</li>
+<li>Reduce dimensionality! The technique of <strong>dimension reduction</strong> is an unsupervised learning technique that combines existing predictors into a smaller set of predictors. We’ll talk about a technique called PCA later in the semester.</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>Splines</strong></p>
+<ul>
+<li>Pros:
+<ul>
+<li>Splines pretty nicely cover all sorts of nonlinear trends and are computationally very attractive because spline terms fit exactly into a least squares linear regression framework. Least squares models are very easy to fit computationally.</li>
+</ul></li>
+<li>Cons:
+<ul>
+<li>Splines are still under the umbrella of a parametric model, because we assume the form <span class="math inline">\(y = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\)</span>. Really, this is a tiny con. Splines are capable of being quite flexible given enough knots. In this sense, splines are pretty nonparametric even though they outwardly take on a parametric-looking form.</li>
+<li>It is possible to create multidimensional splines by creating interactions between spline terms for different predictors. This suffers from the curse of dimensionality like KNN because we are trying to estimate a wavy surface in a large dimensional (many variable) space where data points will only sparsely cover the many many regions of the space.</li>
+</ul></li>
+</ul>
+<p><strong>LOESS</strong></p>
+<ul>
+<li>Pros:
+<ul>
+<li>I find LOESS very interpretable. At each test case, a local linear model is fit, which fits well with the idea that if you zoom enough into any function (no matter how curvy), you’ll see a line.</li>
+<li>LOESS is a popular way to see smooth trends on scatterplots, which is why <code>ggplot</code> uses it in <code>geom_smooth()</code>.</li>
+</ul></li>
+<li>Cons:
+<ul>
+<li>If there are a lot of data points, fitting a LOESS over the entire range of the predictor can be slow because so many local linear regressions must be fit.<br />
+We can avoid this if we don’t actually need the fit over the entire range. If we want to just make a prediction about the response for a test case, we only need to fit the local regression at the x value for that test case.</li>
+</ul></li>
+</ul>
+<p><strong>GAMs</strong></p>
+<ul>
+<li>Whether the indvidual functions within a GAM are represented with LOESS or splines, the models are still generally called GAMs. But when you describe your model, you should say whether you are using a LOESS or spline representation</li>
+<li>Pros:
+<ul>
+<li>GAMs have the interpretability of linear regresson models (relationships for one predictor hold constant the other predictors), and they also flexibly model nonlinearity.</li>
+</ul></li>
+<li>Cons:
+<ul>
+<li>GAM still make the assumption that you add up the individual functions of the predictors (linear combination of the functions). (Why add? Why not a product or quotient?) Still, this additivity allows for its interpretability, which is a definite plus.</li>
+</ul></li>
+</ul>
 
 </div>
 </div>
