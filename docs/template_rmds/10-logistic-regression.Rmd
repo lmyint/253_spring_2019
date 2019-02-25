@@ -1,0 +1,123 @@
+---
+title: "Logistic Regression"
+author: "Your Name"
+output: html_document
+---
+
+```{r}
+# Load packages and data
+library(caret)
+library(dplyr)
+
+vert <- read.csv("https://www.macalester.edu/~ajohns24/data/vertebral_column.csv")
+
+# Remove an outlier and make the "class" column categorical
+vert <- vert %>% 
+    filter(spondylolisthesis_grade < 300) %>%
+    mutate(class = as.factor(class))
+
+# Check out the first few rows
+head(vert, 3)
+
+# How many patients of each class are there?
+table(vert$class)
+```
+
+
+**Fitting logistic regression in `caret`**
+
+```{r}
+set.seed(333)
+vert_mod <- train(
+    class ~ .,
+    data = vert,
+    method = "glm",
+    family = binomial,
+    metric = "Accuracy",
+    trControl = trainControl(???),
+    na.action = na.omit
+)
+```
+
+
+
+**Nailing down `caret`'s evaluation metrics**
+
+```{r}
+vert_mod
+vert_mod$results
+```
+
+
+```{r}
+# predict() below uses 0.5 as a probability threshold by default
+mod_pred <- predict(vert_mod, newdata = vert)
+# Compute confusion matrix and statistics
+conf_mat <- confusionMatrix(data = mod_pred, reference = vert$class, positive = "1")
+# Print results
+conf_mat
+```
+
+
+
+
+**Varying the probability threshold: for-loops**
+
+```{r}
+# Obtain the actual observed vertebral classes from the data
+actual_classes <- vert$class
+# Obtain the predicted probability of vertebral irregularity (Y=1 event)
+# type="response" converts log odds, to odds, and finally to a probability
+pred_probs <- predict(vert_mod$finalModel, newdata = vert, type = "response")
+
+# Create a regularly-spaced sequence of probability thresholds
+prob_threshs <- seq(0, 1, by = 0.01)
+
+# Create empty vectors to store the sensitivity and specificity
+# for all values of the probability thresholds
+sens_vec <- rep(0, length(prob_threshs))
+spec_vec <- rep(0, length(prob_threshs))
+
+# Loop over all of the thresholds
+# seq_along() makes a sequence 1,2,...,length of prob_threshs
+# In each iteration of the loop, the variable i takes these integer values
+for (i in seq_along(prob_threshs)) {
+    # Get the probability threshold for this iteration
+    thresh <- prob_threshs[i]
+    # If the predicted prob > threshold, predict "1".
+    # Otherwise, predict "0".
+    hard_preds <- ifelse(pred_probs > thresh, "1", "0")
+    # Create boolean TRUE/FALSE vectors indicating whether the
+    # prediction for each case is a TP, TN, FP, FN.
+    is_tp <- hard_preds=="1" & actual_classes=="1"
+    is_tn <- ???
+    is_fp <- ???
+    is_fn <- ???
+    # Calculate sensitivity and specificity
+    # Hint: sum(is_tp) gives the number of TPs
+    sensitivity <- ???
+    specificity <- ???
+    # Store sensitivity specificity in their containers
+    sens_vec[i] <- sensitivity
+    ???
+}
+```
+
+
+
+
+**ROC curves and AUC**
+
+```{r}
+plot(1-spec_vec, sens_vec)
+abline(a = 0, b = 1, col = "gray")
+```
+
+```{r}
+roc_fun <- approxfun(x = 1-spec_vec, y = sens_vec)
+integrate(roc_fun, lower = 0, upper = 1)
+```
+
+
+
+

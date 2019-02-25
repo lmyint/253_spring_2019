@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Topic 10 Logistic Regression | MATH 253: Machine Learning</title>
+  <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+
+  <meta property="og:title" content="Topic 10 Logistic Regression | MATH 253: Machine Learning" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  <meta name="github-repo" content="lmyint/253_spring_2019" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Topic 10 Logistic Regression | MATH 253: Machine Learning" />
+  
+  <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="local-regression-and-gams.html">
+<link rel="next" href="cross-validation-1.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code > span.dt { text-decoration: underline; } /* DataType */
+code > span.dv { color: #44aa43; } /* DecVal */
+code > span.bn { color: #44aa43; } /* BaseN */
+code > span.fl { color: #44aa43; } /* Float */
+code > span.ch { color: #049b0a; } /* Char */
+code > span.st { color: #049b0a; } /* String */
+code > span.co { color: #0066ff; font-style: italic; } /* Comment */
+code > span.al { color: #ffff00; } /* Alert */
+code > span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code > span.er { color: #ffff00; font-weight: bold; } /* Error */
+code > span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #049b0a; } /* SpecialChar */
+code > span.vs { color: #049b0a; } /* VerbatimString */
+code > span.ss { color: #049b0a; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { font-weight: bold; } /* Preprocessor */
+code > span.at { } /* Attribute */
+code > span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code > span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href = "./">MATH 253: Machine Learning</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html"><i class="fa fa-check"></i>Schedule</a><ul>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#tentative-overall-schedule"><i class="fa fa-check"></i>Tentative overall schedule</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-2-128---21"><i class="fa fa-check"></i>Week 2: 1/28 - 2/1</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-3-24---28"><i class="fa fa-check"></i>Week 3: 2/4 - 2/8</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-4-211---215"><i class="fa fa-check"></i>Week 4: 2/11 - 2/15</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-5-218---222"><i class="fa fa-check"></i>Week 5: 2/18 - 2/22</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-6-225---31"><i class="fa fa-check"></i>Week 6: 2/25 - 3/1</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="ml-and-society.html"><a href="ml-and-society.html"><i class="fa fa-check"></i>ML and Society</a></li>
+<li class="part"><span><b>I Regression: Model Evaluation</b></span></li>
+<li class="chapter" data-level="1" data-path="motivation-and-review.html"><a href="motivation-and-review.html"><i class="fa fa-check"></i><b>1</b> Motivation and Review</a><ul>
+<li class="chapter" data-level="1.1" data-path="motivation-and-review.html"><a href="motivation-and-review.html#activity-motivating-main-ideas"><i class="fa fa-check"></i><b>1.1</b> Activity: motivating main ideas</a><ul>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-a"><i class="fa fa-check"></i>Situation A</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-b"><i class="fa fa-check"></i>Situation B</a></li>
+<li class="chapter" data-level="" data-path="motivation-and-review.html"><a href="motivation-and-review.html#situation-c"><i class="fa fa-check"></i>Situation C</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="motivation-and-review.html"><a href="motivation-and-review.html#review-exercises"><i class="fa fa-check"></i><b>1.2</b> Review exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="regression-assumptions.html"><a href="regression-assumptions.html"><i class="fa fa-check"></i><b>2</b> Regression Assumptions</a><ul>
+<li class="chapter" data-level="2.1" data-path="regression-assumptions.html"><a href="regression-assumptions.html#discussion"><i class="fa fa-check"></i><b>2.1</b> Discussion</a></li>
+<li class="chapter" data-level="2.2" data-path="regression-assumptions.html"><a href="regression-assumptions.html#exercises"><i class="fa fa-check"></i><b>2.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html"><i class="fa fa-check"></i><b>3</b> Accuracy Metrics for Regression</a><ul>
+<li class="chapter" data-level="3.1" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#discussion-1"><i class="fa fa-check"></i><b>3.1</b> Discussion</a></li>
+<li class="chapter" data-level="3.2" data-path="accuracy-metrics-for-regression.html"><a href="accuracy-metrics-for-regression.html#exercises-1"><i class="fa fa-check"></i><b>3.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="cross-validation.html"><a href="cross-validation.html"><i class="fa fa-check"></i><b>4</b> Cross-Validation</a><ul>
+<li class="chapter" data-level="4.1" data-path="cross-validation.html"><a href="cross-validation.html#discussion-2"><i class="fa fa-check"></i><b>4.1</b> Discussion</a></li>
+<li class="chapter" data-level="4.2" data-path="cross-validation.html"><a href="cross-validation.html#exercises-2"><i class="fa fa-check"></i><b>4.2</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Regression: Model Building</b></span></li>
+<li class="chapter" data-level="5" data-path="subset-selection.html"><a href="subset-selection.html"><i class="fa fa-check"></i><b>5</b> Subset Selection</a><ul>
+<li class="chapter" data-level="5.1" data-path="subset-selection.html"><a href="subset-selection.html#discussion-3"><i class="fa fa-check"></i><b>5.1</b> Discussion</a></li>
+<li class="chapter" data-level="5.2" data-path="subset-selection.html"><a href="subset-selection.html#exercises-3"><i class="fa fa-check"></i><b>5.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html"><i class="fa fa-check"></i><b>6</b> Shrinkage/Regularization</a><ul>
+<li class="chapter" data-level="6.1" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html#discussion-4"><i class="fa fa-check"></i><b>6.1</b> Discussion</a></li>
+<li class="chapter" data-level="6.2" data-path="shrinkageregularization.html"><a href="shrinkageregularization.html#exercises-4"><i class="fa fa-check"></i><b>6.2</b> Exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Regression: More Flexibility</b></span></li>
+<li class="chapter" data-level="7" data-path="knn-bias-variance-tradeoff.html"><a href="knn-bias-variance-tradeoff.html"><i class="fa fa-check"></i><b>7</b> KNN &amp; Bias-Variance Tradeoff</a><ul>
+<li class="chapter" data-level="7.1" data-path="knn-bias-variance-tradeoff.html"><a href="knn-bias-variance-tradeoff.html#discussion-5"><i class="fa fa-check"></i><b>7.1</b> Discussion</a></li>
+<li class="chapter" data-level="7.2" data-path="knn-bias-variance-tradeoff.html"><a href="knn-bias-variance-tradeoff.html#exercises-5"><i class="fa fa-check"></i><b>7.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="splines.html"><a href="splines.html"><i class="fa fa-check"></i><b>8</b> Splines</a><ul>
+<li class="chapter" data-level="8.1" data-path="splines.html"><a href="splines.html#discussion-6"><i class="fa fa-check"></i><b>8.1</b> Discussion</a></li>
+<li class="chapter" data-level="8.2" data-path="splines.html"><a href="splines.html#exercises-6"><i class="fa fa-check"></i><b>8.2</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html"><i class="fa fa-check"></i><b>9</b> Local Regression and GAMs</a><ul>
+<li class="chapter" data-level="9.1" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#discussion-7"><i class="fa fa-check"></i><b>9.1</b> Discussion</a></li>
+<li class="chapter" data-level="9.2" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#exercises-7"><i class="fa fa-check"></i><b>9.2</b> Exercises</a></li>
+<li class="chapter" data-level="9.3" data-path="local-regression-and-gams.html"><a href="local-regression-and-gams.html#how-to-choose-between-methods"><i class="fa fa-check"></i><b>9.3</b> How to choose between methods?!?</a></li>
+</ul></li>
+<li class="part"><span><b>IV Classification</b></span></li>
+<li class="chapter" data-level="10" data-path="logistic-regression.html"><a href="logistic-regression.html"><i class="fa fa-check"></i><b>10</b> Logistic Regression</a><ul>
+<li class="chapter" data-level="10.1" data-path="logistic-regression.html"><a href="logistic-regression.html#discussion-8"><i class="fa fa-check"></i><b>10.1</b> Discussion</a></li>
+<li class="chapter" data-level="10.2" data-path="logistic-regression.html"><a href="logistic-regression.html#exercises-8"><i class="fa fa-check"></i><b>10.2</b> Exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendix</b></span></li>
+<li class="chapter" data-level="A" data-path="cross-validation-1.html"><a href="cross-validation-1.html"><i class="fa fa-check"></i><b>A</b> Cross-Validation</a><ul>
+<li class="chapter" data-level="A.1" data-path="cross-validation-1.html"><a href="cross-validation-1.html#objects"><i class="fa fa-check"></i><b>A.1</b> Objects</a></li>
+<li class="chapter" data-level="A.2" data-path="cross-validation-1.html"><a href="cross-validation-1.html#subsetting"><i class="fa fa-check"></i><b>A.2</b> Subsetting</a></li>
+<li class="chapter" data-level="A.3" data-path="cross-validation-1.html"><a href="cross-validation-1.html#writing-r-functions"><i class="fa fa-check"></i><b>A.3</b> Writing R functions</a></li>
+<li class="chapter" data-level="A.4" data-path="cross-validation-1.html"><a href="cross-validation-1.html#for-loops-and-control-flow"><i class="fa fa-check"></i><b>A.4</b> <code>for</code>-loops and control flow</a></li>
+<li class="chapter" data-level="A.5" data-path="cross-validation-1.html"><a href="cross-validation-1.html#building-our-cross-validation-function"><i class="fa fa-check"></i><b>A.5</b> Building our cross-validation function!</a></li>
+<li class="chapter" data-level="A.6" data-path="cross-validation-1.html"><a href="cross-validation-1.html#aside-apply-functions"><i class="fa fa-check"></i><b>A.6</b> Aside: <code>apply()</code> functions</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">MATH 253: Machine Learning</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="logistic-regression" class="section level1">
+<h1><span class="header-section-number">Topic 10</span> Logistic Regression</h1>
+<div id="discussion-8" class="section level2">
+<h2><span class="header-section-number">10.1</span> Discussion</h2>
+<div class="figure">
+<img src="images/class_flow3.png" />
+
+</div>
+<p><br> <br> <br> <br></p>
+<p><strong>Linear vs Logistic Regression</strong></p>
+<ul>
+<li><strong>Linear regression assumptions</strong><br />
+<span class="math inline">\(y\)</span> is a quantitative response variable with<br />
+<span class="math display">\[y = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p + \varepsilon \qquad \text{ where } \qquad \varepsilon \stackrel{ind}{\sim} N(0, \sigma^2)\]</span></li>
+<li><p><strong>Logistic regression assumptions</strong><br />
+<span class="math inline">\(y\)</span> is a binary (0/1) response variable.<br />
+Let <span class="math inline">\(P(y=1 \mid x)\)</span> denote the probability that <span class="math inline">\(y=1\)</span> given (as a function of) values of the predictors <span class="math inline">\(x\)</span>.<br />
+A <strong>Bernoulli model</strong> is a model for binary responses (a coin flip model). Then<br />
+<span class="math display">\[y \stackrel{ind}{\sim} \text{Bernoulli}(P(y=1 \mid x)) \qquad \text{ i.e. } y = \begin{cases}
+1 &amp; \text{ w/ probability } P(y=1 \mid x) \\ 0 &amp; \text{ w/ probability } 1-P(y=1 \mid x) \\
+\end{cases}\]</span> where <span class="math display">\[\log \left(\frac{P(y=1 \mid x)}{1-P(y=1 \mid x)} \right) = \log \left(\text{odds}(y=1 \mid x) \right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\]</span> equivalently <span class="math display">\[p(x) = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}\]</span><br />
+Note: in statistics, “log” is the natural log (ln) by default</p>
+<ul>
+<li>If we wish to use logistic regression for statistical inference:
+<ul>
+<li>There are <strong>link tests</strong> to test whether <span class="math inline">\(\log(p/(1-p))\)</span> is a good function to use on the left to <em>link</em> to the predictors.</li>
+<li>There is a test for checking whether the linear terms on the right suffice (Box-Tidwell test).</li>
+</ul></li>
+<li>We will focus on using logistic regression for prediction purposes.</li>
+</ul></li>
+</ul>
+<p><br> <br> <br> <br></p>
+<p><strong>Using a logistic regression model for prediction</strong></p>
+<ul>
+<li>Given values of predictor variables, the <strong>log odds</strong> is given directly.</li>
+<li>Transform to <strong>odds</strong> by exponentiating</li>
+<li>Transform to <strong>probability</strong> with <span class="math inline">\(p = \text{odds}/(1+\text{odds})\)</span></li>
+<li>Applying a probability threshold gives hard classifications
+<ul>
+<li><strong>Overall accuracy:</strong> out of all cases, fraction of correct classifications</li>
+<li><strong>Sensitivity:</strong> out of the cases that are truly positive, how many of those were correctly classified as positive?</li>
+<li><strong>Specificity:</strong> out of the cases that are truly negative, how many of those were correctly classified as negative?</li>
+</ul></li>
+<li>Why look at just one probability threshold?
+<ul>
+<li>We will look at many thresholds.</li>
+<li>We’ll explore a new computing tool in R, <strong>for loops</strong>, to loop over many thresholds.</li>
+<li>Through this, we’ll build up another evaluation tool: the <strong>ROC curve (receiver operating characteristic)</strong> and also <strong>AUC (area under the ROC curve)</strong>.</li>
+</ul></li>
+</ul>
+<p><br> <br> <br> <br></p>
+</div>
+<div id="exercises-8" class="section level2">
+<h2><span class="header-section-number">10.2</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/10-logistic-regression.Rmd">here</a>.</strong></p>
+<p>Machine learning models provide a powerful tool for medical diagnosis. In these exercises, we’ll look at data collected by Dr. Henrique da Mota available on the <a href="https://archive.ics.uci.edu/ml/datasets/Vertebral+Column">UCI Machine Learning Repository</a>. We’ll use this data to develop models that can be used to diagnose orthopedic patients’ vertebral columns as “irregular” or “regular”. Irregular vertebral columns either exhibit <a href="https://en.wikipedia.org/wiki/Spondylolisthesis">spondilolysthesis</a> (a condition where one vertebra is displaced relative to another) or <a href="https://en.wikipedia.org/wiki/Spinal_disc_herniation">disk hernia</a> (a condition in which connective tissue between vertebra is damaged).</p>
+<p>For each of 309 patients, the dataset contains 6 vertebral measurements (potential predictors) along with the patient’s vertebral <code>class</code> (1 = irregular, 0 = regular). <strong>It’s important to keep in mind that each row in the dataset represents a real patient:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+vert &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.macalester.edu/~ajohns24/data/vertebral_column.csv&quot;</span>)
+
+<span class="co"># Remove an outlier and make the &quot;class&quot; column categorical</span>
+vert &lt;-<span class="st"> </span>vert <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(spondylolisthesis_grade <span class="op">&lt;</span><span class="st"> </span><span class="dv">300</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">as.factor</span>(class))
+
+<span class="co"># Check out the first few rows</span>
+<span class="kw">head</span>(vert, <span class="dv">3</span>)</code></pre></div>
+<pre><code>##   pelvic_incidence pelvic_tilt lumbar_angle sacral_slope pelvic_radius
+## 1            63.03       22.55        39.61        40.48         98.67
+## 2            39.06       10.06        25.02        29.00        114.41
+## 3            68.83       22.22        50.09        46.61        105.99
+##   spondylolisthesis_grade class
+## 1                   -0.25     1
+## 2                    4.56     1
+## 3                   -3.53     1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># How many patients of each class are there?</span>
+<span class="kw">table</span>(vert<span class="op">$</span>class)</code></pre></div>
+<pre><code>## 
+##   0   1 
+## 100 209</code></pre>
+<p><br> <br> <br></p>
+<ol style="list-style-type: decimal">
+<li><strong>Thinking about assumptions</strong><br />
+Suppose that we used hypothesis tests to assess logistic regression assumptions and determined that assumptions could be violated. What would be the implications for statistical inference? Specifically what could you say about the performance of 99% confidence intervals?</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Planning model evaluation</strong><br />
+You’ll be comparing a few models for predicting vertebral class. Describe how cross-validation can be used to fairly compare models. Outline the procedure and how a final metric is computed.</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Fitting logistic regression in <code>caret</code></strong><br />
+We’ll explore a logistic regression model with all predictors. You can fit this model in <code>caret</code> as below.
+<ul>
+<li><code>method = &quot;glm&quot;</code> means “generalized linear model” (GLM). Logistic regression is a linear model (the right hand side). The “generalized” indicates that more types of response variables than just quantitative (for linear regression) can be considered.</li>
+<li><code>family = binomial</code>: The Bernoulli model is a model for one trial (one coin flip). The binomial model is a model for multiple trials (multiple coin flips). This is how you communicate that you want <strong>logistic</strong> regression as opposed to some other GLM.</li>
+<li><code>metric = &quot;Accuracy&quot;</code>: as opposed to “RMSE” in the regression setting</li>
+<li><code>trControl</code>: Fill this in to use 10-fold CV.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">333</span>)
+vert_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
+    class <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> vert,
+    <span class="dt">method =</span> <span class="st">&quot;glm&quot;</span>,
+    <span class="dt">family =</span> binomial,
+    <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(???),
+    <span class="dt">na.action =</span> na.omit
+)</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Nailing down <code>caret</code>’s evaluation metrics</strong>
+<ol style="list-style-type: lower-alpha">
+<li>When you print <code>vert_mod</code> or <code>vert_mod$results</code>, the CV-estimated accuracy is reported. Verify this estimate by hand by using the <code>Accuracy</code> column within <code>vert_mod$resample</code>. (To access a column, use <code>$column_name</code>.)</li>
+<li><p><code>caret</code> has a <code>confusionMatrix()</code> function that takes as input predictions from a model and the true classes. It outputs the confusion matrix and a number of accuracy metrics and statistics. We also specify which of “0” or “1” is the “positive” class.<br />
+There are a lot of metrics computed and reported! We are not going to focus on all of them, but we will try to make sense of many. You’ll check many of these by hand using the confusion matrix at the top. (Don’t worry about Kappa or McNemar for now.)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># predict() below uses 0.5 as a probability threshold by default</span>
+mod_pred &lt;-<span class="st"> </span><span class="kw">predict</span>(vert_mod, <span class="dt">newdata =</span> vert)
+<span class="co"># Compute confusion matrix and statistics</span>
+conf_mat &lt;-<span class="st"> </span><span class="kw">confusionMatrix</span>(<span class="dt">data =</span> mod_pred, <span class="dt">reference =</span> vert<span class="op">$</span>class, <span class="dt">positive =</span> <span class="st">&quot;1&quot;</span>)
+<span class="co"># Print results</span>
+conf_mat</code></pre></div></li>
+<li>Compute by hand the overall accuracy and check against “Accuracy”.
+<ul>
+<li>The “95% CI” is a 95% confidence interval for that Accuracy estimate. What information does it give us?</li>
+</ul></li>
+<li>What in the world is “No Information Rate” (NIR)? It’s something quite useful actually. Consider the most simplistic classfier in which we always predict the majority class for all cases. What class makes up the majority of the cases? Verify by hand the “No Information Rate”.
+<ul>
+<li>The p-value beneath corresponds to testing the null hypothesis that Accuracy=NIR versus the alternative that Accuracy &gt; NIR. What information does the p-value give us?</li>
+</ul></li>
+<li>Compute sensitivity and specificity by hand and check against the output.</li>
+<li><p>Positive and negative predictive value “flip” the probability statements of sensitivity and specificity. That is, sensitivity is the probability of classifying a case as positive GIVEN that they are truly positive (<span class="math inline">\(P(\text{classify positive} \mid \text{truly positive})\)</span> in probability notation). Positive predictive value (PPV) flips this to being the probability of a case truly being positive GIVEN that they were predicted to be positive (<span class="math inline">\(P(\text{truly positive} \mid \text{classify positive})\)</span> in probability notation).<br />
+Why are PPV and NPV useful in practice? If you were a spinal physician, would you use this model in the clinic?</p></li>
+</ol></li>
+</ol>
+<p><br></p>
+<p><strong>Note:</strong> If you want to learn more about the metrics that <code>caret</code> outputs, read the documentation by entering <code>?caret::confusionMatrix</code> in the Console.</p>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li><p><strong>Varying the probability threshold: for-loops</strong><br />
+Here, you’ll explore how to write a for-loop to evaluate a logistic regression model at many probability thresholds.<br />
+Step through the code and comments (comments start with a <code>#</code> pound sign) to understand some general features about looping operations in R. If you ever want to look up the documentation for a function, you can enter <code>?function_name</code> in the Console.<br />
+Also fill in the <code>???</code>’s in the code.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Obtain the actual observed vertebral classes from the data</span>
+actual_classes &lt;-<span class="st"> </span>vert<span class="op">$</span>class
+<span class="co"># Obtain the predicted probability of vertebral irregularity (Y=1 event)</span>
+<span class="co"># type=&quot;response&quot; converts log odds, to odds, and finally to a probability</span>
+pred_probs &lt;-<span class="st"> </span><span class="kw">predict</span>(vert_mod<span class="op">$</span>finalModel, <span class="dt">newdata =</span> vert, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>)
+
+<span class="co"># Create a regularly-spaced sequence of probability thresholds</span>
+prob_threshs &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">by =</span> <span class="fl">0.01</span>)
+
+<span class="co"># Create empty vectors to store the sensitivity and specificity</span>
+<span class="co"># for all values of the probability thresholds</span>
+sens_vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(prob_threshs))
+spec_vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(prob_threshs))
+
+<span class="co"># Loop over all of the thresholds</span>
+<span class="co"># seq_along() makes a sequence 1,2,...,length of prob_threshs</span>
+<span class="co"># In each iteration of the loop, the variable i takes these integer values</span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(prob_threshs)) {
+    <span class="co"># Get the probability threshold for this iteration</span>
+    thresh &lt;-<span class="st"> </span>prob_threshs[i]
+    <span class="co"># If the predicted prob &gt; threshold, predict &quot;1&quot;.</span>
+    <span class="co"># Otherwise, predict &quot;0&quot;.</span>
+    hard_preds &lt;-<span class="st"> </span><span class="kw">ifelse</span>(pred_probs <span class="op">&gt;</span><span class="st"> </span>thresh, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;0&quot;</span>)
+    <span class="co"># Create boolean TRUE/FALSE vectors indicating whether the</span>
+    <span class="co"># prediction for each case is a TP, TN, FP, FN.</span>
+    is_tp &lt;-<span class="st"> </span>hard_preds<span class="op">==</span><span class="st">&quot;1&quot;</span> <span class="op">&amp;</span><span class="st"> </span>actual_classes<span class="op">==</span><span class="st">&quot;1&quot;</span>
+    is_tn &lt;-<span class="st"> </span>???
+    is_fp &lt;-<span class="st"> </span>???
+    is_fn &lt;-<span class="st"> </span>???
+    <span class="co"># Calculate sensitivity and specificity</span>
+    <span class="co"># Hint: sum(is_tp) gives the number of TPs</span>
+    sensitivity &lt;-<span class="st"> </span>???
+    specificity &lt;-<span class="st"> </span>???
+    <span class="co"># Store sensitivity specificity in their containers</span>
+    sens_vec[i] &lt;-<span class="st"> </span>sensitivity
+    ???
+}</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="6" style="list-style-type: decimal">
+<li><strong>ROC curves and AUC</strong>
+<ol style="list-style-type: lower-alpha">
+<li><p>An ROC curve plots sensitivity on the y-axis versus 1-specificity on the x-axis. In this way, the y=x line provides a convenient reference for a random guessing classifier (flips a coin to make the classification).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="dv">1</span><span class="op">-</span>spec_vec, sens_vec)
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;gray&quot;</span>)</code></pre></div></li>
+<li>What would the ROC curve look like for a model that is uniformly better for every probability threshold? For a model that is uniformly worse for each threshold?</li>
+<li><p>What if ROC curves cross each other? A convenient way to quantify differences between models is with the area under the ROC curve, called <strong>AUC</strong>. The code below shows how you would compute AUC by hand.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_fun &lt;-<span class="st"> </span><span class="kw">approxfun</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">-</span>spec_vec, <span class="dt">y =</span> sens_vec)
+<span class="kw">integrate</span>(roc_fun, <span class="dt">lower =</span> <span class="dv">0</span>, <span class="dt">upper =</span> <span class="dv">1</span>)</code></pre></div>
+<p>What is the AUC for a perfect classifier? For the random guessing classifier?</p></li>
+</ol></li>
+</ol>
+<p><br></p>
+<p>You might imagine that there is an R package for making ROC curves and calculating AUC. There is! You will explore the <code>pROC</code> package in your homework.</p>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="local-regression-and-gams.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": false,
+"twitter": false,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
