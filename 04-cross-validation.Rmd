@@ -134,13 +134,13 @@ Install the `caret` package by running `install.packages("caret")` in the Consol
 
         # Fit (train) the model as written in mod1
         # Also supply information about the type of CV desired for evaluating the model with the trControl argument
-        # na.action = na.pass prevents errors if the data has missing values
+        # na.action = na.omit prevents errors if the data has missing values
         mod1_cv10 <- train(
             fatSiri ~ age+weight+neck+abdomen+thigh+forearm,
             data = bodyfat_train,
             method = "lm",
             trControl = train_ctrl_cv10,
-            na.action = na.pass
+            na.action = na.omit
         )
 
         # The $ extracts components of an object
@@ -196,8 +196,8 @@ Model     $R^2$    Training MSE   $\text{CV}_{(10)}$    LOOCV     Test set MSE
     evaluate_model <- function(formula) {
         train_ctrl_cv10 <- trainControl(method = "cv", number = 10)
         train_ctrl_loocv <- trainControl(method = "cv", number = nrow(bodyfat_train))
-        mod_cv10 <- train(formula, data = bodyfat_train, method = "lm", trControl = train_ctrl_cv10, na.action = na.pass)
-        mod_loocv <- train(formula, data = bodyfat_train, method = "lm", trControl = train_ctrl_loocv, na.action = na.pass)
+        mod_cv10 <- train(formula, data = bodyfat_train, method = "lm", trControl = train_ctrl_cv10, na.action = na.omit)
+        mod_loocv <- train(formula, data = bodyfat_train, method = "lm", trControl = train_ctrl_loocv, na.action = na.omit)
         model_predictions <- predict(mod_cv10, newdata = bodyfat_test)
         test_mse <- mean((bodyfat_test$fatSiri - model_predictions)^2)
         c(

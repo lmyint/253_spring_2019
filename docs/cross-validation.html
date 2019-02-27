@@ -161,6 +161,10 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.1" data-path="logistic-regression.html"><a href="logistic-regression.html#discussion-8"><i class="fa fa-check"></i><b>10.1</b> Discussion</a></li>
 <li class="chapter" data-level="10.2" data-path="logistic-regression.html"><a href="logistic-regression.html#exercises-8"><i class="fa fa-check"></i><b>10.2</b> Exercises</a></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html"><i class="fa fa-check"></i><b>11</b> Revisiting Old Tools</a><ul>
+<li class="chapter" data-level="11.1" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html#discussion-9"><i class="fa fa-check"></i><b>11.1</b> Discussion</a></li>
+<li class="chapter" data-level="11.2" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html#exercises-9"><i class="fa fa-check"></i><b>11.2</b> Exercises</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="cross-validation-1.html"><a href="cross-validation-1.html"><i class="fa fa-check"></i><b>A</b> Cross-Validation</a><ul>
 <li class="chapter" data-level="A.1" data-path="cross-validation-1.html"><a href="cross-validation-1.html#objects"><i class="fa fa-check"></i><b>A.1</b> Objects</a></li>
@@ -295,13 +299,13 @@ train_ctrl_cv10 &lt;-<span class="st"> </span><span class="kw">trainControl</spa
 
 <span class="co"># Fit (train) the model as written in mod1</span>
 <span class="co"># Also supply information about the type of CV desired for evaluating the model with the trControl argument</span>
-<span class="co"># na.action = na.pass prevents errors if the data has missing values</span>
+<span class="co"># na.action = na.omit prevents errors if the data has missing values</span>
 mod1_cv10 &lt;-<span class="st"> </span><span class="kw">train</span>(
     fatSiri <span class="op">~</span><span class="st"> </span>age<span class="op">+</span>weight<span class="op">+</span>neck<span class="op">+</span>abdomen<span class="op">+</span>thigh<span class="op">+</span>forearm,
     <span class="dt">data =</span> bodyfat_train,
     <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>,
     <span class="dt">trControl =</span> train_ctrl_cv10,
-    <span class="dt">na.action =</span> na.pass
+    <span class="dt">na.action =</span> na.omit
 )
 
 <span class="co"># The $ extracts components of an object</span>
@@ -392,8 +396,8 @@ If you’re interested in learning about writing R functions, look at the follow
 evaluate_model &lt;-<span class="st"> </span><span class="cf">function</span>(formula) {
     train_ctrl_cv10 &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
     train_ctrl_loocv &lt;-<span class="st"> </span><span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="kw">nrow</span>(bodyfat_train))
-    mod_cv10 &lt;-<span class="st"> </span><span class="kw">train</span>(formula, <span class="dt">data =</span> bodyfat_train, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">trControl =</span> train_ctrl_cv10, <span class="dt">na.action =</span> na.pass)
-    mod_loocv &lt;-<span class="st"> </span><span class="kw">train</span>(formula, <span class="dt">data =</span> bodyfat_train, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">trControl =</span> train_ctrl_loocv, <span class="dt">na.action =</span> na.pass)
+    mod_cv10 &lt;-<span class="st"> </span><span class="kw">train</span>(formula, <span class="dt">data =</span> bodyfat_train, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">trControl =</span> train_ctrl_cv10, <span class="dt">na.action =</span> na.omit)
+    mod_loocv &lt;-<span class="st"> </span><span class="kw">train</span>(formula, <span class="dt">data =</span> bodyfat_train, <span class="dt">method =</span> <span class="st">&quot;lm&quot;</span>, <span class="dt">trControl =</span> train_ctrl_loocv, <span class="dt">na.action =</span> na.omit)
     model_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(mod_cv10, <span class="dt">newdata =</span> bodyfat_test)
     test_mse &lt;-<span class="st"> </span><span class="kw">mean</span>((bodyfat_test<span class="op">$</span>fatSiri <span class="op">-</span><span class="st"> </span>model_predictions)<span class="op">^</span><span class="dv">2</span>)
     <span class="kw">c</span>(

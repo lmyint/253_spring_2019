@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>MATH 253: Machine Learning</title>
+  <title>Topic 11 Revisiting Old Tools | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 11 Revisiting Old Tools | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 11 Revisiting Old Tools | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="schedule.html">
+<link rel="prev" href="logistic-regression.html">
+<link rel="next" href="cross-validation-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -194,35 +194,61 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">MATH 253: Machine Learning</h1>
-</div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<center>
-<div class="figure">
-<img src="images/ml_robot.jpg" />
-
-</div>
-<a href="https://cdn.redshift.autodesk.com/2016/05/Machine-Learning-hero.jpg">Image source</a>
-</center>
-<p><br> <br></p>
-<p>This is the class manual for Machine Learning (MATH 253) at Macalester College. The content here was made by <a href="https://lmyint.github.io">Leslie Myint</a> and draws upon our class textbook, <a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning with Applications in R</a>, and on <a href="https://ajohns24.github.io/253_Fall_18/index.html">materials</a> prepared by <a href="http://aliciajohnson78.weebly.com/">Alicia Johnson</a>.</p>
+<div id="revisiting-old-tools" class="section level1">
+<h1><span class="header-section-number">Topic 11</span> Revisiting Old Tools</h1>
+<div id="discussion-9" class="section level2">
+<h2><span class="header-section-number">11.1</span> Discussion</h2>
+<p>Logistic regression is fit with a technique called <strong>maximum likelihood</strong>. What is likelihood?</p>
+<p>Example: flipping a coin 3 times, unknown probability <span class="math inline">\(p\)</span> of getting heads</p>
+<ul>
+<li>The data: 2 heads, 1 tail</li>
+<li>3 ways that could have happened:<br />
+T, H, H<br />
+H, T, H<br />
+H, H, T</li>
+<li>Each way has probability <span class="math inline">\(p^2(1-p)\)</span></li>
+<li>The probability of seeing my data (as a function of <span class="math inline">\(p\)</span>) is <span class="math inline">\(3p^2(1-p)\)</span></li>
+<li><strong>Goal:</strong> Find the <span class="math inline">\(p\)</span> that maximizes that probability
+<ul>
+<li>The 3 doesn’t matter for this, so we usually remove such constant terms</li>
+<li><span class="math inline">\(p^2(1-p)\)</span> is the <strong>likelihood function</strong></li>
+<li>Imagine (in a non-coin flipping situation) that we wanted <span class="math inline">\(p\)</span> to depend on predictors…can we relate this back to logistic regression?</li>
+<li>Yes!<br />
+<span class="math inline">\(p = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}\)</span></li>
+</ul></li>
+</ul>
 <p><br> <br> <br></p>
-<div class="figure">
-<img src="images/cc_license_button.png" />
+</div>
+<div id="exercises-9" class="section level2">
+<h2><span class="header-section-number">11.2</span> Exercises</h2>
+<ol style="list-style-type: decimal">
+<li>Consider how LASSO would be extended to the logistic regression setting. Using the penalized least squares criterion as a reference, how would you write a penalized criterion for logistic regression using the likelihood?</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li>How would likelihood be used in implementing stepwise selection for logistic regression?</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Consider the KNN algorithm for regression. How would you modify the algorithm to…
+<ul>
+<li>make a hard classification?</li>
+<li>produce a “soft” classification? A “soft” classification for a test case is an estimated probability of being in each of the <span class="math inline">\(K\)</span> classes.</li>
+</ul></li>
+</ol>
 
 </div>
-<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="schedule.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="logistic-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

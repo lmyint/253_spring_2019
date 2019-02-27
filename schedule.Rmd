@@ -61,3 +61,7 @@ Other topics + project work time: Weeks 12-14
 
 - **Monday:** Logistic regression ([Video](https://youtu.be/_9_h4sl7W5A), [Slides](https://drive.google.com/file/d/1DbMFCoHuiVSGh9IxSpQNPRZ9lxQMAlzo/view?usp=sharing))    
     Related ISLR reading: Sections 4.1-4.3
+- **Wednesday:** Finish up logistic regression. Using old tools in the classification setting    
+    Related ISLR reading: Section 7.7.2 (GAMs for Classification Problems), pages 39-42 (KNN for classification)
+- **Friday:** Decision trees ([Video](https://youtu.be/3hdXye3aC-E), [Slides](https://drive.google.com/file/d/1yUDSUTK2kqBq9s8u51fT-fxle0Mj0Wae/view?usp=sharing))    
+    Related ISLR reading: 8.1

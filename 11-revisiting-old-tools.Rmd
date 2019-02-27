@@ -1,0 +1,59 @@
+# Revisiting Old Tools
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
+```
+
+## Discussion
+
+Logistic regression is fit with a technique called **maximum likelihood**. What is likelihood?
+
+Example: flipping a coin 3 times, unknown probability $p$ of getting heads
+
+- The data: 2 heads, 1 tail
+- 3 ways that could have happened:    
+    T, H, H    
+    H, T, H    
+    H, H, T
+- Each way has probability $p^2(1-p)$
+- The probability of seeing my data (as a function of $p$) is $3p^2(1-p)$
+- **Goal:** Find the $p$ that maximizes that probability
+    - The 3 doesn't matter for this, so we usually remove such constant terms
+    - $p^2(1-p)$ is the **likelihood function**
+    - Imagine (in a non-coin flipping situation) that we wanted $p$ to depend on predictors...can we relate this back to logistic regression?
+    - Yes!    
+        $p = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}$
+
+
+<br>
+<br>
+<br>
+
+## Exercises
+
+
+`r NextQ()`. Consider how LASSO would be extended to the logistic regression setting. Using the penalized least squares criterion as a reference, how would you write a penalized criterion for logistic regression using the likelihood?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. How would likelihood be used in implementing stepwise selection for logistic regression?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Consider the KNN algorithm for regression. How would you modify the algorithm to...
+    - make a hard classification?
+    - produce a "soft" classification? A "soft" classification for a test case is an estimated probability of being in each of the $K$ classes.
+
+

@@ -38,7 +38,7 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
     where
     $$\log \left(\frac{P(y=1 \mid x)}{1-P(y=1 \mid x)} \right) = \log \left(\text{odds}(y=1 \mid x) \right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p$$
     equivalently
-    $$p(x) = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}$$    
+    $$P(y=1 \mid x) = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}$$    
     Note: in statistics, "log" is the natural log (ln) by default
 
     - If we wish to use logistic regression for statistical inference:
@@ -151,7 +151,7 @@ table(vert$class)
         ```
     c. Compute by hand the overall accuracy and check against "Accuracy".
         - The "95% CI" is a 95% confidence interval for that Accuracy estimate. What information does it give us?
-    d. What in the world is "No Information Rate" (NIR)? It's something quite useful actually. Consider the most simplistic classfier in which we always predict the majority class for all cases. What class makes up the majority of the cases? Verify by hand the "No Information Rate".
+    d. What in the world is "No Information Rate" (NIR)? It's something quite useful actually. Consider the most simplistic classfier in which we always predict the majority class for all cases. What class makes up the majority of the cases?  Verify by hand that the fraction of cases in this majority class is the "No Information Rate".
         - The p-value beneath corresponds to testing the null hypothesis that Accuracy=NIR versus the alternative that Accuracy > NIR. What information does the p-value give us?
     e. Compute sensitivity and specificity by hand and check against the output.
     f. Positive and negative predictive value "flip" the probability statements of sensitivity and specificity. That is, sensitivity is the probability of classifying a case as positive GIVEN that they are truly positive ($P(\text{classify positive} \mid \text{truly positive})$ in probability notation). Positive predictive value (PPV) flips this to being the probability of a case truly being positive GIVEN that they were predicted to be positive ($P(\text{truly positive} \mid \text{classify positive})$ in probability notation).    

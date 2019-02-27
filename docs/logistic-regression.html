@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="local-regression-and-gams.html">
-<link rel="next" href="cross-validation-1.html">
+<link rel="next" href="revisiting-old-tools.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -161,6 +161,10 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="10.1" data-path="logistic-regression.html"><a href="logistic-regression.html#discussion-8"><i class="fa fa-check"></i><b>10.1</b> Discussion</a></li>
 <li class="chapter" data-level="10.2" data-path="logistic-regression.html"><a href="logistic-regression.html#exercises-8"><i class="fa fa-check"></i><b>10.2</b> Exercises</a></li>
 </ul></li>
+<li class="chapter" data-level="11" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html"><i class="fa fa-check"></i><b>11</b> Revisiting Old Tools</a><ul>
+<li class="chapter" data-level="11.1" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html#discussion-9"><i class="fa fa-check"></i><b>11.1</b> Discussion</a></li>
+<li class="chapter" data-level="11.2" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html#exercises-9"><i class="fa fa-check"></i><b>11.2</b> Exercises</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="cross-validation-1.html"><a href="cross-validation-1.html"><i class="fa fa-check"></i><b>A</b> Cross-Validation</a><ul>
 <li class="chapter" data-level="A.1" data-path="cross-validation-1.html"><a href="cross-validation-1.html#objects"><i class="fa fa-check"></i><b>A.1</b> Objects</a></li>
@@ -210,7 +214,7 @@ Let <span class="math inline">\(P(y=1 \mid x)\)</span> denote the probability th
 A <strong>Bernoulli model</strong> is a model for binary responses (a coin flip model). Then<br />
 <span class="math display">\[y \stackrel{ind}{\sim} \text{Bernoulli}(P(y=1 \mid x)) \qquad \text{ i.e. } y = \begin{cases}
 1 &amp; \text{ w/ probability } P(y=1 \mid x) \\ 0 &amp; \text{ w/ probability } 1-P(y=1 \mid x) \\
-\end{cases}\]</span> where <span class="math display">\[\log \left(\frac{P(y=1 \mid x)}{1-P(y=1 \mid x)} \right) = \log \left(\text{odds}(y=1 \mid x) \right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\]</span> equivalently <span class="math display">\[p(x) = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}\]</span><br />
+\end{cases}\]</span> where <span class="math display">\[\log \left(\frac{P(y=1 \mid x)}{1-P(y=1 \mid x)} \right) = \log \left(\text{odds}(y=1 \mid x) \right) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\]</span> equivalently <span class="math display">\[P(y=1 \mid x) = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}\]</span><br />
 Note: in statistics, “log” is the natural log (ln) by default</p>
 <ul>
 <li>If we wish to use logistic regression for statistical inference:
@@ -318,7 +322,7 @@ conf_mat</code></pre></div></li>
 <ul>
 <li>The “95% CI” is a 95% confidence interval for that Accuracy estimate. What information does it give us?</li>
 </ul></li>
-<li>What in the world is “No Information Rate” (NIR)? It’s something quite useful actually. Consider the most simplistic classfier in which we always predict the majority class for all cases. What class makes up the majority of the cases? Verify by hand the “No Information Rate”.
+<li>What in the world is “No Information Rate” (NIR)? It’s something quite useful actually. Consider the most simplistic classfier in which we always predict the majority class for all cases. What class makes up the majority of the cases? Verify by hand that the fraction of cases in this majority class is the “No Information Rate”.
 <ul>
 <li>The p-value beneath corresponds to testing the null hypothesis that Accuracy=NIR versus the alternative that Accuracy &gt; NIR. What information does the p-value give us?</li>
 </ul></li>
@@ -392,16 +396,13 @@ spec_vec &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="
 
 </div>
 </div>
-
-
-
             </section>
 
           </div>
         </div>
       </div>
 <a href="local-regression-and-gams.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="revisiting-old-tools.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

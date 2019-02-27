@@ -111,7 +111,8 @@ bodyfat <- bodyfat %>%
         method = "leapBackward",
         tuneGrid = data.frame(nvmax = 1:13),
         trControl = train_ctrl_cv10,
-        metric = "RMSE"
+        metric = "RMSE",
+        na.action = na.omit
     )
 
     # Look at accuracy/error metrics for the different subset sizes
