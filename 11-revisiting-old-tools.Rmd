@@ -8,13 +8,11 @@ NextQ <- function() {
     question_num <<- question_num + 1
     question_num
 }
-
-knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
 ```
 
 ## Discussion
 
-Logistic regression is fit with a technique called **maximum likelihood**. What is likelihood?
+Logistic regression is fit with a technique called **maximum likelihood**. What is this technique?
 
 Example: flipping a coin 3 times, unknown probability $p$ of getting heads
 
@@ -25,13 +23,33 @@ Example: flipping a coin 3 times, unknown probability $p$ of getting heads
     H, H, T
 - Each way has probability $p^2(1-p)$
 - The probability of seeing my data (as a function of $p$) is $3p^2(1-p)$
-- **Goal:** Find the $p$ that maximizes that probability
-    - The 3 doesn't matter for this, so we usually remove such constant terms
-    - $p^2(1-p)$ is the **likelihood function**
+- **Goal:** Find the $p$ that **maximizes** that probability
+    - The 3 doesn't matter for this, so we usually remove such constant terms.
+    - $p^2(1-p)$ is the **likelihood function**.
     - Imagine (in a non-coin flipping situation) that we wanted $p$ to depend on predictors...can we relate this back to logistic regression?
     - Yes!    
-        $p = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}$
+        $$p = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}$$
+    - The value of the likelihood function at the best $p$ is a number: the likelihood of the data
 
+<br>
+<br>
+<br>
+
+**Connecting to stepwise selection**
+
+- For logistic regression, stepwise selection is exactly the same, except that likelihood is used instead of RSS.
+- Cross-validated accuracy is an option too.
+
+<br>
+<br>
+<br>
+
+**Connecting to GAMs**
+
+- There can be nonlinear relationships between quantitative predictors and log odds as well.
+- e.g. $\text{log odds(foreclosure)} = \beta_0 + f_1(\text{Age}) + f_2(\text{Price})$
+    - Build $f_1$ and $f_2$ from LOESS or splines
+- If relationships are truly nonlinear, should help us improve prediction accuracy.
 
 <br>
 <br>
@@ -46,14 +64,9 @@ Example: flipping a coin 3 times, unknown probability $p$ of getting heads
 <br>
 <br>
 
-`r NextQ()`. How would likelihood be used in implementing stepwise selection for logistic regression?
-
-<br>
-<br>
-<br>
-
-`r NextQ()`. Consider the KNN algorithm for regression. How would you modify the algorithm to...
+`r NextQ()`. On a different note unrelated to likelihood, consider the KNN algorithm for regression. How would you modify the algorithm to...
     - make a hard classification?
-    - produce a "soft" classification? A "soft" classification for a test case is an estimated probability of being in each of the $K$ classes.
+    - produce a "soft" classification? A "soft" classification for a test case is an estimated probability of being in each of the $K$ classes.    
+    A concrete example to frame your answers: say that for a particular test case, you found its 10 nearest neighbors in the training set. 5 were of Class A, 3 of Class B, and 2 of Class C.
 
 

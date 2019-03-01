@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning</title>
+  <title>Topic 12 Decision Trees | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 12 Decision Trees | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 3 Accuracy Metrics for Regression | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 12 Decision Trees | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="regression-assumptions.html">
-<link rel="next" href="cross-validation.html">
+<link rel="prev" href="revisiting-old-tools.html">
+<link rel="next" href="cross-validation-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -198,170 +198,118 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="accuracy-metrics-for-regression" class="section level1">
-<h1><span class="header-section-number">Topic 3</span> Accuracy Metrics for Regression</h1>
-<div id="discussion-1" class="section level2">
-<h2><span class="header-section-number">3.1</span> Discussion</h2>
-<p><strong>Evaluating regression models</strong></p>
-<ol style="list-style-type: decimal">
-<li>Should meet assumptions required for statistical inference</li>
-<li><strong>Should explain a substantial proportion of the variation in the response</strong></li>
-<li><strong>Should produce accurate predictions</strong></li>
-</ol>
-<p>For both of these points, we can look at <strong>residuals</strong>.</p>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Sum of squared residuals</strong></p>
-<p><span class="math display">\[RSS = \sum_{i=1}^n (y_i - \hat{y_i})^2 = (y_1 - \hat{y}_1)^2 + (y_2 - \hat{y}_2)^2 + \cdots + (y_n - \hat{y}_n)^2\]</span></p>
+<div id="decision-trees" class="section level1">
+<h1><span class="header-section-number">Topic 12</span> Decision Trees</h1>
+<div id="discussion-10" class="section level2">
+<h2><span class="header-section-number">12.1</span> Discussion</h2>
+<p><strong>Why trees?</strong></p>
 <ul>
-<li>The sum (and mean) of the residuals is always zero when an intercept is included in the linear regression model -&gt; add up the <em>squared</em> residuals</li>
-<li>Not very interpretable</li>
-<li>Due to missing values in predictors, sample size can vary from analysis to analysis (hard to compare RSS)</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Mean squared error</strong></p>
-<p><span class="math display">\[MSE = \frac{RSS}{n} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2\]</span></p>
+<li>Logistic regression is a <strong>parametric</strong> method.
 <ul>
-<li>More interpretable than RSS: on average how far are our predictions from the true values (in squared distance)?</li>
-<li>Interpretation downside: the units are squared units</li>
-<li>Square root of MSE (<strong>RMSE = root mean squared error</strong>) is often used:<br />
-<span class="math inline">\(RMSE = \sqrt{MSE}\)</span><br />
-It’s tempting to try to interpret RMSE as the average distance of our predictions from the true values because the units align with the response variable, but it’s not technically quite right due to the square root.</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Mean absolute error</strong></p>
-<p><span class="math display">\[MAE = \frac{1}{n}\sum_{i=1}^n \|y_i - \hat{y}_i\|\]</span></p>
-<p>Where <span class="math inline">\(\|y_i - \hat{y}_i\|\)</span> indicates the absolute value of the residual</p>
-<ul>
-<li>Very interpretable: on average how far are our predictions from the true values</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>R-squared</strong></p>
-<p>Define the <em>total sum of squares</em> (<span class="math inline">\(TSS\)</span>) as the sum of squared deviations of each response <span class="math inline">\(y_i\)</span> from the mean response <span class="math inline">\(\bar{y}\)</span>:</p>
-<p><span class="math display">\[TSS = \sum_{i=1}^n (y_i - \bar{y})^2\]</span></p>
-<p><span class="math display">\[R^2 = 1-\frac{RSS}{TSS} = \frac{\text{Var(fitted)}}{\text{Var(response)}}\]</span></p>
-<ul>
-<li>Very interpretable: the proportion of variation in the response that is explained by the model</li>
-</ul>
-<p><br> <br> <br> <br> <br> <br></p>
-<p><strong>Problems with R-squared and MSE</strong></p>
-<ul>
-<li>R-squared automatically increases with added predictors (even useless ones)</li>
-<li>MSE automatically decreases with added predictors (even useless ones)</li>
-<li>Example below: dataset with 20 cases. Random numbers are used as predictors.</li>
-</ul>
-<p><img src="math253_manual_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
-<ul>
-<li>Alternative metrics:
-<ul>
-<li>Instead of R-squared, use adjusted R-squared</li>
-<li>Instead of MSE, we’ll use cross-validation (coming up next)</li>
+<li>Also can only model binary responses</li>
 </ul></li>
-</ul>
-<p><br> <br> <br> <br> <br></p>
-<p><strong>Overfitting</strong></p>
+<li>If we don’t think that the model form below holds, might prefer a nonparametric method <span class="math display">\[\text{log odds} = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\]</span></li>
+<li>Nonparametric methods
 <ul>
-<li>The example above is a demonstration of overfitting.</li>
-<li>With more and more predictors, greater chance that some are useless.</li>
-<li>Including useless predictors in a model is like reading too much into the noise.</li>
-<li>With overfitting, models don’t tend to generalize well.</li>
+<li>KNN classification</li>
+<li>Tree-based methods</li>
+</ul></li>
+<li>Both KNN and tree-based methods can handle 3+ classes.</li>
 </ul>
-<p><br> <br> <br> <br> <br></p>
-</div>
-<div id="exercises-1" class="section level2">
-<h2><span class="header-section-number">3.2</span> Exercises</h2>
-<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/03-accuracy-metrics.Rmd">here</a>.</strong></p>
-<p>You’ll be working a dataset containing physical measurements on 80 adult males. These measurements include body fat percentage estimates as well as body circumference measurements.</p>
+<p><br> <br></p>
+<p><strong>Gini index: choosing the “best” binary split</strong></p>
+<p>Suppose:</p>
 <ul>
-<li><code>fatBrozek</code>: Percent body fat using Brozek’s equation: 457/Density - 414.2</li>
-<li><code>fatSiri</code>: Percent body fat using Siri’s equation: 495/Density - 450</li>
-<li><code>density</code>: Density determined from underwater weighing (gm/cm^3).</li>
-<li><code>age</code>: Age (years)</li>
-<li><code>weight</code>: Weight (lbs)</li>
-<li><code>height</code>: Height (inches)</li>
-<li><code>neck</code>: Neck circumference (cm)</li>
-<li><code>chest</code>: Chest circumference (cm)</li>
-<li><code>abdomen</code>: Abdomen circumference (cm)</li>
-<li><code>hip</code>: Hip circumference (cm)</li>
-<li><code>thigh</code>: Thigh circumference (cm)</li>
-<li><code>knee</code>: Knee circumference (cm)</li>
-<li><code>ankle</code>: Ankle circumference (cm)</li>
-<li><code>biceps</code>: Biceps (extended) circumference (cm)</li>
-<li><code>forearm</code>: Forearm circumference (cm)</li>
-<li><code>wrist</code>: Wrist circumference (cm)</li>
+<li>response variable <span class="math inline">\(y\)</span> has <span class="math inline">\(C\)</span> different classes</li>
+<li>the tree has <span class="math inline">\(R\)</span> total regions/nodes (leaves)</li>
 </ul>
-<p>It takes a lot of effort to estimate body fat percentage accurately through underwater weighing. The goal is to build the best predictive model for <code>fatSiri</code> using just circumference measurements, which are more easily attainable. (Don’t use <code>fatBrozek</code> or <code>density</code> as predictors.)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-<span class="kw">library</span>(dplyr)
-bodyfat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/js2gxnazybokbzh/bodyfat_train.csv?dl=1&quot;</span>)
-
-<span class="co"># Remove the fatBrozek and density variables</span>
-bodyfat &lt;-<span class="st"> </span>bodyfat <span class="op">%&gt;%</span>
-<span class="st">    </span><span class="kw">select</span>(<span class="op">-</span>fatBrozek, <span class="op">-</span>density)</code></pre></div>
-<ol style="list-style-type: decimal">
-<li>Using tools from Math 155 and 253 (e.g. exploratory plots, p-values, confidence intervals, adjusted R-squared), experiment with different models to try to build the best predictive model possible. What are the adjusted R-squared and MSE for this model?</li>
-</ol>
 <p><br></p>
-<p>Code notes: if you want to extract the adjusted R-squared from a fitted model, you can use the following.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">your_model &lt;-<span class="st"> </span><span class="kw">lm</span>(fatSiri <span class="op">~</span><span class="st"> </span>age, <span class="dt">data =</span> bodyfat)
-<span class="kw">summary</span>(your_model)<span class="op">$</span>adj.r.squared</code></pre></div>
-<p>And if you want to compute MSE, you can use the function below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mse &lt;-<span class="st"> </span><span class="cf">function</span>(mod) {
-    <span class="kw">mean</span>(<span class="kw">residuals</span>(mod)<span class="op">^</span><span class="dv">2</span>)
-}
-<span class="kw">mse</span>(your_model)</code></pre></div>
-<p><br> <br> <br></p>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Now that you’ve selected your best model, deploy it in the real world by applying it to a new set of 172 adult males. The <code>predict()</code> function allows you to supply a fitted model and a new dataset of predictors (the <code>newdata</code> argument).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bodyfat_test &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/7gizws208u0oywq/bodyfat_test.csv?dl=1&quot;</span>)
+<p><strong>Measuring the purity of a single node</strong></p>
+<p>Let</p>
+<p><span class="math display">\[p_{rc} = \text{proportion of cases in region/node $r$ that are of class $c$}\]</span></p>
+<p>From these, we can compute the node/region’s <strong>Gini index/impurity</strong>:</p>
+<p><span class="math display">\[G_r = \sum_{c=1}^C p_{rc} (1 - p_{rc})\]</span></p>
+<ul>
+<li>The smaller <span class="math inline">\(G_r\)</span>, the more pure region <span class="math inline">\(r\)</span> is.<br />
+</li>
+<li><span class="math inline">\(G_r = 0\)</span> if region <span class="math inline">\(r\)</span> is perfectly pure (the cases in the node are all of 1 class).</li>
+</ul>
+<p><br></p>
+<p><strong>Choosing the binary splits</strong></p>
+<p>The binary splits in a tree are chosen to <strong>minimize</strong> the <strong>average Gini index</strong> across all regions:</p>
+<p><span class="math display">\[\sum_{r=1}^{R} G_r \cdot \frac{\text{# cases in region r}}{\text{total # cases}}\]</span></p>
+<p><br> <br> <br> <br></p>
+<p><strong>Example</strong></p>
+<p>13 cases; 3 classes (A, B, and C)</p>
+<div class="figure">
+<img src="images/gini_examples.png" />
 
-<span class="co"># Predict</span>
-test_predictions &lt;-<span class="st"> </span><span class="kw">predict</span>(your_model, <span class="dt">newdata =</span> bodyfat_test)
-
-<span class="co"># Compute MSE</span>
-<span class="co"># The $ extracts a particular column from a dataset</span>
-<span class="kw">mean</span>((bodyfat_test<span class="op">$</span>fatSiri <span class="op">-</span><span class="st"> </span>test_predictions)<span class="op">^</span><span class="dv">2</span>)</code></pre></div></li>
-</ol>
-<p><br> <br> <br></p>
-<ol start="3" style="list-style-type: decimal">
-<li><strong>Thinking about main themes</strong>
-<ol style="list-style-type: lower-alpha">
-<li>How did your MSE on the original dataset of 80 males compare to the MSE on the new data of 172 males?</li>
-<li>What conclusions can you draw from this exploration in relation to overfitting?</li>
+</div>
+<p>What is the average Gini index for the first split? For the second split? Which split is preferable?</p>
+<p><br> <br> <br> <br></p>
+</div>
+<div id="exercises-10" class="section level2">
+<h2><span class="header-section-number">12.2</span> Exercises</h2>
+<ol style="list-style-type: decimal">
+<li>Why use the Gini index instead of classification accuracy to build the tree? Consider a situation where we have 2 classes (class A and B) with 400 cases in each class. Consider two different splits:<br />
+Split 1:<br />
+Node 1 has 300 cases of class A and 100 of class B<br />
+Node 2 has 100 cases of class A and 300 of class B<br />
+Split 2:<br />
+Node 1 has 200 cases of class A and 400 of class B<br />
+Node 2 has 200 cases of class A and 0 of class B<br />
+<br />
+<br />
+a. To make a prediction for a node, we predict the majority class for all cases in that node. What is the overall accuracy over both Nodes 1 and 2 for Split 1? For Split 2?
+<ol start="2" style="list-style-type: lower-alpha">
+<li>What is the average Gini index for Split 1? For Split 2?</li>
+<li>Based on this example, why do you think the Gini index is preferred?</li>
 </ol></li>
 </ol>
 <p><br> <br> <br></p>
-<ol start="4" style="list-style-type: decimal">
-<li><strong>Thinking more about overfitting</strong>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Trees can also be used for regression!</strong>
 <ol style="list-style-type: lower-alpha">
-<li>Do you think that a model with more predictors or less predictors is more prone to overfitting? Why?</li>
-<li>The method used to find the coefficients in linear regression is called the <strong>least squares</strong> method. We find coefficients <span class="math inline">\(\hat{\beta}_1, \hat{\beta}_2, \ldots, \hat{\beta}_p\)</span> that minimize the sum of squared residuals <span class="math inline">\(RSS\)</span>. Given your answer in part a, can you think of a way to modify the least squares criterion to penalize weak predictors being included in a model? That is, can you brainstorm a possible penalty to add below?<br />
-<strong>Least squares criterion:</strong> find <span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_p\)</span> that minimize <span class="math inline">\(RSS\)</span><br />
-<strong>Penalized least squares criterion:</strong> find <span class="math inline">\(\hat{\beta}_1, \ldots, \hat{\beta}_p\)</span> that minimize <span class="math inline">\(RSS + \text{penalty}\)</span><br />
-Suggestion: Draw inspiration from the “penalty” term in the adjusted R-squared formula from the video.</li>
+<li>For classification, we use average Gini index as a measure of node (im)purity for tree building. Using residuals, come up with a measure of node (im)purity that can be used for tree building.</li>
+<li>Ok, let’s say that we apply that tree bulding procedure and end up with cases in the leaf nodes…how might we make a prediction in these leaves?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Those greedy, greedy algorithms…</strong><br />
+It was mentioned in the video that recursive binary splitting (RBS) is a <strong>greedy</strong> algorithm. What is another technique we’ve learned in class that is greedy? Describe how RBS parallels that other technique.</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Overfitting and the bias-variance tradeoff</strong><br />
+Consider the two trees below built from a heart disease dataset. <img src="math253_manual_files/figure-html/unnamed-chunk-95-1.png" width="1152" style="display: block; margin: auto;" /><img src="math253_manual_files/figure-html/unnamed-chunk-95-2.png" width="1152" style="display: block; margin: auto;" />
+<ol style="list-style-type: lower-alpha">
+<li>Which tree is likely overfit to the data and why?</li>
+<li>Number of splits is not something that we can often directly control when we use software to build decision trees, but we can still think of it as a tuning parameter. How is number of splits related to bias and variance?</li>
 </ol></li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="5" style="list-style-type: decimal">
-<li><strong>Extra!</strong> If you have time and are interested in learning about writing R functions, try the following.
+<li><strong>Tree pruning</strong><br />
+The idea behind tree pruning is to first grow a large tree. (e.g. Grow each region until the leaves have 5 or fewer cases.) Then we prune some branches–that is, we take out some splits. If there was a split, merge it back together.
 <ol style="list-style-type: lower-alpha">
-<li>Using the <code>mse()</code> function above as a guide, write a function that compute the MSE of a model on new data.
-<ul>
-<li>What inputs do you need? These must be supplied as <strong>arguments</strong> to the function. These are given in the parentheses.</li>
-<li>You can take multiple intermediate steps within the function. This is often recommended for multi-step tasks because it makes the code easier to read.</li>
-<li>Annotate the steps of your function with comments. (Start a comment line with a <code>#</code>.)</li>
-</ul></li>
+<li>The big tree above was actually pruned to make the smaller tree. Compare the trees and verify for a couple of branches that the changes result from merging nodes back together.</li>
+<li>This pruning is achieved with something called <strong>cost complexity pruning</strong>, and the idea is very related to LASSO! The cost complexity criterion for classification trees looks like: <span class="math display">\[\text{average Gini index over leaves} + \lambda \times (\text{# leaves})\]</span> Describe how this pruning criterion helps with overfitting by discussing the 2 extremes of <span class="math inline">\(\lambda\)</span>. How can we pick a good value for <span class="math inline">\(\lambda\)</span>?</li>
 </ol></li>
 </ol>
 
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="regression-assumptions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cross-validation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="revisiting-old-tools.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

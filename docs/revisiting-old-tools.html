@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="logistic-regression.html">
-<link rel="next" href="cross-validation-1.html">
+<link rel="next" href="decision-trees.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -165,6 +165,10 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11.1" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html#discussion-9"><i class="fa fa-check"></i><b>11.1</b> Discussion</a></li>
 <li class="chapter" data-level="11.2" data-path="revisiting-old-tools.html"><a href="revisiting-old-tools.html#exercises-9"><i class="fa fa-check"></i><b>11.2</b> Exercises</a></li>
 </ul></li>
+<li class="chapter" data-level="12" data-path="decision-trees.html"><a href="decision-trees.html"><i class="fa fa-check"></i><b>12</b> Decision Trees</a><ul>
+<li class="chapter" data-level="12.1" data-path="decision-trees.html"><a href="decision-trees.html#discussion-10"><i class="fa fa-check"></i><b>12.1</b> Discussion</a></li>
+<li class="chapter" data-level="12.2" data-path="decision-trees.html"><a href="decision-trees.html#exercises-10"><i class="fa fa-check"></i><b>12.2</b> Exercises</a></li>
+</ul></li>
 <li class="appendix"><span><b>Appendix</b></span></li>
 <li class="chapter" data-level="A" data-path="cross-validation-1.html"><a href="cross-validation-1.html"><i class="fa fa-check"></i><b>A</b> Cross-Validation</a><ul>
 <li class="chapter" data-level="A.1" data-path="cross-validation-1.html"><a href="cross-validation-1.html#objects"><i class="fa fa-check"></i><b>A.1</b> Objects</a></li>
@@ -198,7 +202,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <h1><span class="header-section-number">Topic 11</span> Revisiting Old Tools</h1>
 <div id="discussion-9" class="section level2">
 <h2><span class="header-section-number">11.1</span> Discussion</h2>
-<p>Logistic regression is fit with a technique called <strong>maximum likelihood</strong>. What is likelihood?</p>
+<p>Logistic regression is fit with a technique called <strong>maximum likelihood</strong>. What is this technique?</p>
 <p>Example: flipping a coin 3 times, unknown probability <span class="math inline">\(p\)</span> of getting heads</p>
 <ul>
 <li>The data: 2 heads, 1 tail</li>
@@ -208,14 +212,31 @@ H, T, H<br />
 H, H, T</li>
 <li>Each way has probability <span class="math inline">\(p^2(1-p)\)</span></li>
 <li>The probability of seeing my data (as a function of <span class="math inline">\(p\)</span>) is <span class="math inline">\(3p^2(1-p)\)</span></li>
-<li><strong>Goal:</strong> Find the <span class="math inline">\(p\)</span> that maximizes that probability
+<li><strong>Goal:</strong> Find the <span class="math inline">\(p\)</span> that <strong>maximizes</strong> that probability
 <ul>
-<li>The 3 doesn’t matter for this, so we usually remove such constant terms</li>
-<li><span class="math inline">\(p^2(1-p)\)</span> is the <strong>likelihood function</strong></li>
+<li>The 3 doesn’t matter for this, so we usually remove such constant terms.</li>
+<li><span class="math inline">\(p^2(1-p)\)</span> is the <strong>likelihood function</strong>.</li>
 <li>Imagine (in a non-coin flipping situation) that we wanted <span class="math inline">\(p\)</span> to depend on predictors…can we relate this back to logistic regression?</li>
 <li>Yes!<br />
-<span class="math inline">\(p = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}\)</span></li>
+<span class="math display">\[p = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}\]</span></li>
+<li>The value of the likelihood function at the best <span class="math inline">\(p\)</span> is a number: the likelihood of the data</li>
 </ul></li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Connecting to stepwise selection</strong></p>
+<ul>
+<li>For logistic regression, stepwise selection is exactly the same, except that likelihood is used instead of RSS.</li>
+<li>Cross-validated accuracy is an option too.</li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Connecting to GAMs</strong></p>
+<ul>
+<li>There can be nonlinear relationships between quantitative predictors and log odds as well.</li>
+<li>e.g. <span class="math inline">\(\text{log odds(foreclosure)} = \beta_0 + f_1(\text{Age}) + f_2(\text{Price})\)</span>
+<ul>
+<li>Build <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span> from LOESS or splines</li>
+</ul></li>
+<li>If relationships are truly nonlinear, should help us improve prediction accuracy.</li>
 </ul>
 <p><br> <br> <br></p>
 </div>
@@ -226,29 +247,23 @@ H, H, T</li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="2" style="list-style-type: decimal">
-<li>How would likelihood be used in implementing stepwise selection for logistic regression?</li>
-</ol>
-<p><br> <br> <br></p>
-<ol start="3" style="list-style-type: decimal">
-<li>Consider the KNN algorithm for regression. How would you modify the algorithm to…
+<li>On a different note unrelated to likelihood, consider the KNN algorithm for regression. How would you modify the algorithm to…
 <ul>
 <li>make a hard classification?</li>
-<li>produce a “soft” classification? A “soft” classification for a test case is an estimated probability of being in each of the <span class="math inline">\(K\)</span> classes.</li>
+<li>produce a “soft” classification? A “soft” classification for a test case is an estimated probability of being in each of the <span class="math inline">\(K\)</span> classes.<br />
+A concrete example to frame your answers: say that for a particular test case, you found its 10 nearest neighbors in the training set. 5 were of Class A, 3 of Class B, and 2 of Class C.</li>
 </ul></li>
 </ol>
 
 </div>
 </div>
-
-
-
             </section>
 
           </div>
         </div>
       </div>
 <a href="logistic-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="decision-trees.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
