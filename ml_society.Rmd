@@ -6,6 +6,7 @@ If you come across something interesting and would like to share it here, feel f
 
 - [Amazon scraps secret AI recruiting tool that showed bias against women](https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G)
 - WSJ Podcast: [Machine Love: Dating in the Digital Age](https://itunes.apple.com/us/podcast/wsjs-the-future-of-everything/id1234320525?mt=2&i=1000429776935) (Thanks, Meera!)
+    - Related: [How a Math Genius Hacked OkCupid to Find True Love](https://www.wired.com/2014/01/how-to-hack-okcupid/)
 - [ML and astrophysics](https://www.symmetrymagazine.org/article/data-scientists-face-off-in-lsst-machine-learning-competition) (Thanks, Karen!)
 - [Automated background checks are deciding who's fit for a home](https://www.theverge.com/platform/amp/2019/2/1/18205174/automation-background-check-criminal-records-corelogic) (Thanks, Eleanor!)
 

@@ -268,11 +268,8 @@ a. To make a prediction for a node, we predict the majority class for all cases 
 </ol>
 <p><br> <br> <br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><strong>Trees can also be used for regression!</strong>
-<ol style="list-style-type: lower-alpha">
-<li>For classification, we use average Gini index as a measure of node (im)purity for tree building. Using residuals, come up with a measure of node (im)purity that can be used for tree building.</li>
-<li>Ok, let’s say that we apply that tree bulding procedure and end up with cases in the leaf nodes…how might we make a prediction in these leaves?</li>
-</ol></li>
+<li><strong>Trees can also be used for regression!</strong><br />
+For classification, we use average Gini index as a measure of node (im)purity for tree building. Using <em>residuals</em>, come up with a measure of node (im)purity that can be used for regression tree building. At the same time, you’ll also need to come up with a way to make a prediction for a leaf node.</li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -294,7 +291,7 @@ Consider the two trees below built from a heart disease dataset. <img src="math2
 The idea behind tree pruning is to first grow a large tree. (e.g. Grow each region until the leaves have 5 or fewer cases.) Then we prune some branches–that is, we take out some splits. If there was a split, merge it back together.
 <ol style="list-style-type: lower-alpha">
 <li>The big tree above was actually pruned to make the smaller tree. Compare the trees and verify for a couple of branches that the changes result from merging nodes back together.</li>
-<li>This pruning is achieved with something called <strong>cost complexity pruning</strong>, and the idea is very related to LASSO! The cost complexity criterion for classification trees looks like: <span class="math display">\[\text{average Gini index over leaves} + \lambda \times (\text{# leaves})\]</span> Describe how this pruning criterion helps with overfitting by discussing the 2 extremes of <span class="math inline">\(\lambda\)</span>. How can we pick a good value for <span class="math inline">\(\lambda\)</span>?</li>
+<li>This pruning is achieved with something called <strong>cost complexity pruning</strong>, and the idea is very related to LASSO! The cost complexity criterion for classification trees looks like: <span class="math display">\[\text{average Gini index over leaves} + \alpha \times (\text{# leaves})\]</span> Describe how this pruning criterion helps with overfitting by discussing the 2 extremes of <span class="math inline">\(\alpha\)</span>. How can we pick a good value for <span class="math inline">\(\alpha\)</span>?</li>
 </ol></li>
 </ol>
 

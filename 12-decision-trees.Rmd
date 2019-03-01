@@ -96,8 +96,7 @@ What is the average Gini index for the first split? For the second split? Which 
 <br>
 
 `r NextQ()`. **Trees can also be used for regression!**    
-    a. For classification, we use average Gini index as a measure of node (im)purity for tree building. Using residuals, come up with a measure of node (im)purity that can be used for tree building.
-    b. Ok, let's say that we apply that tree bulding procedure and end up with cases in the leaf nodes...how might we make a prediction in these leaves?
+    For classification, we use average Gini index as a measure of node (im)purity for tree building. Using *residuals*, come up with a measure of node (im)purity that can be used for regression tree building. At the same time, you'll also need to come up with a way to make a prediction for a leaf node.
 
 <br>
 <br>
@@ -147,8 +146,8 @@ What is the average Gini index for the first split? For the second split? Which 
     The idea behind tree pruning is to first grow a large tree. (e.g. Grow each region until the leaves have 5 or fewer cases.) Then we prune some branches--that is, we take out some splits. If there was a split, merge it back together.    
     a. The big tree above was actually pruned to make the smaller tree. Compare the trees and verify for a couple of branches that the changes result from merging nodes back together.
     b. This pruning is achieved with something called **cost complexity pruning**, and the idea is very related to LASSO! The cost complexity criterion for classification trees looks like:
-        $$\text{average Gini index over leaves} + \lambda \times (\text{# leaves})$$
-        Describe how this pruning criterion helps with overfitting by discussing the 2 extremes of $\lambda$. How can we pick a good value for $\lambda$?
+        $$\text{average Gini index over leaves} + \alpha \times (\text{# leaves})$$
+        Describe how this pruning criterion helps with overfitting by discussing the 2 extremes of $\alpha$. How can we pick a good value for $\alpha$?
 
 
 
