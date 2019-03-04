@@ -110,6 +110,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-4-211---215"><i class="fa fa-check"></i>Week 4: 2/11 - 2/15</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-5-218---222"><i class="fa fa-check"></i>Week 5: 2/18 - 2/22</a></li>
 <li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-6-225---31"><i class="fa fa-check"></i>Week 6: 2/25 - 3/1</a></li>
+<li class="chapter" data-level="" data-path="schedule.html"><a href="schedule.html#week-7-34---38"><i class="fa fa-check"></i>Week 7: 3/4 - 3/8</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="ml-and-society.html"><a href="ml-and-society.html"><i class="fa fa-check"></i>ML and Society</a></li>
 <li class="part"><span><b>I Regression: Model Evaluation</b></span></li>
@@ -250,6 +251,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div id="exercises-10" class="section level2">
 <h2><span class="header-section-number">12.2</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/12-decision-trees.Rmd">here</a>.</strong></p>
 <ol style="list-style-type: decimal">
 <li>Why use the Gini index instead of classification accuracy to build the tree? Consider a situation where we have 2 classes (class A and B) with 400 cases in each class. Consider two different splits:<br />
 Split 1:<br />
@@ -258,9 +260,7 @@ Node 2 has 100 cases of class A and 300 of class B<br />
 Split 2:<br />
 Node 1 has 200 cases of class A and 400 of class B<br />
 Node 2 has 200 cases of class A and 0 of class B<br />
-<br />
-<br />
-a. To make a prediction for a node, we predict the majority class for all cases in that node. What is the overall accuracy over both Nodes 1 and 2 for Split 1? For Split 2?
+a. To make a prediction for a node, we predict the majority class for all cases in that node. (e.g. For Split 1, Node 1, we predict A for all cases in that node.) What is the overall accuracy over both Nodes 1 and 2 for Split 1? For Split 2?
 <ol start="2" style="list-style-type: lower-alpha">
 <li>What is the average Gini index for Split 1? For Split 2?</li>
 <li>Based on this example, why do you think the Gini index is preferred?</li>
@@ -269,7 +269,8 @@ a. To make a prediction for a node, we predict the majority class for all cases 
 <p><br> <br> <br></p>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Trees can also be used for regression!</strong><br />
-For classification, we use average Gini index as a measure of node (im)purity for tree building. Using <em>residuals</em>, come up with a measure of node (im)purity that can be used for regression tree building. At the same time, you’ll also need to come up with a way to make a prediction for a leaf node.</li>
+For classification, we use average Gini index as a measure of node (im)purity for tree building. We can build regression trees using <em>residuals</em>. In particular, we try to find the particular predictor and split point that minimize the following equation: <span class="math display">\[\sum_{i: x_i \in R_1} (y_i - \hat{y}_{R_1})^2 + \sum_{i: x_i \in R_2} (y_i - \hat{y}_{R_1})^2\]</span> There’s a lot of notation in the above equation, but we can break it down into two sensible pieces. <span class="math inline">\(\hat{y}_{R_1}\)</span> and <span class="math inline">\(\hat{y}_{R_2}\)</span> are the predicted values in region(/node/leaf) 1 and region 2. (Regions 1 and 2 are the left and right branches.) These predicted values are the mean of the cases that end up in that region. The left sum is the sum of squared residuals in region 1, and the right sum is the sum of squared residuals in region 2.<br />
+<strong>Explain why minimizing the above equation is sensible for building regression trees.</strong></li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -292,6 +293,69 @@ The idea behind tree pruning is to first grow a large tree. (e.g. Grow each reg
 <ol style="list-style-type: lower-alpha">
 <li>The big tree above was actually pruned to make the smaller tree. Compare the trees and verify for a couple of branches that the changes result from merging nodes back together.</li>
 <li>This pruning is achieved with something called <strong>cost complexity pruning</strong>, and the idea is very related to LASSO! The cost complexity criterion for classification trees looks like: <span class="math display">\[\text{average Gini index over leaves} + \alpha \times (\text{# leaves})\]</span> Describe how this pruning criterion helps with overfitting by discussing the 2 extremes of <span class="math inline">\(\alpha\)</span>. How can we pick a good value for <span class="math inline">\(\alpha\)</span>?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<p>In the exercises below, we’ll work with some real data and <code>caret</code> to nail down some computing essentials for decision trees.</p>
+<p>You’ll be looking at high resolution aerial image data to classify different parts of images into different types of urban land cover. Data from the <a href="https://archive.ics.uci.edu/ml/datasets/Urban+Land+Cover">UCI Machine Learning Repository</a> include the observed type of land cover (determined by human visual inspection) and “spectral, size, shape, and texture information” computed from the image.</p>
+<div class="figure">
+<img src="images/land_use.jpg" />
+
+</div>
+<p>There are 9 types of land uses in the dataset. We’ll focus on distinguishing between <code>asphalt</code>, <code>grass</code>, and <code>tree</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+<span class="kw">library</span>(dplyr)
+
+land &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.macalester.edu/~ajohns24/data/land_cover.csv&quot;</span>)
+land &lt;-<span class="st"> </span>land <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(class <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;asphalt &quot;</span>,<span class="st">&quot;grass &quot;</span>, <span class="st">&quot;tree &quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">droplevels</span>(class))</code></pre></div>
+<p>Before moving forward, install the <code>rpart</code> and <code>rpart.plot</code> packages in the Console. <code>rpart</code> builds decision trees and <code>rpart.plot</code> makes beautiful tree plots.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;rpart&quot;</span>, <span class="st">&quot;rpart.plot&quot;</span>))</code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li><p>There are 147 possible predictors of land use class. We can fit a decision tree using all 147 predictors with the code below. 10-fold CV is used to estimate test accuracy. The <code>tuneLength = 30</code> means that 30 values of the tree’s tuning parameter are tried. This tuning parameter is called the <code>cp</code> or “Complexity Parameter” and can be viewed similarly to <span class="math inline">\(\alpha\)</span> in Exercise 5. That is, high values of this parameter are akin to high values of <span class="math inline">\(\alpha\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
+<span class="kw">library</span>(rpart)
+<span class="kw">library</span>(rpart.plot)
+
+<span class="kw">set.seed</span>(<span class="dv">333</span>)
+tree_mod1 &lt;-<span class="st"> </span><span class="kw">train</span>(
+    class <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> land,
+    <span class="dt">method =</span> <span class="st">&quot;rpart&quot;</span>,
+    <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),
+    <span class="dt">tuneLength =</span> <span class="dv">30</span>
+)</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li><p>Plot test accuracy versus this Complexity Parameter. Roughly, what is the optimal value of this parameter?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(tree_mod1)</code></pre></div></li>
+<li>Why does the plot look this way? Specifically, write an explanation that discusses the far left of the plot, the middle, and the far right. Discuss tree complexity, bias, and variance in these 3 parts of the plot.</li>
+<li>Report the exact value for this optimal value with <code>tree_mod1$bestTune</code>, and report the estimated test accuracy of this tree by looking at <code>tree_mod1$results</code>.</li>
+<li><p>Plot the best tree with:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">rpart.plot</span>(tree_mod1<span class="op">$</span>finalModel)</code></pre></div>
+Look at page 3 of the <code>rpart.plot</code> <a href="http://www.milbo.org/doc/prp.pdf">package vignette</a> (an example-heavy manual) to understand what the plot components mean.</li>
+<li>What percent of the cases get split into the region defined by the following condition? <code>NDVI &gt;= -0.01, Bright_100 &lt; 142</code></li>
+<li>What would be your hard prediction of land use class when <code>NDVI = -0.05</code>?</li>
+<li><p>What are the soft predictions of a region being <code>asphalt</code>, <code>grass</code>, <code>tree</code> when <code>NDVI = -0.05</code>? Describe a situation in which these soft predictions would be useful.</p></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="7" style="list-style-type: decimal">
+<li>There are more tuning parameters than just the <code>cp</code> Complexity Parameter. You can view many ways to control the building of a tree (essentially encoding the stopping criteria) by looking at the help page for the <code>rpart.control()</code> function by entering <code>?rpart.control</code> in the Console. We will explore the <code>minbucket</code> parameter in this exercise.
+<ol style="list-style-type: lower-alpha">
+<li>Read about the <code>minbucket</code> parameter on the help page. What will happen to the number of splits in the tree as <code>minbucket</code> increases?</li>
+<li><p>The code below fits a decision tree using the best <code>cp</code> value identified from cross-validation earlier and uses a <code>minbucket</code> of 7 (the default value). Write a for-loop to plot trees for several <code>minbucket</code> values to check your response in part a. Use values from 10 to 70 counting up by 10.<br />
+Hint 1: First create the <code>minbucket</code> sequence using the <code>seq()</code> function.<br />
+Hint 2: You don’t need to create any “empty boxes” to store output because the goal is to just print the trees.<br />
+Hint 3: The inside of the for-loop will be almost identical to what is already below.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tree_mod2 &lt;-<span class="st"> </span><span class="kw">rpart</span>(
+    class <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> land,
+    <span class="dt">minbucket =</span> <span class="dv">7</span>,
+    <span class="dt">cp =</span> tree_mod1<span class="op">$</span>bestTune<span class="op">$</span>cp
+)
+<span class="kw">rpart.plot</span>(tree_mod2)</code></pre></div></li>
 </ol></li>
 </ol>
 
