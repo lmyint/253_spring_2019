@@ -38,7 +38,7 @@ Based on this example, why do you think the Gini index is preferred?
 
 **Trees can also be used for regression!**    
 For classification, we use average Gini index as a measure of node (im)purity for tree building. We can build regression trees using *residuals*. In particular, we try to find the particular predictor and split point that minimize the following equation:
-$$\sum_{i: x_i \in R_1} (y_i - \hat{y}_{R_1})^2 + \sum_{i: x_i \in R_2} (y_i - \hat{y}_{R_1})^2$$
+$$\sum_{i: x_i \in R_1} (y_i - \hat{y}_{R_1})^2 + \sum_{i: x_i \in R_2} (y_i - \hat{y}_{R_2})^2$$
 There's a lot of notation in the above equation, but we can break it down into two sensible pieces. $\hat{y}_{R_1}$ and $\hat{y}_{R_2}$ are the predicted values in region(/node/leaf) 1 and region 2. (Regions 1 and 2 are the left and right branches.) These predicted values are the mean of the cases that end up in that region. The left sum is the sum of squared residuals in region 1, and the right sum is the sum of squared residuals in region 2.    
 **Explain why minimizing the above equation is sensible for building regression trees.**
 
