@@ -109,12 +109,13 @@ Note: You don't have to include this in your homework, but you could refer back 
 <br>
 
 Extra! If you want a challenge, try implementing a random forest by yourself using a for-loop. You'll need a number of pieces of R syntax to get this up and running:
-    - Rely on the `rpart()` function to build the individual trees. You'll need to supply a formula object for the first part (like `class ~ x1+x4+x10`). How to do that....? Read on.
-    - Look at documentation for the `colnames()` and `setdiff()` functions to get a character vector of the predictors.
-    - Look at the `paste()` function for combining entries in a character vector into one string.
-    - Look at the `as.formula()` function.
-    - Look at `dplyr`'s `sample_n()` function for performing bootstrapping.
-    - You'll want to `set.seed()`...but inside or outside the for-loop?
+
+- Rely on the `rpart()` function to build the individual trees. You'll need to supply a formula object for the first part (like `class ~ x1+x4+x10`). How to do that....? Read on.
+- Look at documentation for the `colnames()` and `setdiff()` functions to get a character vector of the predictors.
+- Look at the `paste()` function for combining entries in a character vector into one string.
+- Look at the `as.formula()` function.
+- Look at `dplyr`'s `sample_n()` function for performing bootstrapping.
+- You'll want to `set.seed()`...but inside or outside the for-loop?
 
 ```{r eval=FALSE}
 # Use colnames() and setdiff() to get a character vector of the predictors:

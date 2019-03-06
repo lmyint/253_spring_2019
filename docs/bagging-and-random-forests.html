@@ -282,7 +282,15 @@ var_imp_rf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<spa
 </ol></li>
 </ol>
 <p><br> <br> <br> <br></p>
-<p>Extra! If you want a challenge, try implementing a random forest by yourself using a for-loop. You’ll need a number of pieces of R syntax to get this up and running: - Rely on the <code>rpart()</code> function to build the individual trees. You’ll need to supply a formula object for the first part (like <code>class ~ x1+x4+x10</code>). How to do that….? Read on. - Look at documentation for the <code>colnames()</code> and <code>setdiff()</code> functions to get a character vector of the predictors. - Look at the <code>paste()</code> function for combining entries in a character vector into one string. - Look at the <code>as.formula()</code> function. - Look at <code>dplyr</code>’s <code>sample_n()</code> function for performing bootstrapping. - You’ll want to <code>set.seed()</code>…but inside or outside the for-loop?</p>
+<p>Extra! If you want a challenge, try implementing a random forest by yourself using a for-loop. You’ll need a number of pieces of R syntax to get this up and running:</p>
+<ul>
+<li>Rely on the <code>rpart()</code> function to build the individual trees. You’ll need to supply a formula object for the first part (like <code>class ~ x1+x4+x10</code>). How to do that….? Read on.</li>
+<li>Look at documentation for the <code>colnames()</code> and <code>setdiff()</code> functions to get a character vector of the predictors.</li>
+<li>Look at the <code>paste()</code> function for combining entries in a character vector into one string.</li>
+<li>Look at the <code>as.formula()</code> function.</li>
+<li>Look at <code>dplyr</code>’s <code>sample_n()</code> function for performing bootstrapping.</li>
+<li>You’ll want to <code>set.seed()</code>…but inside or outside the for-loop?</li>
+</ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use colnames() and setdiff() to get a character vector of the predictors:</span>
 predictors &lt;-<span class="st"> </span>???
 <span class="co"># Total number of trees in the forest</span>
