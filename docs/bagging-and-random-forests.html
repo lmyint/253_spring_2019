@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>MATH 253: Machine Learning</title>
+  <title>Topic 13 Bagging and Random Forests | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 13 Bagging and Random Forests | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 13 Bagging and Random Forests | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="schedule.html">
+<link rel="prev" href="decision-trees.html">
+<link rel="next" href="cross-validation-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -204,35 +204,115 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">MATH 253: Machine Learning</h1>
-</div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<center>
-<div class="figure">
-<img src="images/ml_robot.jpg" />
+<div id="bagging-and-random-forests" class="section level1">
+<h1><span class="header-section-number">Topic 13</span> Bagging and Random Forests</h1>
+<div id="exercises-11" class="section level2">
+<h2><span class="header-section-number">13.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/13-bagging-rf.Rmd">here</a>.</strong></p>
+<p>Install the <code>randomForest</code> package in the Console before starting these exercises.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load required packages</span>
+<span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(rpart)
+<span class="kw">library</span>(randomForest)
+<span class="kw">library</span>(caret)
 
-</div>
-<a href="https://cdn.redshift.autodesk.com/2016/05/Machine-Learning-hero.jpg">Image source</a>
-</center>
-<p><br> <br></p>
-<p>This is the class manual for Machine Learning (MATH 253) at Macalester College. The content here was made by <a href="https://lmyint.github.io">Leslie Myint</a> and draws upon our class textbook, <a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning with Applications in R</a>, and on <a href="https://ajohns24.github.io/253_Fall_18/index.html">materials</a> prepared by <a href="http://aliciajohnson78.weebly.com/">Alicia Johnson</a>.</p>
+<span class="co"># Read in data</span>
+land &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.macalester.edu/~ajohns24/data/land_cover.csv&quot;</span>)
+land &lt;-<span class="st"> </span>land <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">filter</span>(class <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;asphalt &quot;</span>,<span class="st">&quot;grass &quot;</span>, <span class="st">&quot;tree &quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">class =</span> <span class="kw">droplevels</span>(class))</code></pre></div>
 <p><br> <br> <br></p>
-<div class="figure">
-<img src="images/cc_license_button.png" />
+<ol style="list-style-type: decimal">
+<li>Fit a random forest with <code>caret</code> with 10-fold CV, and call this object <code>rf_mod_cv</code>. This time the code is not provided. Try to figure out how to construct the <code>train()</code> command by looking back at previous examples from other methods. Some guidance:
+<ul>
+<li>Visit <code>caret</code>’s (extensive) <a href="https://topepo.github.io/caret/available-models.html">manual</a> and search for “random forest” in the top right search bar. There will be <em>many</em> results. Find the entry that only has <code>randomForest</code> listed in the “Libraries” column. (The instructor is not familiar with the other packages.) Pay attention to the “method Value” column.</li>
+<li>Also pay attention to the “Tuning Parameters” column. <strong>Answer these next 2 questions in your homework:</strong> What is the tuning parameter called? What does this stand for? (To answer the second question, look up the documentation for the <code>randomForest()</code> function by entering <code>?randomForest</code> in the Console.)</li>
+<li>Don’t worry about the <code>tuneGrid</code> option for now. If you don’t supply this, <code>caret</code> picks sensible default values for varying the tuning parameter.</li>
+<li>(In general) Don’t worry about including <code>na.action</code> unless you end up getting an error message that has something to do with <code>NA</code>’s.</li>
+</ul></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Now that you have your <code>train()</code> command set up, let’s time how long it takes to execute. Wrap your entire command within the <code>system.time()</code> function as below:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">system.time</span>({
+rf_mod_cv &lt;-<span class="st"> </span><span class="kw">train</span>(???)
+})</code></pre></div>
+<p>The number under <code>elapsed</code> gives the runtime in seconds.</p></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Ah! But as discussed in the video, OOB is another option. Figure out how to modify the <code>trControl</code> part of your command to use OOB error estimation (look up the documentation for <code>caret</code>’s <code>trainControl()</code> function), and save this new object as <code>rf_mod_oob</code>. Also time your command with <code>system.time()</code> as above. How does the runtime here compare to using CV?</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Print the <code>rf_mod_oob</code> and <code>rf_mod_cv</code>.
+<ol style="list-style-type: lower-alpha">
+<li>How do the estimated test accuracies compare between the two test error estimation methods?</li>
+<li>Now let’s just focus on <code>rf_mod_oob</code>. What value of the tuning parameter corresponds to performing <strong>just bagging</strong> (bagging but not random forests)? Why?</li>
+<li>Plot estimated test accuracy versus the tuning parameter. (For any object resulting from <code>caret</code>’s <code>train()</code> function, you can put that object inside <code>plot()</code> to make this plot.)</li>
+<li>The other tuning parameters correspond to random forests. How do random forests compare to bagging? Is this dependent on the tuning parameter? Discuss in terms of the bias-variance tradeoff.</li>
+</ol></li>
+</ol>
+<p><br> <br></p>
+<p>Note: You don’t have to include this in your homework, but you could refer back to your test accuracy from a single decision tree from the last set of exercises (where you made <code>tree_mod1</code> in Exercise 6) and check: do random forests actually improve on the single decision tree?</p>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li><strong>Confusion matrix</strong><br />
+The OOB principle can be used to generate a test confusion matrix (as opposed to a training confusion matrix). This is displayed when you print <code>rf_mod_oob$finalModel</code>. Rows are predicted classes, and columns are true classes. In parts a and b, we’ll nail down the difference between test and training confusion matrices.
+<ol style="list-style-type: lower-alpha">
+<li>For a particular case in the dataset, how do we determine the trees for which the case is OOB? How do we use these trees to make a single prediction for this case? Thus, how is the test confusion matrix constructed.</li>
+<li>This is contrast to a training confusion matrix where we use <strong>all</strong> trees to make a prediction for a particular case–even trees that were built on data that included this case. Why is the test confusion matrix preferable to a training confusion matrix?</li>
+<li>Look at the errors that were made for our land use classification. Why (contextually) do you think some errors are more common than others?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="6" style="list-style-type: decimal">
+<li><p><strong>Variable importance measures</strong><br />
+Because bagging and random forests use tons of trees, the nice interpretability of single decision trees is lost. However, we can still get a measure of how important the different variables were in this classification task. For each of the 147 predictors, the code below gives the “total decrease in node impurities (as measured by the Gini index) from splitting on the variable, averaged over all trees” (package documentation).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var_imp_rf &lt;-<span class="st"> </span>randomForest<span class="op">::</span><span class="kw">importance</span>(rf_mod_oob<span class="op">$</span>finalModel)
+<span class="co"># Sort by importance with dplyr&#39;s arrange()</span>
+var_imp_rf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">predictor =</span> <span class="kw">rownames</span>(var_imp_rf), <span class="dt">MeanDecreaseGini =</span> var_imp_rf[,<span class="st">&quot;MeanDecreaseGini&quot;</span>]) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(MeanDecreaseGini))
+<span class="co"># Top 20</span>
+<span class="kw">head</span>(var_imp_rf, <span class="dv">20</span>)
+<span class="co"># Bottom 10</span>
+<span class="kw">tail</span>(var_imp_rf, <span class="dv">10</span>)</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Check out the codebook for these variables <a href="https://archive.ics.uci.edu/ml/datasets/Urban+Land+Cover">here</a>. The descriptions of the variables aren’t the greatest…but does this ranking make some contextual sense?</li>
+<li>It has been found that this random forest measure of variable importance is ok generally but can tend to favor predictors with a lot of unique values. Explain briefly why it makes sense that this can happen by thinking about the recursive binary splitting algorithm for a single tree.</li>
+</ol></li>
+</ol>
+<p><br> <br> <br> <br></p>
+<p>Extra! If you want a challenge, try implementing a random forest by yourself using a for-loop. You’ll need a number of pieces of R syntax to get this up and running: - Rely on the <code>rpart()</code> function to build the individual trees. You’ll need to supply a formula object for the first part (like <code>class ~ x1+x4+x10</code>). How to do that….? Read on. - Look at documentation for the <code>colnames()</code> and <code>setdiff()</code> functions to get a character vector of the predictors. - Look at the <code>paste()</code> function for combining entries in a character vector into one string. - Look at the <code>as.formula()</code> function. - Look at <code>dplyr</code>’s <code>sample_n()</code> function for performing bootstrapping. - You’ll want to <code>set.seed()</code>…but inside or outside the for-loop?</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use colnames() and setdiff() to get a character vector of the predictors:</span>
+predictors &lt;-<span class="st"> </span>???
+<span class="co"># Total number of trees in the forest</span>
+num_trees &lt;-<span class="st"> </span><span class="dv">100</span>
+<span class="co"># Compute the square root of the number of predictors.</span>
+<span class="co"># You&#39;ll want to round() this</span>
+num_pred_per_tree &lt;-<span class="st"> </span>???
+<span class="co"># Set up contain for the trees</span>
+tree_list &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="dt">length =</span> num_trees)
+<span class="co"># Loop!</span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_len</span>(num_trees)) {
+    land_boot &lt;-<span class="st"> </span><span class="kw">sample_n</span>(???)
+    random_predictors &lt;-<span class="st"> </span><span class="kw">sample</span>(???)
+    tree_formula &lt;-<span class="st"> </span>???
+    tree_boot &lt;-<span class="st"> </span><span class="kw">rpart</span>(???)
+    tree_list[[i]] &lt;-<span class="st"> </span>tree_boot
+}</code></pre></div>
 
 </div>
-<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="schedule.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="decision-trees.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

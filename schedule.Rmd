@@ -12,7 +12,7 @@ Regression tasks: Weeks 2-5
 
 Classification tasks: Weeks 6-9
 
-- Topics: model evaluation, logistic regression, discriminant analysis, tree-based methods, support vector methods
+- Topics: model evaluation, logistic regression, tree-based methods, support vector methods
 
 Unsupervised learning: Weeks 10-11
 
@@ -63,7 +63,7 @@ Other topics + project work time: Weeks 12-14
     Related ISLR reading: Sections 4.1-4.3
 - **Wednesday:** Finish up logistic regression. Using old tools in the classification setting    
     Related ISLR reading: Section 7.7.2 (GAMs for Classification Problems), pages 39-42 (KNN for classification)
-- **Friday:** Decision trees (Video being updated, [Slides](https://drive.google.com/file/d/1yUDSUTK2kqBq9s8u51fT-fxle0Mj0Wae/view?usp=sharing))    
+- **Friday:** Decision trees ([Video](https://youtu.be/xPnbEG-B4rY), [Slides](https://drive.google.com/file/d/1yUDSUTK2kqBq9s8u51fT-fxle0Mj0Wae/view?usp=sharing))    
     Related ISLR reading: 8.1
 
 
@@ -72,6 +72,17 @@ Other topics + project work time: Weeks 12-14
 - **Monday:** Decision trees
 - **Wednesday:** Bagging and random forests ([Video](https://youtu.be/_7ryee6uuHY), [Slides](https://drive.google.com/file/d/15XOjXyk7nXVzkuMLgnR16FK2zBHUiyjZ/view?usp=sharing))    
     Related ISLR reading: 8.2
+- **Friday:** Quiz 3. Finish up bagging and random forests.
+
+## Week 8: 3/11 - 3/15 {-}
+
+Review & midterm exam
+
+Happy Spring Break!
+
+## Week 9: 3/25 - 3/29 {-}
+
+
 
 
 

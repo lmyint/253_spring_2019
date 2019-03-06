@@ -1,0 +1,138 @@
+# Bagging and Random Forests
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
+```
+
+## Exercises
+
+**You can download a template RMarkdown file to start from [here](template_rmds/13-bagging-rf.Rmd).**
+
+Install the `randomForest` package in the Console before starting these exercises.
+
+```{r eval=FALSE}
+# Load required packages
+library(dplyr)
+library(rpart)
+library(randomForest)
+library(caret)
+
+# Read in data
+land <- read.csv("https://www.macalester.edu/~ajohns24/data/land_cover.csv")
+land <- land %>% 
+    filter(class %in% c("asphalt ","grass ", "tree ")) %>% 
+    mutate(class = droplevels(class))
+```
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Fit a random forest with `caret` with 10-fold CV, and call this object `rf_mod_cv`. This time the code is not provided. Try to figure out how to construct the `train()` command by looking back at previous examples from other methods. Some guidance:
+    - Visit `caret`'s (extensive) [manual](https://topepo.github.io/caret/available-models.html) and search for "random forest" in the top right search bar. There will be *many* results. Find the entry that only has `randomForest` listed in the "Libraries" column. (The instructor is not familiar with the other packages.) Pay attention to the "method Value" column.
+    - Also pay attention to the "Tuning Parameters" column. **Answer these next 2 questions in your homework:** What is the tuning parameter called? What does this stand for? (To answer the second question, look up the documentation for the `randomForest()` function by entering `?randomForest` in the Console.)
+    - Don't worry about the `tuneGrid` option for now. If you don't supply this, `caret` picks sensible default values for varying the tuning parameter.
+    - (In general) Don't worry about including `na.action` unless you end up getting an error message that has something to do with `NA`'s.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Now that you have your `train()` command set up, let's time how long it takes to execute. Wrap your entire command within the `system.time()` function as below:
+    ```{r eval=FALSE}
+    system.time({
+    rf_mod_cv <- train(???)
+    })
+    ```
+    The number under `elapsed` gives the runtime in seconds.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Ah! But as discussed in the video, OOB is another option. Figure out how to modify the `trControl` part of your command to use OOB error estimation (look up the documentation for `caret`'s `trainControl()` function), and save this new object as `rf_mod_oob`. Also time your command with `system.time()` as above. How does the runtime here compare to using CV?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Print the `rf_mod_oob` and `rf_mod_cv`.
+    a. How do the estimated test accuracies compare between the two test error estimation methods?
+    b. Now let's just focus on `rf_mod_oob`. What value of the tuning parameter corresponds to performing **just bagging** (bagging but not random forests)? Why?
+    c. Plot estimated test accuracy versus the tuning parameter. (For any object resulting from `caret`'s `train()` function, you can put that object inside `plot()` to make this plot.)
+    d. The other tuning parameters correspond to random forests. How do random forests compare to bagging? Is this dependent on the tuning parameter? Discuss in terms of the bias-variance tradeoff.
+
+<br>
+<br>
+
+Note: You don't have to include this in your homework, but you could refer back to your test accuracy from a single decision tree from the last set of exercises (where you made `tree_mod1` in Exercise 6) and check: do random forests actually improve on the single decision tree?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Confusion matrix**    
+    The OOB principle can be used to generate a test confusion matrix (as opposed to a training confusion matrix). This is displayed when you print `rf_mod_oob$finalModel`. Rows are predicted classes, and columns are true classes. In parts a and b, we'll nail down the difference between test and training confusion matrices.
+    a. For a particular case in the dataset, how do we determine the trees for which the case is OOB? How do we use these trees to make a single prediction for this case? Thus, how is the test confusion matrix constructed.
+    b. This is contrast to a training confusion matrix where we use **all** trees to make a prediction for a particular case--even trees that were built on data that included this case. Why is the test confusion matrix preferable to a training confusion matrix?
+    c. Look at the errors that were made for our land use classification. Why (contextually) do you think some errors are more common than others?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Variable importance measures**    
+    Because bagging and random forests use tons of trees, the nice interpretability of single decision trees is lost. However, we can still get a measure of how important the different variables were in this classification task. For each of the 147 predictors, the code below gives the "total decrease in node impurities (as measured by the Gini index) from splitting on the variable, averaged over all trees" (package documentation).
+    ```{r eval=FALSE}
+    var_imp_rf <- randomForest::importance(rf_mod_oob$finalModel)
+    # Sort by importance with dplyr's arrange()
+    var_imp_rf <- data.frame(predictor = rownames(var_imp_rf), MeanDecreaseGini = var_imp_rf[,"MeanDecreaseGini"]) %>% arrange(desc(MeanDecreaseGini))
+    # Top 20
+    head(var_imp_rf, 20)
+    # Bottom 10
+    tail(var_imp_rf, 10)
+    ```
+    a. Check out the codebook for these variables [here](https://archive.ics.uci.edu/ml/datasets/Urban+Land+Cover). The descriptions of the variables aren't the greatest...but does this ranking make some contextual sense?
+    b. It has been found that this random forest measure of variable importance is ok generally but can tend to favor predictors with a lot of unique values. Explain briefly why it makes sense that this can happen by thinking about the recursive binary splitting algorithm for a single tree.
+
+<br>
+<br>
+<br>
+<br>
+
+Extra! If you want a challenge, try implementing a random forest by yourself using a for-loop. You'll need a number of pieces of R syntax to get this up and running:
+    - Rely on the `rpart()` function to build the individual trees. You'll need to supply a formula object for the first part (like `class ~ x1+x4+x10`). How to do that....? Read on.
+    - Look at documentation for the `colnames()` and `setdiff()` functions to get a character vector of the predictors.
+    - Look at the `paste()` function for combining entries in a character vector into one string.
+    - Look at the `as.formula()` function.
+    - Look at `dplyr`'s `sample_n()` function for performing bootstrapping.
+    - You'll want to `set.seed()`...but inside or outside the for-loop?
+
+```{r eval=FALSE}
+# Use colnames() and setdiff() to get a character vector of the predictors:
+predictors <- ???
+# Total number of trees in the forest
+num_trees <- 100
+# Compute the square root of the number of predictors.
+# You'll want to round() this
+num_pred_per_tree <- ???
+# Set up contain for the trees
+tree_list <- vector("list", length = num_trees)
+# Loop!
+for (i in seq_len(num_trees)) {
+    land_boot <- sample_n(???)
+    random_predictors <- sample(???)
+    tree_formula <- ???
+    tree_boot <- rpart(???)
+    tree_list[[i]] <- tree_boot
+}
+```
+

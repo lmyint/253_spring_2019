@@ -86,8 +86,10 @@ What is the average Gini index for the first split? For the second split? Which 
         Node 2 has 100 cases of class A and 300 of class B    
     Split 2:    
         Node 1 has 200 cases of class A and 400 of class B    
-        Node 2 has 200 cases of class A and 0 of class B
+        Node 2 has 200 cases of class A and 0 of class B    
+
     \
+    
     a. To make a prediction for a node, we predict the majority class for all cases in that node. (e.g. For Split 1, Node 1, we predict A for all cases in that node.) What is the overall accuracy over both Nodes 1 and 2 for Split 1? For Split 2?
     b. What is the average Gini index for Split 1? For Split 2?
     c. Based on this example, why do you think the Gini index is preferred?
