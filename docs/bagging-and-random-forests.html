@@ -210,6 +210,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <h2><span class="header-section-number">13.1</span> Exercises</h2>
 <p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/13-bagging-rf.Rmd">here</a>.</strong></p>
 <p>Install the <code>randomForest</code> package in the Console before starting these exercises.</p>
+<p>We will continue looking at high resolution aerial image data to classify different parts of images into different types of urban land cover. Data from the <a href="https://archive.ics.uci.edu/ml/datasets/Urban+Land+Cover">UCI Machine Learning Repository</a> include the observed type of land cover (determined by human visual inspection) and “spectral, size, shape, and texture information” computed from the image. You will be predicting the <code>class</code> variable which gives the type of urban land cover.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load required packages</span>
 <span class="kw">library</span>(dplyr)
 <span class="kw">library</span>(rpart)
@@ -260,7 +261,7 @@ rf_mod_cv &lt;-<span class="st"> </span><span class="kw">train</span>(???)
 <li><strong>Confusion matrix</strong><br />
 The OOB principle can be used to generate a test confusion matrix (as opposed to a training confusion matrix). This is displayed when you print <code>rf_mod_oob$finalModel</code>. Rows are predicted classes, and columns are true classes. In parts a and b, we’ll nail down the difference between test and training confusion matrices.
 <ol style="list-style-type: lower-alpha">
-<li>For a particular case in the dataset, how do we determine the trees for which the case is OOB? How do we use these trees to make a single prediction for this case? Thus, how is the test confusion matrix constructed.</li>
+<li>For a particular case in the dataset, how do we determine the trees for which the case is OOB? How do we use these trees to make a single prediction for this case? Thus, how is the test confusion matrix constructed?</li>
 <li>This is contrast to a training confusion matrix where we use <strong>all</strong> trees to make a prediction for a particular case–even trees that were built on data that included this case. Why is the test confusion matrix preferable to a training confusion matrix?</li>
 <li>Look at the errors that were made for our land use classification. Why (contextually) do you think some errors are more common than others?</li>
 </ol></li>
@@ -291,6 +292,7 @@ var_imp_rf &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<spa
 <li>Look at <code>dplyr</code>’s <code>sample_n()</code> function for performing bootstrapping.</li>
 <li>You’ll want to <code>set.seed()</code>…but inside or outside the for-loop?</li>
 </ul>
+<p>Note: this is a simpler version of a random forest in which a random subset of the predictors is used for an entire single tree rather than different random subsets at each split. To actually implement the random subset of predictors at each split, we’d need to code decision trees from scratch…which is possible, but much more adventurous!</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Use colnames() and setdiff() to get a character vector of the predictors:</span>
 predictors &lt;-<span class="st"> </span>???
 <span class="co"># Total number of trees in the forest</span>

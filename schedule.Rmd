@@ -70,7 +70,7 @@ Other topics + project work time: Weeks 12-14
 ## Week 7: 3/4 - 3/8 {-}
 
 - **Monday:** Decision trees
-- **Wednesday:** Bagging and random forests ([Video](https://youtu.be/_7ryee6uuHY), [Slides](https://drive.google.com/file/d/15XOjXyk7nXVzkuMLgnR16FK2zBHUiyjZ/view?usp=sharing))    
+- **Wednesday:** Bagging and random forests ([Video](https://youtu.be/841I7-imlVo), [Slides](https://drive.google.com/file/d/15XOjXyk7nXVzkuMLgnR16FK2zBHUiyjZ/view?usp=sharing))    
     Related ISLR reading: 8.2
 - **Friday:** Quiz 3. Finish up bagging and random forests.
 

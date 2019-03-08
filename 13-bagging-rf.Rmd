@@ -18,6 +18,8 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
 
 Install the `randomForest` package in the Console before starting these exercises.
 
+We will continue looking at high resolution aerial image data to classify different parts of images into different types of urban land cover. Data from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Urban+Land+Cover) include the observed type of land cover (determined by human visual inspection) and "spectral, size, shape, and texture information" computed from the image. You will be predicting the `class` variable which gives the type of urban land cover.
+
 ```{r eval=FALSE}
 # Load required packages
 library(dplyr)
@@ -81,7 +83,7 @@ Note: You don't have to include this in your homework, but you could refer back 
 
 `r NextQ()`. **Confusion matrix**    
     The OOB principle can be used to generate a test confusion matrix (as opposed to a training confusion matrix). This is displayed when you print `rf_mod_oob$finalModel`. Rows are predicted classes, and columns are true classes. In parts a and b, we'll nail down the difference between test and training confusion matrices.
-    a. For a particular case in the dataset, how do we determine the trees for which the case is OOB? How do we use these trees to make a single prediction for this case? Thus, how is the test confusion matrix constructed.
+    a. For a particular case in the dataset, how do we determine the trees for which the case is OOB? How do we use these trees to make a single prediction for this case? Thus, how is the test confusion matrix constructed?
     b. This is contrast to a training confusion matrix where we use **all** trees to make a prediction for a particular case--even trees that were built on data that included this case. Why is the test confusion matrix preferable to a training confusion matrix?
     c. Look at the errors that were made for our land use classification. Why (contextually) do you think some errors are more common than others?
 
@@ -116,6 +118,8 @@ Extra! If you want a challenge, try implementing a random forest by yourself usi
 - Look at the `as.formula()` function.
 - Look at `dplyr`'s `sample_n()` function for performing bootstrapping.
 - You'll want to `set.seed()`...but inside or outside the for-loop?
+
+Note: this is a simpler version of a random forest in which a random subset of the predictors is used for an entire single tree rather than different random subsets at each split. To actually implement the random subset of predictors at each split, we'd need to code decision trees from scratch...which is possible, but much more adventurous!
 
 ```{r eval=FALSE}
 # Use colnames() and setdiff() to get a character vector of the predictors:

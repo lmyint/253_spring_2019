@@ -159,6 +159,8 @@ If you want a challenge, try implementing a random forest by yourself using a fo
 - Look at `dplyr`'s `sample_n()` function for performing bootstrapping.
 - You'll want to `set.seed()`...but inside or outside the for-loop?
 
+Note: this is a simpler version of a random forest in which a random subset of the predictors is used for an entire single tree rather than different random subsets at each split. To actually implement the random subset of predictors at each split, we'd need to code decision trees from scratch...which is possible, but much more adventurous!
+
 ```{r}
 # Use colnames() and setdiff() to get a character vector of the predictors:
 predictors <- ???
