@@ -118,7 +118,7 @@ Review ideas:
 - A natural cubic spline is a function that consists of piecewise polynomials stitched together across multiple subregions of a predictor.
     - These subregions are formed by cutting the span of the predictor at break points called **knots**.
     - The piecewise polynomials are continuous at the knots and have continuous first and second derivatives at the knots.
-    - The spline function is linear in the region lower than the minimum value of the predictor variable and linear in the region higher than the amx
+    - The spline function is linear in the region lower than the minimum value of the predictor variable and linear in the region higher than the maximum value. (This point is not the most important, but the first two points above are more important.)
 - If you choose to break a predictor by choosing $K$ knots, $K+1$ regions are formed, which is the **degrees of freedom (df)** tuning parameter for splines.
 - The nice thing about a spline is that you can represent this spline function with a **weighted sum** of simpler polynomial functions.
     - e.g. We desire the relationship between $y$ and $x$ to be modeled with a spline with 1 knot at $x = k$. I can create a spline function to represent this relationship by adding and subtracting together a certain amount of $f_1(x) = x$, $f_2(x) = x^2$, $f_3(x) = x^3$, and $f_4(x) = (x-k)^3_+$.    

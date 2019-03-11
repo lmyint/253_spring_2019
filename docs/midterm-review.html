@@ -312,7 +312,7 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <ul>
 <li>These subregions are formed by cutting the span of the predictor at break points called <strong>knots</strong>.</li>
 <li>The piecewise polynomials are continuous at the knots and have continuous first and second derivatives at the knots.</li>
-<li>The spline function is linear in the region lower than the minimum value of the predictor variable and linear in the region higher than the amx</li>
+<li>The spline function is linear in the region lower than the minimum value of the predictor variable and linear in the region higher than the maximum value. (This point is not the most important, but the first two points above are more important.)</li>
 </ul></li>
 <li>If you choose to break a predictor by choosing <span class="math inline">\(K\)</span> knots, <span class="math inline">\(K+1\)</span> regions are formed, which is the <strong>degrees of freedom (df)</strong> tuning parameter for splines.</li>
 <li>The nice thing about a spline is that you can represent this spline function with a <strong>weighted sum</strong> of simpler polynomial functions.
