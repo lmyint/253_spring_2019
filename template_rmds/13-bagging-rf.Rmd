@@ -78,11 +78,11 @@ Now let's just focus on `rf_mod_oob`. What value of the tuning parameter corresp
 
 ## Part c
 
-Plot estimated test accuracy versus the tuning parameter. (For any object resulting from `caret`'s `train()` function, you can put that object inside `plot()` to make this plot.)
+Plot estimated test accuracy versus the tuning parameter. (For any object resulting from `caret`'s `train()` function, you can put that object inside `plot()` to make such a plot. That is, you can just run `plot(rf_mod_oob)`.)
 
 ## Part d
 
-The other tuning parameters correspond to random forests. How do random forests compare to bagging? Is this dependent on the tuning parameter? Discuss in terms of the bias-variance tradeoff.
+The other values of the tuning parameters correspond to random forests. How do random forests compare to bagging? Is this dependent on the tuning parameter? Discuss in terms of the bias-variance tradeoff.
 
 
 

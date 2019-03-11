@@ -44,12 +44,12 @@ Instead of assuming **linear** relationships between predictors and the response
 
 $$\text{Outstate} = \beta_0 + \beta_1\text{Private} + \beta_2\text{PhD} + \beta_3\text{Expend} + \varepsilon$$
 
-...let's be more general and say that the relationships can be arbitrary functions?
+...let's be more general and say that the relationships can be arbitrary functions:
 
 $$\text{Outstate} = \beta_0 + f_1(\text{Private}) + f_2(\text{PhD}) + f_3(\text{Expend}) + \varepsilon$$
 
 - If the functions $f_1, f_2, f_3$ can be described with splines, then the model is just like an ordinary linear regression model and can be fit with least squares.
-- Usually we have these functions be described with LOESS functions
+- We can also have these functions be described with LOESS functions.
 
 <br>
 <br>

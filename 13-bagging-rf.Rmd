@@ -66,11 +66,11 @@ land <- land %>%
 <br>
 <br>
 
-`r NextQ()`. Print the `rf_mod_oob` and `rf_mod_cv`.
+`r NextQ()`. Print `rf_mod_oob` and `rf_mod_cv`. (Just type the object names. Running this code displays some summary output for these models that `caret` has computed.)
     a. How do the estimated test accuracies compare between the two test error estimation methods?
     b. Now let's just focus on `rf_mod_oob`. What value of the tuning parameter corresponds to performing **just bagging** (bagging but not random forests)? Why?
-    c. Plot estimated test accuracy versus the tuning parameter. (For any object resulting from `caret`'s `train()` function, you can put that object inside `plot()` to make this plot.)
-    d. The other tuning parameters correspond to random forests. How do random forests compare to bagging? Is this dependent on the tuning parameter? Discuss in terms of the bias-variance tradeoff.
+    c. Plot estimated test accuracy versus the tuning parameter. (For any object resulting from `caret`'s `train()` function, you can put that object inside `plot()` to make such a plot. That is, you can just run `plot(rf_mod_oob)`.)
+    d. The other values of the tuning parameters correspond to random forests. How do random forests compare to bagging? Is this dependent on the tuning parameter? Discuss in terms of the bias-variance tradeoff.
 
 <br>
 <br>

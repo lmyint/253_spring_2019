@@ -10,6 +10,7 @@ If you come across something interesting and would like to share it here, feel f
 - [ML and astrophysics](https://www.symmetrymagazine.org/article/data-scientists-face-off-in-lsst-machine-learning-competition) (Thanks, Karen!)
 - [Automated background checks are deciding who's fit for a home](https://www.theverge.com/platform/amp/2019/2/1/18205174/automation-background-check-criminal-records-corelogic) (Thanks, Eleanor!)
 - [How many high school stars make it in the NBA?](https://pudding.cool/2019/03/hype/)
+- [The AI-Art Gold Rush Is Here](https://www.theatlantic.com/technology/archive/2019/03/ai-created-art-invades-chelsea-gallery-scene/584134/) (Thanks, Blake!)
 
 
 

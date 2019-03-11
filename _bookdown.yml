@@ -1,6 +1,6 @@
 book_filename: "math253_manual"
 output_dir: docs/
-rmd_files: ["index.Rmd", "schedule.Rmd", "ml_society.Rmd", "01-motivation-and-review.Rmd", "02-regression-assumptions.Rmd", "03-accuracy-metrics.Rmd", "04-cross-validation.Rmd", "05-subset-selection.Rmd", "06-shrinkage.Rmd", "07-knn.Rmd", "08-splines.Rmd", "09-loess-gams.Rmd", "10-logistic-regression.Rmd", "11-revisiting-old-tools.Rmd", "12-decision-trees.Rmd", "13-bagging-rf.Rmd", "a1-cross-validation.Rmd"]
+rmd_files: ["index.Rmd", "schedule.Rmd", "ml_society.Rmd", "01-motivation-and-review.Rmd", "02-regression-assumptions.Rmd", "03-accuracy-metrics.Rmd", "04-cross-validation.Rmd", "05-subset-selection.Rmd", "06-shrinkage.Rmd", "07-knn.Rmd", "08-splines.Rmd", "09-loess-gams.Rmd", "10-logistic-regression.Rmd", "11-revisiting-old-tools.Rmd", "12-decision-trees.Rmd", "13-bagging-rf.Rmd", "r1-midterm.Rmd", "a1-cross-validation.Rmd", "a2-splines.Rmd"]
 language:
   ui:
     chapter_name: "Topic "
