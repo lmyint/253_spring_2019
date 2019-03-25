@@ -1,0 +1,74 @@
+# (PART\*) Final Project {-}
+
+# Final Project Instructions {-}
+
+## Overview {-}
+
+For your final project, you will apply the statistical machine learning methods that we've covered in class to answer scientific questions pertaining to datasets(s) that are interesting to you.
+
+You can work in groups of ***up to 3 students***, and you can choose your own groups.
+
+Some sources for datasets are listed below. If you are interested in a particular topic and would like help finding data, let me know!
+
+- [Kaggle](https://www.kaggle.com/datasets)
+- [Google Dataset Search](https://toolbox.google.com/datasetsearch)
+- [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php)
+- [fivethirtyeight](https://github.com/fivethirtyeight/data)
+- [The Pudding](https://github.com/the-pudding/data)
+
+**Deliverables**
+
+The final project is worth 120 points total with the breakdown below. See sections below for more details on each part.
+
+1. Initial check-in (20 points)
+2. Final report (60 points)
+3. Final presentation (40 points)
+
+<br>
+<br>
+<br>
+
+## Initial check-in {-}
+
+DUE: This must be completed the week of 4/8-4/12.
+
+Each group will schedule a time to meet with me to present (informally) the following items involved in starting up the project. A Google Doc will be linked here where your group can sign up for a time slot to do this initial check-in with me.
+
+- Provide an overview of the information in the dataset and the main scientific question(s) being investigated.
+- Provide justification that the data is cleaned and prepared in such a way that your machine learning explorations can proceed. This could include (but is not restricted to) missing value imputation, creation of relevant variables, and generally ensuring correct coding of variables.
+
+<br>
+<br>
+<br>
+
+## Final report {-}
+
+DUE: Monday, May 13 at midnight on Moodle.
+
+The final report is meant to communicate the insights gained from your machine learning analysis to a statistically-savvy audience. The final report will be a knitted HTML file.
+
+You should make sure to include the following:
+
+1. Introduce your data and research question(s). Describe your research plan so that readers can easily follow your thought process and the flow of the report. Please also include key results at the beginning so that readers know what to watch for. Also mention any important data cleaning or preparation. NOTE: it is not necessary (or advisable) to report absolutely every small step that you take.
+
+2. Exploratory work and basic analyses. Use graphs to illustrate interesting relationships that are important to your final analyses. DO NOT just show a bunch of graphs because you can. You should *label* and *discuss* every graph you include. There is no required number to include. The graphs should help us understand your analysis process and illuminate key features of the data.
+
+3. Describe the analysis process. Method comparison and sensitivity analyses are absolutely CRUCIAL to good scientific work. To that end, you MUST compare at least 2 different methods from class in answering your scientific questions. It is important to report what you tried, but do so SUCCINCTLY.
+
+4. Summarize the results succinctly. Reiterate why we should be interested in this analysis. Depending on the project, you might do this in different ways. Maybe there were important relationships you learned about. Or maybe you have a nice way to predict something useful. Let us know what we've learned and why it's important/neat/interesting.
+
+**Formatting tips and requirements will be added here soon.**
+
+<br>
+<br>
+<br>
+
+## Final presentation {-}
+
+DUE: Friday, May 3 and Monday, May 6
+
+The last 2 days of class will be reserved for project presentations. I have not decided yet whether the presentations will be a poster or slides, but you will be presenting to other students. The points you should emphasize for the presentation are the same 4 points that you should emphasize for the final report (detailed above).
+
+**More information will be added here soon.**
+
+

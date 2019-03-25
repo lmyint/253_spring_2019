@@ -1,13 +1,13 @@
-# (PART) Review {-}
+# (PART\*) Review {-}
 
-# Midterm Review
+# Midterm Review {-}
 
 [Shared Google doc for midterm review](https://docs.google.com/document/d/1lT7Qz7Lw4Q0qBv3Z5k7VlZQKtJtrPUfLS570CmmgYnM/edit?usp=sharing)
 
 <br>
 <br>
 
-## Organizing information on all methods
+## Organizing information on all methods {-}
 
 ![](images/class_flow.png)
 
@@ -88,11 +88,11 @@ Not all of themes relate to pros/cons, but they are different ways to think abou
 <br>
 <br>
 
-## Review of specific methods
+## Review of specific methods {-}
 
 Below is a collection of assorted review ideas and practice questions (not necessarily exhaustive).
 
-### Subset selection
+### Subset selection {-}
 
 Questions:
 
@@ -101,7 +101,7 @@ Questions:
 <br>
 <br>
 
-### LASSO
+### LASSO {-}
 
 Questions:
 
@@ -111,7 +111,7 @@ Questions:
 <br>
 <br>
 
-### Splines
+### Splines {-}
 
 Review ideas:
 
@@ -129,7 +129,7 @@ Review ideas:
 <br>
 <br>
 
-### Generalzed additive models (GAMs)
+### Generalzed additive models (GAMs) {-}
 
 Review ideas:
 
@@ -154,7 +154,7 @@ $$\text{Outstate} = \beta_0 + f_1(\text{PhD}) + f_2(\text{Expend}) + \varepsilon
 <br>
 <br>
 
-### KNN and decision trees
+### KNN and decision trees {-}
 
 Questions:
 
@@ -166,7 +166,7 @@ Questions:
 <br>
 
 
-### Logistic regression
+### Logistic regression {-}
 
 Questions:
 
@@ -178,7 +178,7 @@ Questions:
 <br>
 <br>
 
-### Bagging and random forests
+### Bagging and random forests {-}
 
 Questions:
 
@@ -189,7 +189,7 @@ Questions:
 <br>
 
 
-### Test set performance
+### Test set performance {-}
 
 Questions:
 

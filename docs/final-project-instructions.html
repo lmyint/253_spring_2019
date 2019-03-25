@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ML and Society | MATH 253: Machine Learning</title>
+  <title>Final Project Instructions | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="ML and Society | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Final Project Instructions | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="ML and Society | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Final Project Instructions | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="schedule.html">
-<link rel="next" href="motivation-and-review.html">
+<link rel="prev" href="midterm-review.html">
+<link rel="next" href="cross-validation-1.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -229,22 +229,60 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ml-and-society" class="section level1 unnumbered">
-<h1>ML and Society</h1>
-<p>Below are some links relating to the role that machine learning plays a role in our society and in various disciplines.</p>
-<p>If you come across something interesting and would like to share it here, feel free to email the instructor!</p>
+<div id="final-project-instructions" class="section level1 unnumbered">
+<h1>Final Project Instructions</h1>
+<div id="overview" class="section level2 unnumbered">
+<h2>Overview</h2>
+<p>For your final project, you will apply the statistical machine learning methods that we’ve covered in class to answer scientific questions pertaining to datasets(s) that are interesting to you.</p>
+<p>You can work in groups of <strong><em>up to 3 students</em></strong>, and you can choose your own groups.</p>
+<p>Some sources for datasets are listed below. If you are interested in a particular topic and would like help finding data, let me know!</p>
 <ul>
-<li><a href="https://www.reuters.com/article/us-amazon-com-jobs-automation-insight/amazon-scraps-secret-ai-recruiting-tool-that-showed-bias-against-women-idUSKCN1MK08G">Amazon scraps secret AI recruiting tool that showed bias against women</a></li>
-<li>WSJ Podcast: <a href="https://itunes.apple.com/us/podcast/wsjs-the-future-of-everything/id1234320525?mt=2&amp;i=1000429776935">Machine Love: Dating in the Digital Age</a> (Thanks, Meera!)
-<ul>
-<li>Related: <a href="https://www.wired.com/2014/01/how-to-hack-okcupid/">How a Math Genius Hacked OkCupid to Find True Love</a></li>
-</ul></li>
-<li><a href="https://www.symmetrymagazine.org/article/data-scientists-face-off-in-lsst-machine-learning-competition">ML and astrophysics</a> (Thanks, Karen!)</li>
-<li><a href="https://www.theverge.com/platform/amp/2019/2/1/18205174/automation-background-check-criminal-records-corelogic">Automated background checks are deciding who’s fit for a home</a> (Thanks, Eleanor!)</li>
-<li><a href="https://pudding.cool/2019/03/hype/">How many high school stars make it in the NBA?</a></li>
-<li><a href="https://www.theatlantic.com/technology/archive/2019/03/ai-created-art-invades-chelsea-gallery-scene/584134/">The AI-Art Gold Rush Is Here</a> (Thanks, Blake!)</li>
+<li><a href="https://www.kaggle.com/datasets">Kaggle</a></li>
+<li><a href="https://toolbox.google.com/datasetsearch">Google Dataset Search</a></li>
+<li><a href="https://archive.ics.uci.edu/ml/index.php">UCI Machine Learning Repository</a></li>
+<li><a href="https://github.com/fivethirtyeight/data">fivethirtyeight</a></li>
+<li><a href="https://github.com/the-pudding/data">The Pudding</a></li>
 </ul>
+<p><strong>Deliverables</strong></p>
+<p>The final project is worth 120 points total with the breakdown below. See sections below for more details on each part.</p>
+<ol style="list-style-type: decimal">
+<li>Initial check-in (20 points)</li>
+<li>Final report (60 points)</li>
+<li>Final presentation (40 points)</li>
+</ol>
+<p><br> <br> <br></p>
+</div>
+<div id="initial-check-in" class="section level2 unnumbered">
+<h2>Initial check-in</h2>
+<p>DUE: This must be completed the week of 4/8-4/12.</p>
+<p>Each group will schedule a time to meet with me to present (informally) the following items involved in starting up the project. A Google Doc will be linked here where your group can sign up for a time slot to do this initial check-in with me.</p>
+<ul>
+<li>Provide an overview of the information in the dataset and the main scientific question(s) being investigated.</li>
+<li>Provide justification that the data is cleaned and prepared in such a way that your machine learning explorations can proceed. This could include (but is not restricted to) missing value imputation, creation of relevant variables, and generally ensuring correct coding of variables.</li>
+</ul>
+<p><br> <br> <br></p>
+</div>
+<div id="final-report" class="section level2 unnumbered">
+<h2>Final report</h2>
+<p>DUE: Monday, May 13 at midnight on Moodle.</p>
+<p>The final report is meant to communicate the insights gained from your machine learning analysis to a statistically-savvy audience. The final report will be a knitted HTML file.</p>
+<p>You should make sure to include the following:</p>
+<ol style="list-style-type: decimal">
+<li><p>Introduce your data and research question(s). Describe your research plan so that readers can easily follow your thought process and the flow of the report. Please also include key results at the beginning so that readers know what to watch for. Also mention any important data cleaning or preparation. NOTE: it is not necessary (or advisable) to report absolutely every small step that you take.</p></li>
+<li><p>Exploratory work and basic analyses. Use graphs to illustrate interesting relationships that are important to your final analyses. DO NOT just show a bunch of graphs because you can. You should <em>label</em> and <em>discuss</em> every graph you include. There is no required number to include. The graphs should help us understand your analysis process and illuminate key features of the data.</p></li>
+<li><p>Describe the analysis process. Method comparison and sensitivity analyses are absolutely CRUCIAL to good scientific work. To that end, you MUST compare at least 2 different methods from class in answering your scientific questions. It is important to report what you tried, but do so SUCCINCTLY.</p></li>
+<li><p>Summarize the results succinctly. Reiterate why we should be interested in this analysis. Depending on the project, you might do this in different ways. Maybe there were important relationships you learned about. Or maybe you have a nice way to predict something useful. Let us know what we’ve learned and why it’s important/neat/interesting.</p></li>
+</ol>
+<p><strong>Formatting tips and requirements will be added here soon.</strong></p>
+<p><br> <br> <br></p>
+</div>
+<div id="final-presentation" class="section level2 unnumbered">
+<h2>Final presentation</h2>
+<p>DUE: Friday, May 3 and Monday, May 6</p>
+<p>The last 2 days of class will be reserved for project presentations. I have not decided yet whether the presentations will be a poster or slides, but you will be presenting to other students. The points you should emphasize for the presentation are the same 4 points that you should emphasize for the final report (detailed above).</p>
+<p><strong>More information will be added here soon.</strong></p>
 
+</div>
 </div>
 
 
@@ -254,8 +292,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="schedule.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="motivation-and-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="midterm-review.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="cross-validation-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
