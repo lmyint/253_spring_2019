@@ -82,7 +82,14 @@ Happy Spring Break!
 
 ## Week 9: 3/25 - 3/29 {-}
 
+- **Monday:** Review midterm exam, start thinking about final projects
+- **Wednesday:** Support vector machines ([Video](https://youtu.be/Kbdhe-MSCUw), [Slides](https://drive.google.com/file/d/1eJ8kkKf1rVWb_e1JSjRZfGkqfyG5_uRi/view?usp=sharing))    
+    Related ISLR reading: Sections 9.1-9.4
+- **Friday:** No class - MSCS Capstone Days
 
+## Week 10: 4/1 - 4/5 {-}
+
+- **Monday:** Continue with support vector machines
 
 
 
