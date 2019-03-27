@@ -1,4 +1,4 @@
----
+a tiny bit ---
 title: "Bagging and Random Forests"
 author: "Your Name"
 output: 
@@ -42,11 +42,11 @@ Label the support vectors for this hyperplane on your diagram.
 
 ## Part e
 
-Would moving case 7 move the hyperplane? Why or why not?
+Would moving case 7 a tiny bit move the hyperplane? Why or why not?
 
 ## Part f
 
-Would moving case 5 move the hyperplane? Why or why not?
+Would moving case 5 a tiny bit move the hyperplane? Why or why not?
 
 
 

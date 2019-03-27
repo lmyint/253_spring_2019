@@ -43,8 +43,8 @@ plot(toy$x1, toy$x2, pch = ifelse(toy$y=="Red", "R", "B"), col = ifelse(toy$y=="
     b. Using the equation for your hyperplane, write down a classification rule for predicting "Red" and "Blue".
     c. Let $M$ be the **margin** for this hyperplane. Draw $M$ on your diagram.
     d. Label the support vectors for this hyperplane on your diagram.
-    e. Would moving case 7 move the hyperplane? Why or why not?
-    f. Would moving case 5 move the hyperplane? Why or why not?
+    e. Would moving case 7 a tiny bit move the hyperplane? Why or why not?
+    f. Would moving case 5 a tiny bit move the hyperplane? Why or why not?
 
 <br>
 <br>
@@ -83,7 +83,7 @@ We want to find the coefficients $\beta_0, \beta_1, \ldots, \beta_p$ and values 
     a. Order the panels in terms of lowest budget ($C$) to highest budget.
     b. How does a **high** budget relate to the following?
         - Tolerance for cases violating the margin (being on the wrong side)
-        - Size of the margin
+        - Size of the marga tiny bit in
         - Number of support vectors
         - Variance of the hyperplane
         - Bias of the hyperplane
