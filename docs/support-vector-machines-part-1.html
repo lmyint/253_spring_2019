@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Topic 9 Local Regression and GAMs | MATH 253: Machine Learning</title>
+  <title>Topic 14 Support Vector Machines (Part 1) | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Topic 9 Local Regression and GAMs | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 14 Support Vector Machines (Part 1) | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 9 Local Regression and GAMs | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 14 Support Vector Machines (Part 1) | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="splines.html">
-<link rel="next" href="logistic-regression.html">
+<link rel="prev" href="bagging-and-random-forests.html">
+<link rel="next" href="midterm-review.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -233,159 +233,87 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="local-regression-and-gams" class="section level1">
-<h1><span class="header-section-number">Topic 9</span> Local Regression and GAMs</h1>
-<div id="discussion-7" class="section level2">
-<h2><span class="header-section-number">9.1</span> Discussion</h2>
-<p><strong>Local regression</strong></p>
-<ul>
-<li>Main tool: LOESS = locally estimated scatterplot smoothing</li>
-<li>Fit local linear regression models, using only a subset of the data</li>
-<li>How is this different from KNN regression?</li>
-</ul>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;
-## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<p><img src="math253_manual_files/figure-html/unnamed-chunk-80-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p><br> <br> <br></p>
-<p><strong>Generalized additive models</strong></p>
-<p>Instead of assuming <strong>linear</strong> relationships between predictors and the response…</p>
-<p><span class="math display">\[\text{Outstate} = \beta_0 + \beta_1\text{Private} + \beta_2\text{PhD} + \beta_3\text{Expend} + \varepsilon\]</span></p>
-<p>…let’s be more general and say that the relationships can be arbitrary functions:</p>
-<p><span class="math display">\[\text{Outstate} = \beta_0 + f_1(\text{Private}) + f_2(\text{PhD}) + f_3(\text{Expend}) + \varepsilon\]</span></p>
-<ul>
-<li>If the functions <span class="math inline">\(f_1, f_2, f_3\)</span> can be described with splines, then the model is just like an ordinary linear regression model and can be fit with least squares.</li>
-<li>We can also have these functions be described with LOESS functions.</li>
-</ul>
-<p><br> <br> <br></p>
+<div id="support-vector-machines-part-1" class="section level1">
+<h1><span class="header-section-number">Topic 14</span> Support Vector Machines (Part 1)</h1>
+<div class="figure">
+<img src="images/class_flow3.png" />
+
 </div>
-<div id="exercises-7" class="section level2">
-<h2><span class="header-section-number">9.2</span> Exercises</h2>
+<div id="exercises-12" class="section level2">
+<h2><span class="header-section-number">14.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/14-svm-part1.Rmd">here</a>.</strong></p>
+<p><strong>NOTE: completing these exercises (Part 1 today, and Part 2 on Monday) is your Homework 6, due Wednesday, April 3 at midnight. You do not need to hand in exercises that involve drawing.</strong></p>
+<p><br> <br> <br></p>
+<p>These exercises are conceptual and will guide us through thinking about the mathematical formulation of the optimization problems underlying the maximal margin classifier and the support vector classifier.</p>
+<p>We have the following dataset of 7 cases:</p>
+<pre><code>##   x1 x2    y
+## 1  3  4  Red
+## 2  2  2  Red
+## 3  4  4  Red
+## 4  1  4  Red
+## 5  2  1 Blue
+## 6  4  3 Blue
+## 7  4  1 Blue</code></pre>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-108-1.png" width="960" style="display: block; margin: auto;" /></p>
 <ol style="list-style-type: decimal">
-<li><strong>Writing pseudocode for LOESS</strong><br />
-Pseudocode is an algorithm in words. Write pseudocode for the LOESS algorithm assuming that you are supplied the predictor <span class="math inline">\(x\)</span>, response <span class="math inline">\(y\)</span>, a span of 0.4. Your algorithm will use local <em>linear</em> fits. Assume that ordinary least squares rather than weighted least squares is used.<br />
-Start from the following:
-<ul>
-<li>Set up a grid of <span class="math inline">\(x\)</span> values from the minimum to maximum <span class="math inline">\(x\)</span></li>
-<li>For each <span class="math inline">\(x\)</span> in the grid:
-<ul>
-<li>Step 1</li>
-<li>Step 2…</li>
-</ul></li>
-</ul></li>
+<li><strong>Maximal margin hyperplane</strong> (related to Exercise 3 in Section 9.7 of ISLR)
+<ol style="list-style-type: lower-alpha">
+<li>Sketch the maximal margin hyperplane and provide an equation for this hyperplane in the form <span class="math inline">\(\beta_0 + \beta_1 x_1 + \beta_2 x_2 = 0\)</span>. (It’ll be easier to write this first as <span class="math inline">\(x_2 = mx_1 + b\)</span>.)</li>
+<li>Using the equation for your hyperplane, write down a classification rule for predicting “Red” and “Blue”.</li>
+<li>Let <span class="math inline">\(M\)</span> be the <strong>margin</strong> for this hyperplane. Draw <span class="math inline">\(M\)</span> on your diagram.</li>
+<li>Label the support vectors for this hyperplane on your diagram.</li>
+<li>Would moving case 7 move the hyperplane? Why or why not?</li>
+<li>Would moving case 5 move the hyperplane? Why or why not?</li>
+</ol></li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><p><strong>The LOESS tuning parameter</strong><br />
-When you use <code>geom_smooth</code> in <code>ggplot</code> the smooth line is drawn by LOESS by default. The main tuning parameter we modify is <code>span</code>. The <code>span</code> gives the percent of data used in the local linear fit.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(College, <span class="kw">aes</span>(<span class="dt">x =</span> Expend, <span class="dt">y =</span> Outstate)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">span =</span> <span class="fl">0.1</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Span: 0.1&quot;</span>)
-<span class="kw">ggplot</span>(College, <span class="kw">aes</span>(<span class="dt">x =</span> Expend, <span class="dt">y =</span> Outstate)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">span =</span> <span class="fl">0.4</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Span: 0.4&quot;</span>)
-<span class="kw">ggplot</span>(College, <span class="kw">aes</span>(<span class="dt">x =</span> Expend, <span class="dt">y =</span> Outstate)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">    </span><span class="kw">geom_smooth</span>(<span class="dt">span =</span> <span class="fl">0.8</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Span: 0.8&quot;</span>)</code></pre></div>
-<img src="math253_manual_files/figure-html/unnamed-chunk-82-1.png" width="960" style="display: block; margin: auto;" />
+<li>Let’s keep working with the maximal margin hyperplane you drew above. But now, one more case has been added to the previous dataset: <code>x1 = 3, x2 = 2, y = &quot;Red&quot;</code>.
 <ol style="list-style-type: lower-alpha">
-<li>Put <code>span</code> on our bias-variance tradeoff diagram along with labels for bias, variance, complexity, and flexibility.</li>
-<li>How would you expect a plot of test RMSE versus <code>span</code> to look? Why?</li>
+<li>Does your maximal margin hyperplane still perfectly separate the classes?</li>
+<li>Is there any hyperplane that can perfectly separate the classes?</li>
 </ol></li>
 </ol>
 <p><br> <br> <br></p>
+<p>Recall from the video that the optimization problem for a support vector classifier is as follows.</p>
+<p>We want to find the coefficients <span class="math inline">\(\beta_0, \beta_1, \ldots, \beta_p\)</span> and values of the slack variables <span class="math inline">\(\varepsilon_1, \ldots, \varepsilon_n\)</span> in order to:</p>
+<ul>
+<li>Maximize <span class="math inline">\(M\)</span> (the margin)</li>
+<li>With the constraints that:
+<ul>
+<li><span class="math inline">\(\sum_{j=1}^p \beta_j^2 = 1\)</span></li>
+<li><span class="math inline">\(y_i(\beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}) \geq M(1-\varepsilon_i)\)</span> for all <span class="math inline">\(i = 1,\ldots,n\)</span></li>
+<li><span class="math inline">\(\varepsilon_i \geq 0\)</span></li>
+<li><span class="math inline">\(\sum_{i=1}^n \varepsilon_i \leq C\)</span></li>
+</ul></li>
+</ul>
+<p><br> <br> <br></p>
 <ol start="3" style="list-style-type: decimal">
-<li><p><strong>GAMs</strong><br />
-We can fit GAMs in R by installing the <code>gam</code> package. Within <code>caret</code>, we can specify <code>gamLoess</code> for the method. We specify two values for the <code>span</code> tuning parameter: 0.4 and 0.5. We also have to say the degree of the local polynomial that we’re fitting in each small window: degree=1 for a linear fit.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(caret)
-<span class="kw">set.seed</span>(<span class="dv">2019</span>)
-gam_mod &lt;-<span class="st"> </span><span class="kw">train</span>(
-    Outstate <span class="op">~</span><span class="st"> </span>Private <span class="op">+</span><span class="st"> </span>Room.Board <span class="op">+</span><span class="st"> </span>PhD <span class="op">+</span><span class="st"> </span>perc.alumni <span class="op">+</span><span class="st"> </span>Expend,
-    <span class="dt">data =</span> College,
-    <span class="dt">method =</span> <span class="st">&quot;gamLoess&quot;</span>,
-    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">span =</span> <span class="kw">c</span>(<span class="fl">0.4</span>, <span class="fl">0.5</span>), <span class="dt">degree =</span> <span class="dv">1</span>),
-    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>),
-    <span class="dt">metric =</span> <span class="st">&quot;RMSE&quot;</span>,
-    <span class="dt">na.action =</span> na.omit
-)</code></pre></div>
-<p>You can plot each LOESS component by calling the <code>plot()</code> function on the <code>finalModel</code> component <code>gam_mod</code>. (This is the model with the best set of tuning parameters.) This will produce a sequence of 5 plots, each illustrating a different smooth <span class="math inline">\(\hat{f}_i(x_i)\)</span> that describes how out-of-state tuition changes with that predictor, <em>holding constant</em> the other predictors. The dotted lines show 2 standard errors.<br />
-That is, pick any 2 points on a plot. The difference in <span class="math inline">\(y\)</span> values gives the change in out-of-state tuition associated with the change in <span class="math inline">\(x\)</span> values, holding constant the other predictors.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)) <span class="co"># Set up a plot grid with 2 rows and 3 cols</span>
-<span class="kw">plot</span>(gam_mod<span class="op">$</span>finalModel, <span class="dt">se =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>) <span class="co"># lwd = line width</span></code></pre></div>
-<p><img src="math253_manual_files/figure-html/unnamed-chunk-84-1.png" width="960" style="display: block; margin: auto;" /></p>
+<li>Argue that for the bigger dataset, if we use a budget <span class="math inline">\(C = 2\)</span>, the original maximal margin hyperplane from Exercise 1 would still satisfy the constraints. (It may not be the hyperplane with the biggest margin though.)</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Look at <a href="http://www-bcf.usc.edu/~gareth/ISL/Chapter9/9.7.pdf">Figure 9.7</a> from ISLR. (View the linked figure–don’t read the caption in the book.) The solid black line is the hyperplane estimated via the support vector classifier optimization problem. The dashed lines are the margins.
 <ol style="list-style-type: lower-alpha">
-<li>Pick 1 or 2 of these plots and interpret your findings in context. Anything surprising or interesting?</li>
-<li><p>If instead of LOESS representations for the 4 quantitative variables, we wanted spline representations, we can fit a least squares model with spline terms. We can then view the spline components using <code>plot.Gam()</code> from the <code>GAM</code> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gam) <span class="co"># Load for plot.Gam()</span>
-spline_mod &lt;-<span class="st"> </span><span class="kw">lm</span>(Outstate <span class="op">~</span><span class="st"> </span>Private <span class="op">+</span><span class="st"> </span><span class="kw">ns</span>(Room.Board, <span class="dt">df=</span><span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ns</span>(PhD, <span class="dt">df=</span><span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ns</span>(perc.alumni, <span class="dt">df=</span><span class="dv">4</span>) <span class="op">+</span><span class="st"> </span><span class="kw">ns</span>(Expend, <span class="dt">df=</span><span class="dv">4</span>), <span class="dt">data =</span> College)
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))
-<span class="kw">plot.Gam</span>(spline_mod, <span class="dt">se =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)</code></pre></div>
-<p><img src="math253_manual_files/figure-html/unnamed-chunk-85-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>How do the spline and LOESS components compare?</p></li>
+<li>Order the panels in terms of lowest budget (<span class="math inline">\(C\)</span>) to highest budget.</li>
+<li>How does a <strong>high</strong> budget relate to the following?
+<ul>
+<li>Tolerance for cases violating the margin (being on the wrong side)</li>
+<li>Size of the margin</li>
+<li>Number of support vectors</li>
+<li>Variance of the hyperplane</li>
+<li>Bias of the hyperplane</li>
+</ul></li>
+<li><code>caret</code> and other software don’t actually tend to use the budget <span class="math inline">\(C\)</span> as a parameter. They actually have a parameter called <code>cost</code> (unfortunately, also denoted with <span class="math inline">\(C\)</span>). <code>cost</code> is a constant that reflects the cost to pay for a case violating the margin. How does budget relate to <code>cost</code>?</li>
+<li>How can we choose a good value for <code>cost</code>?</li>
 </ol></li>
 </ol>
-<p><br> <br> <br> <br></p>
-<p><strong>Note:</strong> If you want to read about how GAMs are fit, you can read about the <strong>backfitting algorithm</strong> in ISLR Section 7.7. When we want LOESS representations for the individual predictor functions, backfitting must be performed. Backfitting can sometimes run into computational issues but is fine most of the time. Least squares is more stable overall, and we can use least squares if we want spline representations of the individual predictor functions. The decision making point is whether we want spline or LOESS representations.</p>
-</div>
-<div id="how-to-choose-between-methods" class="section level2">
-<h2><span class="header-section-number">9.3</span> How to choose between methods?!?</h2>
-<p>We’ve covered many tools. Let’s unpack their pros and cons in different settings as well as some ideas that will carry on as we talk about classification.</p>
-<pre><code>Ordinary linear regression
-    |                                   GAMs and LOESS
-    |                                     |   
-    |                                     |           KNN
-&lt;---|-------------------------------------|------------|-------&gt;
-parametric                                          nonparametric</code></pre>
-<p><strong>KNN regression</strong></p>
-<ul>
-<li>I introduced KNN as a means of introducing the idea of nonparametric methods. The idea of nonparametric methods is going to carry through to classification, coming up next!</li>
-<li>Pros:
-<ul>
-<li>KNN is a nonparametric method, which might be preferable if we don’t believe that a parametric model, such as a linear regression model (even with spline terms), holds or if we don’t want to assume a parametric model. How to check? Revisit our regression assumptions! Fit a model with the potential predictors, and look at diagnostic plots.</li>
-</ul></li>
-<li>Cons:
-<ul>
-<li>Look back at the video to visualize the functions learned by KNN for different values of K. Even with large K, the function learned looks “blocky” and has sharp angles. Thus, KNN doesn’t look smooth until we increase K a lot, but at that point, we might suffer from too much bias in the bias-variance tradeoff.</li>
-<li>The curse of dimensionality. This curse may seem kind of odd in that, normally, we want a lot of predictors. But as we’ve seen having a lot of predictors, makes distances between cases potentially quite large, rendering the nearest neighbors to a case actually quite dissimilar. But we can save ourselves in two ways:
-<ul>
-<li>Much bigger sample size! Sometimes this is feasible.</li>
-<li>Reduce dimensionality! The technique of <strong>dimension reduction</strong> is an unsupervised learning technique that combines existing predictors into a smaller set of predictors. We’ll talk about a technique called PCA later in the semester.</li>
-</ul></li>
-</ul></li>
-</ul>
-<p><strong>Splines</strong></p>
-<ul>
-<li>Pros:
-<ul>
-<li>Splines pretty nicely cover all sorts of nonlinear trends and are computationally very attractive because spline terms fit exactly into a least squares linear regression framework. Least squares models are very easy to fit computationally.</li>
-</ul></li>
-<li>Cons:
-<ul>
-<li>Splines are still under the umbrella of a parametric model, because we assume the form <span class="math inline">\(y = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\)</span>. Really, this is a tiny con. Splines are capable of being quite flexible given enough knots. In this sense, splines are pretty nonparametric even though they outwardly take on a parametric-looking form.</li>
-<li>It is possible to create multidimensional splines by creating interactions between spline terms for different predictors. This suffers from the curse of dimensionality like KNN because we are trying to estimate a wavy surface in a large dimensional (many variable) space where data points will only sparsely cover the many many regions of the space.</li>
-</ul></li>
-</ul>
-<p><strong>LOESS</strong></p>
-<ul>
-<li>Pros:
-<ul>
-<li>I find LOESS very interpretable. At each test case, a local linear model is fit, which fits well with the idea that if you zoom enough into any function (no matter how curvy), you’ll see a line.</li>
-<li>LOESS is a popular way to see smooth trends on scatterplots, which is why <code>ggplot</code> uses it in <code>geom_smooth()</code>.</li>
-</ul></li>
-<li>Cons:
-<ul>
-<li>If there are a lot of data points, fitting a LOESS over the entire range of the predictor can be slow because so many local linear regressions must be fit.<br />
-We can avoid this if we don’t actually need the fit over the entire range. If we want to just make a prediction about the response for a test case, we only need to fit the local regression at the x value for that test case.</li>
-</ul></li>
-</ul>
-<p><strong>GAMs</strong></p>
-<ul>
-<li>Whether the indvidual functions within a GAM are represented with LOESS or splines, the models are still generally called GAMs. But when you describe your model, you should say whether you are using a LOESS or spline representation</li>
-<li>Pros:
-<ul>
-<li>GAMs have the interpretability of linear regresson models (relationships for one predictor hold constant the other predictors), and they also flexibly model nonlinearity.</li>
-</ul></li>
-<li>Cons:
-<ul>
-<li>GAM still make the assumption that you add up the individual functions of the predictors (linear combination of the functions). (Why add? Why not a product or quotient?) Still, this additivity allows for its interpretability, which is a definite plus.</li>
-</ul></li>
-</ul>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li>The “model” resulting from support vector methods is the equation for a hyperplane <span class="math inline">\(f(x) = \beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p\)</span>. For a new test case <span class="math inline">\(x^*\)</span>, we normally make a classification by seeing if <span class="math inline">\(f(x^*)\)</span> is greater than or less than 0. How could we modify this thinking to generate an ROC curve for an SVM?</li>
+</ol>
+<p><br> <br> <br></p>
+<p>Extra! Read Section 9.4 of ISLR to learn about how to use SVMs for more than 2 classes.</p>
 
 </div>
 </div>
@@ -397,8 +325,8 @@ We can avoid this if we don’t actually need the fit over the entire range. If 
           </div>
         </div>
       </div>
-<a href="splines.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="logistic-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bagging-and-random-forests.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="midterm-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
