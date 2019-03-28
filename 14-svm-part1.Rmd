@@ -83,7 +83,7 @@ We want to find the coefficients $\beta_0, \beta_1, \ldots, \beta_p$ and values 
     a. Order the panels in terms of lowest budget ($C$) to highest budget.
     b. How does a **high** budget relate to the following?
         - Tolerance for cases violating the margin (being on the wrong side)
-        - Size of the marga tiny bit in
+        - Size of the margin
         - Number of support vectors
         - Variance of the hyperplane
         - Bias of the hyperplane
