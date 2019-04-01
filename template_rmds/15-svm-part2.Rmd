@@ -1,0 +1,89 @@
+---
+title: "Support Vector Machines (Part 2)"
+author: "Your Name"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+urlcolor: blue
+---
+
+```{r}
+dat <- read.csv("https://www.dropbox.com/s/abft0f9brohsmvd/svm_example.csv?dl=1")
+```
+
+# Exercise 1: Data exploration
+
+## Part a
+
+Make a visualization of both predictor variables and the class label by coloring points according to their class.
+
+```{r}
+ggplot(dat, aes(x = ???, y = ???, ???)) + geom_point()
+```
+
+## Part b
+
+Would you expect a support vector classifier or a support vector machine to perform better for this data? Why?
+
+
+
+
+
+
+# Exercise 2: Support vector classifer
+
+We can fit an ordinary support vector classifier using `method = "svmLinear"`, in `caret`. The `C` parameter in tune grid is the cost associated with a violation of the margin.
+
+```{r}
+svm_mod_linear <- train(
+    y ~ .,
+    data = dat,
+    method = "svmLinear",
+    metric = "Accuracy",
+    tuneGrid = data.frame(C = c(0.25,0.5,1,2,4,8,16,32,64,128)),
+    trControl = trainControl(method = "cv", number = 10)
+)
+```
+
+## Part a
+
+Write a few sentences describing the modeling process that this code performs, as if for the Methods section of a scientific paper. You don't need to describe how SVMs work, but do describe what models you fit, how they were evaluated, and how you chose a final model. (This is practice for writing up your final project reports.)
+
+## Part b
+
+Print the `svm_mod_linear` object to display a summary of model performance. What do you notice about performance, and why might this be the case given your visualization?
+
+
+
+
+
+
+# Exercise 3: Support vector machine
+
+A common choice for the kernel function in SVMs is the radial basis function. We can fit such an SVM with `method = "svmRadialCost"`, in `caret`. There is a $\gamma$ parameter within the radial kernel that we could tune, but we would also want to tune cost `C` as well. It can be hard to tune 2 parameters at once, so `method = "svmRadialCost"` uses a default rule to first pick a good $\gamma$ and leaves us to tune cost `C`.
+
+```{r}
+svm_mod_radial <- train(
+    y ~ .,
+    data = dat,
+    method = "svmRadialCost",
+    metric = "Accuracy",
+    tuneGrid = data.frame(C = c(0.25,0.5,1,2,4,8,16,32,64,128)),
+    trControl = trainControl(method = "cv", number = 10)
+)
+```
+
+## Part a
+
+Like in the last exercise, write a few sentences describing the modeling process that this code performs, as if for the Methods section of a scientific paper.
+
+## Part b
+
+Print the `svm_mod_radial` object to display a summary of model performance. How does performance compare to the support vector classifier?
+
+
+
+
+
+

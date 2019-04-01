@@ -33,10 +33,12 @@ The final project is worth 120 points total with the breakdown below. See sectio
 
 DUE: This must be completed the week of 4/8-4/12.
 
-Each group will schedule a time to meet with me to present (informally) the following items involved in starting up the project. A Google Doc will be linked here where your group can sign up for a time slot to do this initial check-in with me.
+Each group will schedule a time to meet with me to present (informally) the following items involved in starting up the project.
 
 - Provide an overview of the information in the dataset and the main scientific question(s) being investigated.
 - Provide justification that the data is cleaned and prepared in such a way that your machine learning explorations can proceed. This could include (but is not restricted to) missing value imputation, creation of relevant variables, and generally ensuring correct coding of variables.
+
+**Go to this [Google Doc](https://docs.google.com/document/d/1ev4w0kAZjMkrlFW3A5m-a5CyJ9LYSzCWpsMx_NRTeYU/edit?usp=sharing) to sign up for a time to do this check-in with me in my office.**
 
 <br>
 <br>

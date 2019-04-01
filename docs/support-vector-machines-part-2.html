@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Midterm Review | MATH 253: Machine Learning</title>
+  <title>Topic 15 Support Vector Machines (Part 2) | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Midterm Review | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 15 Support Vector Machines (Part 2) | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Midterm Review | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 15 Support Vector Machines (Part 2) | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="support-vector-machines-part-2.html">
-<link rel="next" href="final-project-instructions.html">
+<link rel="prev" href="support-vector-machines-part-1.html">
+<link rel="next" href="midterm-review.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -236,171 +236,58 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="midterm-review" class="section level1 unnumbered">
-<h1>Midterm Review</h1>
-<p><a href="https://docs.google.com/document/d/1lT7Qz7Lw4Q0qBv3Z5k7VlZQKtJtrPUfLS570CmmgYnM/edit?usp=sharing">Shared Google doc for midterm review</a></p>
-<p><br> <br></p>
-<div id="organizing-information-on-all-methods" class="section level2 unnumbered">
-<h2>Organizing information on all methods</h2>
-<div class="figure">
-<img src="images/class_flow.png" />
+<div id="support-vector-machines-part-2" class="section level1">
+<h1><span class="header-section-number">Topic 15</span> Support Vector Machines (Part 2)</h1>
+<div id="exercises-13" class="section level2">
+<h2><span class="header-section-number">15.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/15-svm-part2.Rmd">here</a>.</strong></p>
+<p><strong>NOTE: completing these exercises (both Part 1 and Part 2) is your Homework 6, due Wednesday, April 3 at midnight.</strong></p>
+<p><br> <br> <br></p>
+<p>SVMs work well in high-dimensional settings but can be computationally intensive to fit. We’ll look at a smaller illustrative data example to get familiar with how to train SVMs in <code>caret</code>. Read in the data as below, and you’ll also need to install the <code>kernlab</code> package before starting.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/abft0f9brohsmvd/svm_example.csv?dl=1&quot;</span>)</code></pre></div>
+<ol style="list-style-type: decimal">
+<li><strong>Data exploration</strong>
+<ol style="list-style-type: lower-alpha">
+<li><p>Make a visualization of both predictor variables and the class label by coloring points according to their class.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> ???, <span class="dt">y =</span> ???, ???)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</code></pre></div></li>
+<li><p>Would you expect a support vector classifier or a support vector machine to perform better for this data? Why?</p></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p><strong>Support vector classifer</strong><br />
+We can fit an ordinary support vector classifier using <code>method = &quot;svmLinear&quot;</code>, in <code>caret</code>. The <code>C</code> parameter in tune grid is the cost associated with a violation of the margin.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">svm_mod_linear &lt;-<span class="st"> </span><span class="kw">train</span>(
+    y <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> dat,
+    <span class="dt">method =</span> <span class="st">&quot;svmLinear&quot;</span>,
+    <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
+    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">C =</span> <span class="kw">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">16</span>,<span class="dv">32</span>,<span class="dv">64</span>,<span class="dv">128</span>)),
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+)</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Write a few sentences describing the modeling process that this code performs, as if for the Methods section of a scientific paper. You don’t need to describe how SVMs work, but do describe what models you fit, how they were evaluated, and how you chose a final model. (This is practice for writing up your final project reports.)</li>
+<li>Print the <code>svm_mod_linear</code> object to display a summary of model performance. What do you notice about performance, and why might this be the case given your visualization?</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p><strong>Support vector machine</strong><br />
+A common choice for the kernel function in SVMs is the radial basis function. We can fit such an SVM with <code>method = &quot;svmRadialCost&quot;</code>, in <code>caret</code>. There is a <span class="math inline">\(\gamma\)</span> parameter within the radial kernel that we could tune, but we would also want to tune cost <code>C</code> as well. It can be hard to tune 2 parameters at once, so <code>method = &quot;svmRadialCost&quot;</code> uses a default rule to first pick a good <span class="math inline">\(\gamma\)</span> and leaves us to tune cost <code>C</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">svm_mod_radial &lt;-<span class="st"> </span><span class="kw">train</span>(
+    y <span class="op">~</span><span class="st"> </span>.,
+    <span class="dt">data =</span> dat,
+    <span class="dt">method =</span> <span class="st">&quot;svmRadialCost&quot;</span>,
+    <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
+    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">C =</span> <span class="kw">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">16</span>,<span class="dv">32</span>,<span class="dv">64</span>,<span class="dv">128</span>)),
+    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
+)</code></pre></div>
+<ol style="list-style-type: lower-alpha">
+<li>Like in the last exercise, write a few sentences describing the modeling process that this code performs, as if for the Methods section of a scientific paper.</li>
+<li>Print the <code>svm_mod_radial</code> object to display a summary of model performance. How does performance compare to the support vector classifier?</li>
+</ol></li>
+</ol>
 
-</div>
-<p>For each statistical learning method that we’ve learned about, you might find it useful to organize information on the following aspects:</p>
-<ul>
-<li>Name of method</li>
-<li>How does this method work?</li>
-<li>How to use this method to make predictions?</li>
-<li>Tuning parameters</li>
-<li>When would I use this method? (Pros and cons)</li>
-</ul>
-<p><br> <br></p>
-<p><strong>How does this method work?</strong></p>
-<p>It is important that you understand how these different methods work from an algorithmic standpoint. If you do, you could implement them yourselves with enough familiarity with a programming language. For this part, write <strong>rough pseudocode</strong> describing how the method works to build the model. Try to be explicit to the level of “for every … in …, do the following” whenever iteration is required in the algorithm.</p>
-<p><br> <br></p>
-<p><strong>How to use this method to make predictions?</strong></p>
-<p>Once we have a trained model, how do we use it to make a prediction for a new test case? For regression tasks, how is a single quantitative prediction made? For classification tasks, how is a single soft or hard prediction made?</p>
-<p><br> <br></p>
-<p><strong>Tuning parameters</strong></p>
-<p>Tuning parameters are parameters that we can adjust to tweak these methods. How do adjustments to parameters affect model complexity, bias, variance?</p>
-<p><br> <br></p>
-<p><strong>When would I use this method?</strong></p>
-<p>Pros: What nice things does this method allow me to do?</p>
-<p>Cons: But no method is perfect…do any of the themes below help us think about potential cons of the method?</p>
-<p><br> <br></p>
-<p><strong>Themes</strong></p>
-<p>Not all of themes relate to pros/cons, but they are different ways to think about specific methods and general behavior of methods.</p>
-<ul>
-<li>“Greedy” algorithmic behaivor</li>
-<li>Penalities</li>
-<li>Overfitting</li>
-<li>Bias-variance tradeoff</li>
-<li>Parametric vs. nonparametric methods</li>
-<li>Curse of dimensionality</li>
-<li>Training performance vs. test performance</li>
-</ul>
-<p><br> <br></p>
-<p><strong>Methods</strong></p>
-<ul>
-<li>Subset selection
-<ul>
-<li>Best subset</li>
-<li>Stepwise selection (forward, backward)</li>
-</ul></li>
-<li>LASSO</li>
-<li>KNN</li>
-<li>Splines</li>
-<li>Local regression (LOESS)</li>
-<li>GAMs</li>
-<li>Logistic regression</li>
-<li>Decision trees</li>
-<li>Bagged trees</li>
-<li>Random forests</li>
-</ul>
-<p><br> <br> <br> <br> <br></p>
-</div>
-<div id="review-of-specific-methods" class="section level2 unnumbered">
-<h2>Review of specific methods</h2>
-<p>Below is a collection of assorted review ideas and practice questions (not necessarily exhaustive).</p>
-<div id="subset-selection-1" class="section level3 unnumbered">
-<h3>Subset selection</h3>
-<p>Questions:</p>
-<ul>
-<li>For a dataset with 5 variables, describe in detail the forward and backward stepwise selection process. Exactly how many models are fit and compared at each stage? What about with best subset selection?</li>
-</ul>
-<p><br> <br></p>
-</div>
-<div id="lasso" class="section level3 unnumbered">
-<h3>LASSO</h3>
-<p>Questions:</p>
-<ul>
-<li>Compile a list of all the instances where we have seen penalty terms so far. Describe a common underlying framework for thinking about all of these instances.</li>
-</ul>
-<p><br> <br></p>
-</div>
-<div id="splines-1" class="section level3 unnumbered">
-<h3>Splines</h3>
-<p>Review ideas:</p>
-<ul>
-<li>A natural cubic spline is a function that consists of piecewise polynomials stitched together across multiple subregions of a predictor.
-<ul>
-<li>These subregions are formed by cutting the span of the predictor at break points called <strong>knots</strong>.</li>
-<li>The piecewise polynomials are continuous at the knots and have continuous first and second derivatives at the knots.</li>
-<li>The spline function is linear in the region lower than the minimum value of the predictor variable and linear in the region higher than the maximum value. (This point is not the most important, but the first two points above are more important.)</li>
-</ul></li>
-<li>If you choose to break a predictor by choosing <span class="math inline">\(K\)</span> knots, <span class="math inline">\(K+1\)</span> regions are formed, which is the <strong>degrees of freedom (df)</strong> tuning parameter for splines.</li>
-<li>The nice thing about a spline is that you can represent this spline function with a <strong>weighted sum</strong> of simpler polynomial functions.
-<ul>
-<li>e.g. We desire the relationship between <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span> to be modeled with a spline with 1 knot at <span class="math inline">\(x = k\)</span>. I can create a spline function to represent this relationship by adding and subtracting together a certain amount of <span class="math inline">\(f_1(x) = x\)</span>, <span class="math inline">\(f_2(x) = x^2\)</span>, <span class="math inline">\(f_3(x) = x^3\)</span>, and <span class="math inline">\(f_4(x) = (x-k)^3_+\)</span>.<br />
-The + in <span class="math inline">\((x-k)^3_+\)</span> denotes the positive part. That is, <span class="math inline">\((x-k)^3_+\)</span> equals <span class="math inline">\((x-k)^3\)</span> when <span class="math inline">\(x &gt; k\)</span> and equals 0 otherwise.<br />
-If you are curious about the math behind this look at the “Splines” chapter in the Appendix.</li>
-</ul></li>
-<li>These simpler polynomial functions thus define <strong>variable transformations</strong> of the predictor. These transformed versions of the predictors can be treated as variables like any other predictors to be included in an ordinary regression model.</li>
-</ul>
-<p><br> <br></p>
-</div>
-<div id="generalzed-additive-models-gams" class="section level3 unnumbered">
-<h3>Generalzed additive models (GAMs)</h3>
-<p>Review ideas:</p>
-<p>Instead of assuming <strong>linear</strong> relationships between predictors and the response…</p>
-<p><span class="math display">\[\text{Outstate} = \beta_0 + \beta_1\text{PhD} + \beta_2\text{Expend} + \varepsilon\]</span></p>
-<p>…let’s be more general and say that the relationships can be arbitrary functions:</p>
-<p><span class="math display">\[\text{Outstate} = \beta_0 + f_1(\text{PhD}) + f_2(\text{Expend}) + \varepsilon\]</span></p>
-<ul>
-<li>If the functions <span class="math inline">\(f_1, f_2\)</span> can be described with splines, then the model is just like an ordinary linear regression model and can be fit with least squares.
-<ul>
-<li>Let’s say that we want 2 knots for each of <code>PhD</code> and <code>Expend</code>.</li>
-<li>2 knots = 3 regions = 3 degrees of freedom (df)</li>
-<li>Then <span class="math inline">\(f_1\)</span> can be represented mathematically with a weighted sum of 3 simpler polynomials <span class="math inline">\(a_1(\text{PhD})\)</span>, <span class="math inline">\(a_2(\text{PhD})\)</span>, and <span class="math inline">\(a_3(\text{PhD})\)</span>. These simpler polynomials define 3 transformed versions of the original <code>PhD</code> variable.</li>
-<li>And <span class="math inline">\(f_2\)</span> can be represented mathematically with a weighted sum of 3 simpler polynomials <span class="math inline">\(b_1(\text{Expend})\)</span>, <span class="math inline">\(b_2(\text{Expend})\)</span>, and <span class="math inline">\(b_3(\text{Expend})\)</span>. These simpler polynomials define 3 transformed versions of the original <code>Expend</code> variable.</li>
-</ul></li>
-<li>We can also have these functions be described with LOESS functions.
-<ul>
-<li><span class="math inline">\(f_1\)</span> can be represented by a function drawn from local linear regressions.</li>
-<li><span class="math inline">\(f_2\)</span> can be represented by a function drawn from local linear regressions.</li>
-</ul></li>
-<li>Note that regardless of how <span class="math inline">\(f_1, f_2, \ldots\)</span> are built, we interpret them as how the response changes with that predictor, holding constant the other predictors.</li>
-</ul>
-<p><br> <br></p>
-</div>
-<div id="knn-and-decision-trees" class="section level3 unnumbered">
-<h3>KNN and decision trees</h3>
-<p>Questions:</p>
-<ul>
-<li>KNN and decision trees are both nonparametric methods for regression and classification. Contrast how these models are different from parametric linear and logistic regression models.</li>
-<li>KNN and decision trees are both nonparametric methods, but differ in the form that they assume for the relationship between the response and the predictors. Describe this and draw a 2-dimensional (2 predictor) example to highlight the difference.</li>
-<li>In our ISLR book: exercises 4 and 5 in section 8.4</li>
-</ul>
-<p><br> <br></p>
-</div>
-<div id="logistic-regression-1" class="section level3 unnumbered">
-<h3>Logistic regression</h3>
-<p>Questions:</p>
-<ul>
-<li>In our ISLR book: exercises 6 and 9 in section 4.7</li>
-<li>Can the “No Information Rate” be computed with 3 or more classes? If so, how?</li>
-<li>Can sensitivity, specificity, positive predictive value, and negative predictive value be defined with 3 or more classes? If so, how?</li>
-<li>Can ROC curves, AUC be computed with 3 or more classes? If so, how?</li>
-</ul>
-<p><br> <br></p>
-</div>
-<div id="bagging-and-random-forests-1" class="section level3 unnumbered">
-<h3>Bagging and random forests</h3>
-<p>Questions:</p>
-<ul>
-<li>We’ve discussed bootstrap aggregating (bagging) in the context of decision trees. Could bagging apply to linear or logistic regression? How?</li>
-<li>Come up with a specific numerical example with a small dataset and small number of trees that fully shows how out of bag (OOB) test error is computed.</li>
-</ul>
-<p><br> <br></p>
-</div>
-<div id="test-set-performance" class="section level3 unnumbered">
-<h3>Test set performance</h3>
-<p>Questions:</p>
-<ul>
-<li>We have mostly focused on test RMSE (regression) and test overall accuracy (classification). We have many metrics for evaluating classification models that are useful in different ways/in different contexts. There are test versions of these metrics. For example, there are notions of test sensitivity, test specificity, test AUC, test confusion matrix. How are these computed with cross-validation or an out-of-bag (OOB) procedure?</li>
-</ul>
-
-</div>
 </div>
 </div>
 
@@ -411,8 +298,8 @@ If you are curious about the math behind this look at the “Splines” chapter 
           </div>
         </div>
       </div>
-<a href="support-vector-machines-part-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="final-project-instructions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="support-vector-machines-part-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="midterm-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

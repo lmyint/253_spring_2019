@@ -90,6 +90,8 @@ Happy Spring Break!
 ## Week 10: 4/1 - 4/5 {-}
 
 - **Monday:** Continue with support vector machines
+- **Wednesday:** K-means clustering ([Video](https://youtu.be/X_AGAxAnuSs), [Slides](https://drive.google.com/file/d/1l7bHWauUSYzVxF7Iu5kcFLRTE-OpSqsG/view?usp=sharing))    
+    Related ISLR reading: Section 10.3 (specifically 10.3.1 for K-means)
 
 
 

@@ -1,5 +1,5 @@
-a tiny bit ---
-title: "Bagging and Random Forests"
+---
+title: "Support Vector Machines (Part 1)"
 author: "Your Name"
 output: 
   html_document:
