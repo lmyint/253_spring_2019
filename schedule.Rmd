@@ -92,6 +92,7 @@ Happy Spring Break!
 - **Monday:** Continue with support vector machines
 - **Wednesday:** K-means clustering ([Video](https://youtu.be/X_AGAxAnuSs), [Slides](https://drive.google.com/file/d/1l7bHWauUSYzVxF7Iu5kcFLRTE-OpSqsG/view?usp=sharing))    
     Related ISLR reading: Section 10.3 (specifically 10.3.1 for K-means)
-
+- **Friday:** Quiz 4. Hierarchical clustering ([Video](https://youtu.be/Kqc9biu31LA), [Slides](https://drive.google.com/file/d/1tA1b0_qUa3z3Cj0-XWsiJI690lMGcNRB/view?usp=sharing))    
+    Related ISLR reading: Section 10.3 (specifically 10.3.2 for hierarchical clustering)
 
 

@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Schedule | MATH 253: Machine Learning</title>
+  <title>Topic 16 K-Means Clustering | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Schedule | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 16 K-Means Clustering | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Schedule | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 16 K-Means Clustering | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="index.html">
-<link rel="next" href="ml-and-society.html">
+<link rel="prev" href="support-vector-machines-part-2.html">
+<link rel="next" href="midterm-review.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -240,121 +240,114 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="schedule" class="section level1 unnumbered">
-<h1>Schedule</h1>
-<p>Topics for each class day, as well as links to the pre-class videos and slides, are listed below.</p>
-<p>Before each class, watch the pre-class video and answer the corresponding comprehension questions on Moodle.</p>
-<div id="tentative-overall-schedule" class="section level2 unnumbered">
-<h2>Tentative overall schedule</h2>
-<p>Regression tasks: Weeks 2-5</p>
-<ul>
-<li>Topics: model evaluation, model building, nonparametric methods, tools for modeling nonlinearity</li>
-</ul>
-<p>Classification tasks: Weeks 6-9</p>
-<ul>
-<li>Topics: model evaluation, logistic regression, tree-based methods, support vector methods</li>
-</ul>
-<p>Unsupervised learning: Weeks 10-11</p>
-<ul>
-<li>Topics: principal components analysis/regression, clustering</li>
-</ul>
-<p>Other topics + project work time: Weeks 12-14</p>
-<ul>
-<li>Suggested topic: deep learning</li>
-</ul>
+<div id="k-means-clustering" class="section level1">
+<h1><span class="header-section-number">Topic 16</span> K-Means Clustering</h1>
+<div class="figure">
+<img src="images/class_flow4.png" />
+
 </div>
-<div id="week-2-128---21" class="section level2 unnumbered">
-<h2>Week 2: 1/28 - 2/1</h2>
-<ul>
-<li><strong>Monday:</strong> Assumptions of linear regression (<a href="https://youtu.be/FFxUbXRuufM">Video</a>, <a href="https://drive.google.com/file/d/1sXhuyKUHbKJlFtrNBgN2xLw1bu4mUplz/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Section 2.1 gives some general background that is not particular to linear regression assumptions but sets up some key foundational ideas.</li>
-<li><strong>Friday:</strong> Model evaluation metrics for regression (<a href="https://youtu.be/knHWpnDSnp4">Video</a>, <a href="https://drive.google.com/file/d/1W-I3yoq6Zdo_HctnjfMxny3mRJPsi2iX/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Sections 2.2.1-2.2.2 talk about MSE, training and test data, test error, cross-validation, and the bias-variance tradeoff. The bias-variance tradeoff will come up a little later in class, but feel free to preview the ideas now.</li>
-</ul>
-</div>
-<div id="week-3-24---28" class="section level2 unnumbered">
-<h2>Week 3: 2/4 - 2/8</h2>
-<ul>
-<li><strong>Monday:</strong> Cross-validation (<a href="https://youtu.be/kjyUjqlahV8">Video</a>, <a href="https://drive.google.com/file/d/1TnelbFeESHz3nwwbdzFOlcbVL1vTRgOg/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Section 5.1 is devoted to cross-validation. See also Sections 2.2.1-2.2.2.</li>
-<li><strong>Wednesday:</strong> We’ll finish reviewing cross validation, then talk briefly about variable selection methods for <strong>building models</strong> (<a href="https://youtu.be/MExs9jBQrDM">Video</a>, <a href="https://drive.google.com/file/d/1FjxtDLIX_VApYm9GQhUjb6qao43QjUHP/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Section 6.1</li>
-<li><strong>Friday:</strong> Quiz 1. Remaining time will be left for working on homework.</li>
-</ul>
-</div>
-<div id="week-4-211---215" class="section level2 unnumbered">
-<h2>Week 4: 2/11 - 2/15</h2>
-<ul>
-<li><strong>Monday:</strong> Shrinkage/regularization methods for model building (<a href="https://youtu.be/R8WHvkXevsU">Video</a>, <a href="https://drive.google.com/file/d/1t1N_oHfkuRNaobPQOV-yW_winDmpKGro/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Section 6.2</li>
-<li><strong>Wednesday:</strong> Continue discussing shrinkage methods</li>
-<li><strong>Friday:</strong> K-nearest neighbors regression and the bias-variance tradeoff (<a href="https://youtu.be/BvQVovMefsM">Video</a>, <a href="https://drive.google.com/file/d/1CgOmRP6c_WDFfPyPz972rG-ivTTJqiLE/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Section 2.2.2 for the bias-variance tradeoff and Section 3.5 for K-nearest neighbors regression</li>
-</ul>
-</div>
-<div id="week-5-218---222" class="section level2 unnumbered">
-<h2>Week 5: 2/18 - 2/22</h2>
-<ul>
-<li><strong>Monday:</strong> Modeling nonlinear trends with natural splines (<a href="https://youtu.be/D06d88NLdR4">Video</a>, <a href="https://drive.google.com/file/d/1DdLxf-qbzKNClSoeQNIVPW2xZILDK5Jk/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Sections 7.1-7.4</li>
-<li><strong>Wednesday:</strong> Local regression and generalized additive models (<a href="https://youtu.be/0PQKHlwh49A">Video</a>, <a href="https://drive.google.com/file/d/1-CMS6C6_0Jb_3_PbNgJrQYRCDWHEpuyB/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Sections 7.6-7.7</li>
-<li><strong>Friday:</strong> Quiz 2. Remaining time for a review activity.</li>
-</ul>
-</div>
-<div id="week-6-225---31" class="section level2 unnumbered">
-<h2>Week 6: 2/25 - 3/1</h2>
-<ul>
-<li><strong>Monday:</strong> Logistic regression (<a href="https://youtu.be/_9_h4sl7W5A">Video</a>, <a href="https://drive.google.com/file/d/1DbMFCoHuiVSGh9IxSpQNPRZ9lxQMAlzo/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Sections 4.1-4.3</li>
-<li><strong>Wednesday:</strong> Finish up logistic regression. Using old tools in the classification setting<br />
-Related ISLR reading: Section 7.7.2 (GAMs for Classification Problems), pages 39-42 (KNN for classification)</li>
-<li><strong>Friday:</strong> Decision trees (<a href="https://youtu.be/xPnbEG-B4rY">Video</a>, <a href="https://drive.google.com/file/d/1yUDSUTK2kqBq9s8u51fT-fxle0Mj0Wae/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: 8.1</li>
-</ul>
-</div>
-<div id="week-7-34---38" class="section level2 unnumbered">
-<h2>Week 7: 3/4 - 3/8</h2>
-<ul>
-<li><strong>Monday:</strong> Decision trees</li>
-<li><strong>Wednesday:</strong> Bagging and random forests (<a href="https://youtu.be/841I7-imlVo">Video</a>, <a href="https://drive.google.com/file/d/15XOjXyk7nXVzkuMLgnR16FK2zBHUiyjZ/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: 8.2</li>
-<li><strong>Friday:</strong> Quiz 3. Finish up bagging and random forests.</li>
-</ul>
-</div>
-<div id="week-8-311---315" class="section level2 unnumbered">
-<h2>Week 8: 3/11 - 3/15</h2>
-<p>Review &amp; midterm exam</p>
-<p>Happy Spring Break!</p>
-</div>
-<div id="week-9-325---329" class="section level2 unnumbered">
-<h2>Week 9: 3/25 - 3/29</h2>
-<ul>
-<li><strong>Monday:</strong> Review midterm exam, start thinking about final projects</li>
-<li><strong>Wednesday:</strong> Support vector machines (<a href="https://youtu.be/Kbdhe-MSCUw">Video</a>, <a href="https://drive.google.com/file/d/1eJ8kkKf1rVWb_e1JSjRZfGkqfyG5_uRi/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Sections 9.1-9.4</li>
-<li><strong>Friday:</strong> No class - MSCS Capstone Days</li>
-</ul>
-</div>
-<div id="week-10-41---45" class="section level2 unnumbered">
-<h2>Week 10: 4/1 - 4/5</h2>
-<ul>
-<li><strong>Monday:</strong> Continue with support vector machines</li>
-<li><strong>Wednesday:</strong> K-means clustering (<a href="https://youtu.be/X_AGAxAnuSs">Video</a>, <a href="https://drive.google.com/file/d/1l7bHWauUSYzVxF7Iu5kcFLRTE-OpSqsG/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Section 10.3 (specifically 10.3.1 for K-means)</li>
-<li><strong>Friday:</strong> Quiz 4. Hierarchical clustering (<a href="https://youtu.be/Kqc9biu31LA">Video</a>, <a href="https://drive.google.com/file/d/1tA1b0_qUa3z3Cj0-XWsiJI690lMGcNRB/view?usp=sharing">Slides</a>)<br />
-Related ISLR reading: Section 10.3 (specifically 10.3.2 for hierarchical clustering)</li>
-</ul>
+<div id="exercises-14" class="section level2">
+<h2><span class="header-section-number">16.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/16-kmeans.Rmd">here</a>.</strong></p>
+<p><strong>NOTE: completing these exercises is a part of your Homework 7, due Wednesday, April 10 at midnight.</strong></p>
+<p><br> <br> <br></p>
+<p>To iron out the K-means algorithm, we’ll look at a small example of physical measurements (sepal length and width) of 5 irises in the first exercise:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">irises &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+    <span class="dt">Width =</span> <span class="kw">c</span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="fl">2.3</span>,<span class="fl">2.8</span>,<span class="fl">3.0</span>),
+    <span class="dt">Length =</span> <span class="kw">c</span>(<span class="fl">2.0</span>,<span class="fl">2.5</span>,<span class="fl">1.3</span>,<span class="fl">1.8</span>,<span class="fl">1.3</span>)
+)
+<span class="kw">ggplot</span>(irises, <span class="kw">aes</span>(<span class="dt">x =</span> Width, <span class="dt">y =</span> Length)) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> <span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>)), <span class="dt">vjust =</span> <span class="fl">1.5</span>) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">lims</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>))</code></pre></div>
+<p><img src="math253_manual_files/figure-html/unnamed-chunk-115-1.png" width="960" style="display: block; margin: auto;" /></p>
+<ol style="list-style-type: decimal">
+<li><p>Cluster these 5 flowers by hand using K=2 clusters. For the first stage of initialization, use the random cluster assignments shown below in the <code>cluster</code> column. Show your work for 2 iterations of the centroiding and reassignment steps.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cbind</span>(irises, <span class="kw">data.frame</span>(<span class="dt">cluster =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>)))</code></pre></div>
+<pre><code>##   Width Length cluster
+## 1   0.5    2.0       2
+## 2   0.5    2.5       1
+## 3   2.3    1.3       1
+## 4   2.8    1.8       1
+## 5   3.0    1.3       2</code></pre></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>The <code>kmeans()</code> function in R performs K-means clustering. Check your work from the previous exercise.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">irises_clust2 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(irises, <span class="dt">centers =</span> <span class="dv">2</span>)
+
+<span class="co"># Check out the cluster assignments</span>
+irises_clust2<span class="op">$</span>cluster
+
+<span class="co"># Plot the clusters</span>
+irises &lt;-<span class="st"> </span>irises <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">cluster =</span> irises_clust2<span class="op">$</span>cluster)
+<span class="kw">ggplot</span>(irises, <span class="kw">aes</span>(<span class="dt">y =</span> Length, <span class="dt">x =</span> Width, <span class="dt">color =</span> <span class="kw">as.factor</span>(cluster))) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">lims</span>(<span class="dt">x =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>), <span class="dt">y =</span> <span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">4</span>))</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<p>In the remainder of the exercises, we’ll look at the full <code>iris</code> dataset of 150 flowers.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(iris)</code></pre></div>
+<p><br></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Part of performing K-means clustering is choosing an appropriate value for K.
+<ol style="list-style-type: lower-alpha">
+<li><p>To explore the impact of K, perform a K-means cluster analysis of the <code>iris</code> data using just <code>Sepal.Length</code> and <code>Sepal.Width</code> (for ease of visualization). Use the following code for <span class="math inline">\(K=2\)</span> and adapt it to explore <span class="math inline">\(K=3\)</span> and <span class="math inline">\(K=20\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Take only Sepal.Length &amp; Sepal.Width</span>
+iris_sub &lt;-<span class="st"> </span>iris <span class="op">%&gt;%</span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw">select</span>(Sepal.Length, Sepal.Width)
+
+<span class="co"># K=2 clusters</span>
+km_clust2 &lt;-<span class="st"> </span><span class="kw">kmeans</span>(iris_sub, <span class="dt">centers =</span> <span class="dv">2</span>)
+<span class="kw">ggplot</span>(iris_sub, <span class="kw">aes</span>(<span class="dt">x =</span> Sepal.Width, <span class="dt">y =</span> Sepal.Length, <span class="dt">color =</span> <span class="kw">as.factor</span>(km_clust2<span class="op">$</span>cluster))) <span class="op">+</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">geom_point</span>()</code></pre></div></li>
+<li><p>Based on these plots, discuss the pros and cons of low and high K.</p></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Before moving on, let’s get more comfortable working with unfamiliar objects in R.
+<ol style="list-style-type: lower-alpha">
+<li>Look at the help page for the <code>kmeans()</code> function and scroll down to the “Value:” section. What is the name of the component of a <code>kmeans</code> object that contains a measure of total within-cluster variation?</li>
+<li>Whenever we want to extract a certain component of an R object that is a list, we can use the code <code>list_object$name_of_component</code>. Display the measure of total within-cluster variation for <code>km_clust2</code>.</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li>A strategy for picking K is to compare the total squared distance of each case from its assigned centroid (the <code>total within-cluster sum of squares</code>) for different values of K.
+<ol style="list-style-type: lower-alpha">
+<li><p>Write a for-loop to calculate the total sum of squared distances for each K in <span class="math inline">\(\{1, 2, ..., 50\}\)</span>. Plot these squared distances versus K.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create storage vector for total within-cluster sum of squares</span>
+tot_wc_ss &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dv">50</span>)
+
+<span class="co"># Loop</span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">50</span>) {
+    <span class="co"># Perform k means clustering on iris_sub</span>
+    ???
+
+    <span class="co"># Store the total within-cluster sum of squares</span>
+    tot_wc_ss[i] &lt;-<span class="st"> </span>???<span class="op">$</span>???
+}
+<span class="kw">plot</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, tot_wc_ss)</code></pre></div></li>
+<li><p>Based on this plot, which values of K seem reasonable? Explain.</p></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<p>Extra! Think about the scientific questions that you want to answer for your final project. Could clustering play a role in your scientific pursuits?</p>
 
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ml-and-society.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="support-vector-machines-part-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="midterm-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -1,0 +1,131 @@
+# (PART) Unsupervised Learning {-}
+
+# K-Means Clustering
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
+```
+
+![](images/class_flow4.png)
+
+## Exercises
+
+**You can download a template RMarkdown file to start from [here](template_rmds/16-kmeans.Rmd).**
+
+**NOTE: completing these exercises is a part of your Homework 7, due Wednesday, April 10 at midnight.**
+
+<br>
+<br>
+<br>
+
+To iron out the K-means algorithm, we'll look at a small example of physical measurements (sepal length and width) of 5 irises in the first exercise:
+
+```{r}
+irises <- data.frame(
+    Width = c(0.5,0.5,2.3,2.8,3.0),
+    Length = c(2.0,2.5,1.3,1.8,1.3)
+)
+ggplot(irises, aes(x = Width, y = Length)) + 
+    geom_point() + 
+    geom_text(aes(label = c(1:5)), vjust = 1.5) + 
+    lims(x = c(0,4), y = c(0,4))
+```
+
+`r NextQ()`. Cluster these 5 flowers by hand using K=2 clusters. For the first stage of initialization, use the random cluster assignments shown below in the `cluster` column. Show your work for 2 iterations of the centroiding and reassignment steps.
+    ```{r}
+    cbind(irises, data.frame(cluster = c(2,1,1,1,2)))
+    ```
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. The `kmeans()` function in R performs K-means clustering. Check your work from the previous exercise.
+    ```{r eval=FALSE}
+    irises_clust2 <- kmeans(irises, centers = 2)
+
+    # Check out the cluster assignments
+    irises_clust2$cluster
+
+    # Plot the clusters
+    irises <- irises %>% 
+        mutate(cluster = irises_clust2$cluster)
+    ggplot(irises, aes(y = Length, x = Width, color = as.factor(cluster))) + 
+        geom_point() + 
+        lims(x = c(0,4), y = c(0,4))
+    ```
+
+<br>
+<br>
+<br>
+
+In the remainder of the exercises, we'll look at the full `iris` dataset of 150 flowers.
+
+```{r eval=FALSE}
+data(iris)
+```
+
+<br>
+
+`r NextQ()`. Part of performing K-means clustering is choosing an appropriate value for K.
+    a. To explore the impact of K, perform a K-means cluster analysis of the `iris` data using just `Sepal.Length` and `Sepal.Width` (for ease of visualization). Use the following code for $K=2$ and adapt it to explore $K=3$ and $K=20$.
+        ```{r eval=FALSE}
+        # Take only Sepal.Length & Sepal.Width
+        iris_sub <- iris %>%
+            dplyr::select(Sepal.Length, Sepal.Width)
+        
+        # K=2 clusters
+        km_clust2 <- kmeans(iris_sub, centers = 2)
+        ggplot(iris_sub, aes(x = Sepal.Width, y = Sepal.Length, color = as.factor(km_clust2$cluster))) + 
+            geom_point()
+        ```
+    b. Based on these plots, discuss the pros and cons of low and high K.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Before moving on, let's get more comfortable working with unfamiliar objects in R.
+    a. Look at the help page for the `kmeans()` function and scroll down to the "Value:" section. What is the name of the component of a `kmeans` object that contains a measure of total within-cluster variation?
+    b. Whenever we want to extract a certain component of an R object that is a list, we can use the code `list_object$name_of_component`. Display the measure of total within-cluster variation for `km_clust2`.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. A strategy for picking K is to compare the total squared distance of each case from its assigned centroid (the `total within-cluster sum of squares`) for different values of K.
+    a. Write a for-loop to calculate the total sum of squared distances for each K in $\{1, 2, ..., 50\}$. Plot these squared distances versus K.
+        ```{r eval=FALSE}
+        # Create storage vector for total within-cluster sum of squares
+        tot_wc_ss <- rep(0, 50)
+
+        # Loop
+        for (i in 1:50) {
+            # Perform k means clustering on iris_sub
+            ???
+
+            # Store the total within-cluster sum of squares
+            tot_wc_ss[i] <- ???$???
+        }
+        plot(1:50, tot_wc_ss)
+        ```
+    b. Based on this plot, which values of K seem reasonable? Explain.
+
+<br>
+<br>
+<br>
+
+
+Extra! Think about the scientific questions that you want to answer for your final project. Could clustering play a role in your scientific pursuits?
+
+
+
+
