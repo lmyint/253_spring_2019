@@ -43,6 +43,14 @@ ggplot(irises, aes(x = Width, y = Length)) +
     ```{r}
     cbind(irises, data.frame(cluster = c(2,1,1,1,2)))
     ```
+    You may find it helpful to use this function to calculate the distance of each case to a specified point:
+    ```{r eval=FALSE}
+    dist_iris <- function(point) {
+        sqrt((irises$Width - point[1])^2 + (irises$Length - point[2])^2)
+    }
+    # For example: distance of every case to (1,2)
+    dist_iris(point = c(1,2))
+    ```
 
 <br>
 <br>
