@@ -16,7 +16,7 @@ Classification tasks: Weeks 6-9
 
 Unsupervised learning: Weeks 10-11
 
-- Topics: principal components analysis/regression, clustering
+- Topics: principal components analysis, clustering
 
 Other topics + project work time: Weeks 12-14
 
@@ -95,4 +95,8 @@ Happy Spring Break!
 - **Friday:** Quiz 4. Hierarchical clustering ([Video](https://youtu.be/Kqc9biu31LA), [Slides](https://drive.google.com/file/d/1tA1b0_qUa3z3Cj0-XWsiJI690lMGcNRB/view?usp=sharing))    
     Related ISLR reading: Section 10.3 (specifically 10.3.2 for hierarchical clustering)
 
+## Week 11: 4/8 - 4/12 {-}
+
+- **Monday:** Wrap up clustering
+- **Wednesday:** Principal components analysis
 

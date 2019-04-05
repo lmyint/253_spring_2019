@@ -1,0 +1,121 @@
+---
+title: "Hierarchical Clustering"
+author: "Your Name"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+urlcolor: blue
+---
+
+To practice the hierarchical clustering algorithm, let's look at a small example. Suppose we collect the following sepal width and sepal length measurements from 5 irises:
+
+```{r fig.align="center", fig.width=4, fig.height=4}
+irises <- data.frame(
+    Width = c(2.5,2.7,3.2,3.5,3.6),
+    Length = c(5.5,6.0,4.5,5.0,4.7)
+)
+irises
+
+ggplot(irises, aes(x = Width, y = Length)) +
+    geom_point() + 
+    geom_text(aes(label = c(1:5)), vjust = 1.5)
+```
+
+<br>
+<br>
+<br>
+
+In the exercises below, you'll draw a dendrogram for these 5 specimens by hand. Sketch the following plotting frame on some scrap paper:
+
+
+```{r fig.align="center", fig.width=5, fig.height=5, echo=FALSE}
+ggplot(NULL, aes(y = seq(0,2.25,len=5), x = c(1:5))) +
+    labs(x = "Specimen", y = "Distance")
+```
+
+<br>
+<br>
+<br>
+
+# Exercise 1
+
+**Step 1: First fusion**
+
+Calculate the distance between each pair of specimens:
+
+```{r}
+dist(irises)
+```    
+
+The idea:
+
+              1       2       3       4       5
+------- ------- ------- ------- ------- -------  
+   1       0
+   2               0
+   3                       0
+   4                               0
+   5                                       0
+
+- Which pair of flowers 1-5 is most similar?
+- Draw the fusion between this pair of leaves on your plot. Be careful about the height at which you draw this fusion.
+
+
+
+
+
+
+# Exercise 2
+
+**Step 2: Second fusion**
+
+- Construct a new distance matrix reflecting the distances between each pair of branches (where 4 and 5 have now been fused). Use **complete linkage**. That is, the distance between one branch and another is the *maximum* distance between any pair of leaves in those branches. The idea:    
+
+                  1       2       3     4 & 5
+    ------- ------- ------- ------- ---------  
+       1       0
+       2               0
+       3                       0
+     4 & 5                               0
+                                          
+
+- Which pair of branches is most similar?  Draw the fusion between this pair on the plot.
+
+
+
+
+
+# Exercise 3
+
+**Step 3: Third fusion**
+
+- Repeat! Construct a new distance matrix reflecting the distances between each pair of branches, those that have been fused already and those that have not.
+- Which pair of branches is most similar? Draw the fusion between this pair on the plot.
+
+
+
+
+
+
+# Exercise 4
+
+**Step 4: Final fusion**
+
+At this point, you should have 2 specimens in one cluster and 3 in another. The final step is to combine these into the tree trunk. Draw this fusion.
+
+
+
+
+# Exercise 5
+
+Check your work in R:
+
+```{r}
+iris_cluster <- hclust(dist(irises))
+plot(iris_cluster)
+```
+ 
+ 
+
+
