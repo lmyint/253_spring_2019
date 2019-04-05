@@ -16,6 +16,64 @@ knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
 
 ![](images/class_flow4.png)
 
+## Discussion
+
+**Applications of clustering**
+
+- Biology: Are there species, subspecies of these organisms based on their gene expression, physical measurements?
+- Chemistry: Are there different groups of compounds? Perhaps based on shape, toxicity to humans?
+- Sports: Are there different type of players? Based on skill, play style, body type?
+- Market analysis and economics: Are there certain type of consumers? Purchasing behaviors?
+- Geography: Are there certain types of neighborhoods?
+
+<br>
+<br>
+<br>
+
+**Clustering seems like classification, but is different**
+
+- In classification, the response variables are **used** in training the model. The response variables **supervise** how the model is fit.
+- In clustering, there might not be a response variable, and we don't *need* to use it even if there is. e.g. In the `iris` dataset, there is a column indicating the flower species, but nothing dictates that the species level (as opposed to subspecies) should be our scientific interest.
+
+
+<br>
+<br>
+<br>
+
+**Considerations in picking the number of clusters/evaluating clusters**
+
+- Context!
+- Also plots of number of clusters versus total within-cluster sums of squares
+- The combination of the two helps inform the number of groupings that are reasonable for the observed data
+- Evaluating clustering is hard!
+    - It's a joke (but kind of true) that with enough tweaking of clustering parameters, distance metrics, scaling...you could get any clustering that you desired.
+    - We need to look at multiple variations of the clustering: different methods, parameters.
+    - What makes sense? e.g. Both 3 clusters and 4 clusters might make sense on different levels. Perhaps you discover that 3 clusters roughly corresponds to level of binge-purchasing behavior and that 4 clusters roughly corresponds to purchasing aligning with 4 distinct categories of hobbies.
+
+<br>
+<br>
+<br>
+
+**Prediction with clustering**
+
+- Once you have a set of clusters, it's possible to assign new cases to the closest cluster.
+- You might find after enough new cases that new clusters might be needed. Re-cluster the data. How do things change? What new insights are gained?
+
+<br>
+<br>
+<br>
+
+**Clustering predictors as opposed to cases**
+
+- When we cluster cases, we look at distances between cases (distances between rows of our dataset).
+- When we cluster predictors, we look at distances between predictors (distances between columns of our dataset).
+    - So clustering predictors involves transposing our dataset.
+    - PCA is another way to "cluster" predictors. Coming up next!
+
+<br>
+<br>
+<br>
+
 ## Exercises
 
 **You can download a template RMarkdown file to start from [here](template_rmds/16-kmeans.Rmd).**

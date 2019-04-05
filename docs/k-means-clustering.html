@@ -185,7 +185,8 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 </ul></li>
 <li class="part"><span><b>V Unsupervised Learning</b></span></li>
 <li class="chapter" data-level="16" data-path="k-means-clustering.html"><a href="k-means-clustering.html"><i class="fa fa-check"></i><b>16</b> K-Means Clustering</a><ul>
-<li class="chapter" data-level="16.1" data-path="k-means-clustering.html"><a href="k-means-clustering.html#exercises-14"><i class="fa fa-check"></i><b>16.1</b> Exercises</a></li>
+<li class="chapter" data-level="16.1" data-path="k-means-clustering.html"><a href="k-means-clustering.html#discussion-11"><i class="fa fa-check"></i><b>16.1</b> Discussion</a></li>
+<li class="chapter" data-level="16.2" data-path="k-means-clustering.html"><a href="k-means-clustering.html#exercises-14"><i class="fa fa-check"></i><b>16.2</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="hierarchical-clustering.html"><a href="hierarchical-clustering.html"><i class="fa fa-check"></i><b>17</b> Hierarchical Clustering</a><ul>
 <li class="chapter" data-level="17.1" data-path="hierarchical-clustering.html"><a href="hierarchical-clustering.html#exercises-15"><i class="fa fa-check"></i><b>17.1</b> Exercises</a></li>
@@ -250,8 +251,55 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
 <img src="images/class_flow4.png" />
 
 </div>
+<div id="discussion-11" class="section level2">
+<h2><span class="header-section-number">16.1</span> Discussion</h2>
+<p><strong>Applications of clustering</strong></p>
+<ul>
+<li>Biology: Are there species, subspecies of these organisms based on their gene expression, physical measurements?</li>
+<li>Chemistry: Are there different groups of compounds? Perhaps based on shape, toxicity to humans?</li>
+<li>Sports: Are there different type of players? Based on skill, play style, body type?</li>
+<li>Market analysis and economics: Are there certain type of consumers? Purchasing behaviors?</li>
+<li>Geography: Are there certain types of neighborhoods?</li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Clustering seems like classification, but is different</strong></p>
+<ul>
+<li>In classification, the response variables are <strong>used</strong> in training the model. The response variables <strong>supervise</strong> how the model is fit.</li>
+<li>In clustering, there might not be a response variable, and we don’t <em>need</em> to use it even if there is. e.g. In the <code>iris</code> dataset, there is a column indicating the flower species, but nothing dictates that the species level (as opposed to subspecies) should be our scientific interest.</li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Considerations in picking the number of clusters/evaluating clusters</strong></p>
+<ul>
+<li>Context!</li>
+<li>Also plots of number of clusters versus total within-cluster sums of squares</li>
+<li>The combination of the two helps inform the number of groupings that are reasonable for the observed data</li>
+<li>Evaluating clustering is hard!
+<ul>
+<li>It’s a joke (but kind of true) that with enough tweaking of clustering parameters, distance metrics, scaling…you could get any clustering that you desired.</li>
+<li>We need to look at multiple variations of the clustering: different methods, parameters.</li>
+<li>What makes sense? e.g. Both 3 clusters and 4 clusters might make sense on different levels. Perhaps you discover that 3 clusters roughly corresponds to level of binge-purchasing behavior and that 4 clusters roughly corresponds to purchasing aligning with 4 distinct categories of hobbies.</li>
+</ul></li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Prediction with clustering</strong></p>
+<ul>
+<li>Once you have a set of clusters, it’s possible to assign new cases to the closest cluster.</li>
+<li>You might find after enough new cases that new clusters might be needed. Re-cluster the data. How do things change? What new insights are gained?</li>
+</ul>
+<p><br> <br> <br></p>
+<p><strong>Clustering predictors as opposed to cases</strong></p>
+<ul>
+<li>When we cluster cases, we look at distances between cases (distances between rows of our dataset).</li>
+<li>When we cluster predictors, we look at distances between predictors (distances between columns of our dataset).
+<ul>
+<li>So clustering predictors involves transposing our dataset.</li>
+<li>PCA is another way to “cluster” predictors. Coming up next!</li>
+</ul></li>
+</ul>
+<p><br> <br> <br></p>
+</div>
 <div id="exercises-14" class="section level2">
-<h2><span class="header-section-number">16.1</span> Exercises</h2>
+<h2><span class="header-section-number">16.2</span> Exercises</h2>
 <p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/16-kmeans.Rmd">here</a>.</strong></p>
 <p><strong>NOTE: completing these exercises is a part of your Homework 7, due Wednesday, April 10 at midnight.</strong></p>
 <p><br> <br> <br></p>
