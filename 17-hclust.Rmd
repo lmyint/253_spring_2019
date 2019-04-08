@@ -1,4 +1,4 @@
-# Hierarchical Clustering
+# Hierarchical Clustering: Part 1
 
 ```{r echo=FALSE, message=FALSE}
 rm(list = ls())

@@ -1,0 +1,115 @@
+---
+title: "Hierarchical Clustering: Part 2"
+author: "Your Name"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+urlcolor: blue
+---
+
+```{r}
+library(fivethirtyeight)
+library(dplyr)
+data(your_choice)
+```
+
+# Exercise 1
+
+You'll need to remove the variable with the identifiers from the dataset and set them as the row names of your data. (This will allow for better cluster visualization.) Use code as below to do this:
+
+```{r}
+# Using the candy dataset as an example
+candy <- as.data.frame(candy_rankings)
+rownames(candy) <- candy_rankings$competitorname
+candy <- candy %>% select(-competitorname)
+```
+
+<br>
+<br>
+<br>
+
+# Exercise 2
+
+Depending on your dataset choice, you might choose to exclude some variables based on your scientific questions. Describe your scientific questions and how this informs what variables you include in your clustering analysis. Broadly describe what information is contained in the variables you decide to retain.
+
+<br>
+<br>
+<br>
+
+# Exercise 3
+
+Will you scale the variables to have unit variance? Justify your choice by looking at the scale of the variables. You can do this with `summary(dataset_name)`. Use the code below to compute the Euclidean distance between your cases for use later in the hierarchical clustering.
+
+```{r}
+# Leave variables unscaled
+dist_mat <- dist(dataset_name)
+# With variable scaling
+dist_mat <- dist(scale(dataset_name, center = FALSE, scale = TRUE))
+```
+
+<br>
+<br>
+<br>
+
+# Exercise 4
+
+What type of linkage is most reasonable for your analysis? Justify your choice based on the data context and your scientific goals. Perform this clustering, and display the resulting dendrogram with the following code.
+
+```{r}
+hclust_single <- hclust(dist_mat, method = "single")
+hclust_complete <- hclust(dist_mat, method = "complete")
+hclust_average <- hclust(dist_mat, method = "average")
+hclust_centroid <- hclust(dist_mat, method = "centroid")
+```
+
+<br>
+<br>
+<br>
+
+# Exercise 5
+
+You can define a set of clusters by cutting your tree. The code below cuts a dendrogram to make a specified number of clusters and adds the information back into the dataset.
+
+```{r}
+# Using 3 and 6 clusters as an example
+clust3 <- cutree(hclust_average, k = 3)
+clust6 <- cutree(hclust_average, k = 6)
+your_dataset <- your_dataset %>%
+    mutate(clust3, clust6)
+```
+
+<br>
+<br>
+<br>
+
+# Exercise 6
+
+You can explore how the different variables played a role in the clustering by computing the mean variable value in each cluster using the code below. Adapt this for your dataset, and form some general conclusions.
+
+```{r}
+# Summary for cutting tree into 3 clusters
+your_dataset %>% 
+    group_by(clust3) %>% 
+    summarize_at(vars(-clust3), mean, na.rm = TRUE) %>% 
+    data.frame()
+
+# Summary for cutting tree into 6 clusters
+your_dataset %>% 
+    group_by(clust6) %>% 
+    summarize_at(vars(-clust6), mean, na.rm = TRUE) %>% 
+    data.frame()
+```
+
+<br>
+<br>
+<br>
+
+# Exercise 7
+
+Perform a sensitivity analysis of your clustering by varying the linkage type. Look at the resulting dendrograms and the results of re-cutting your tree. Describe your general conclusions.
+
+
+
+
+

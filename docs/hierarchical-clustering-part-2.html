@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>MATH 253: Machine Learning</title>
+  <title>Topic 18 Hierarchical Clustering: Part 2 | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 18 Hierarchical Clustering: Part 2 | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 18 Hierarchical Clustering: Part 2 | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-
-<link rel="next" href="schedule.html">
+<link rel="prev" href="hierarchical-clustering-part-1.html">
+<link rel="next" href="midterm-review.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -248,35 +248,89 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">MATH 253: Machine Learning</h1>
-</div>
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<center>
-<div class="figure">
-<img src="images/ml_robot.jpg" />
-
-</div>
-<a href="https://cdn.redshift.autodesk.com/2016/05/Machine-Learning-hero.jpg">Image source</a>
-</center>
-<p><br> <br></p>
-<p>This is the class manual for Machine Learning (MATH 253) at Macalester College. The content here was made by <a href="https://lmyint.github.io">Leslie Myint</a> and draws upon our class textbook, <a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning with Applications in R</a>, and on <a href="https://ajohns24.github.io/253_Fall_18/index.html">materials</a> prepared by <a href="http://aliciajohnson78.weebly.com/">Alicia Johnson</a>.</p>
+<div id="hierarchical-clustering-part-2" class="section level1">
+<h1><span class="header-section-number">Topic 18</span> Hierarchical Clustering: Part 2</h1>
+<div id="exercises-16" class="section level2">
+<h2><span class="header-section-number">18.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/18-hclust-part2.Rmd">here</a>.</strong></p>
+<p><strong>NOTE: completing these exercises is a part of your Homework 7, due Wednesday, April 10 at midnight.</strong></p>
+<p>In these exercises, you’ll choose a dataset of interest among 3 within the <code>fivethirtyeight</code> package (install this package if you have not already), and you’ll perform an open-ended hierarchical cluster analysis.</p>
+<p>Dataset choices</p>
+<ul>
+<li>Hate crimes dataset: load with <code>data(hate_crimes)</code></li>
+<li>NFL teams dataset: load with <code>data(nfl_fav_team)</code></li>
+<li>Candy dataset: load with <code>data(candy_rankings)</code></li>
+</ul>
+<p>You can get to the codebook for your dataset with <code>?dataset_name</code>.</p>
 <p><br> <br> <br></p>
-<div class="figure">
-<img src="images/cc_license_button.png" />
+<ol style="list-style-type: decimal">
+<li><p>You’ll need to remove the variable with the identifiers from the dataset and set them as the row names of your data. (This will allow for better cluster visualization.) Use code as below to do this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using the candy dataset as an example</span>
+candy &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(candy_rankings)
+<span class="kw">rownames</span>(candy) &lt;-<span class="st"> </span>candy_rankings<span class="op">$</span>competitorname
+candy &lt;-<span class="st"> </span>candy <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>competitorname)</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Depending on your dataset choice, you might choose to exclude some variables based on your scientific questions. Describe your scientific questions and how this informs what variables you include in your clustering analysis. Broadly describe what information is contained in the variables you decide to retain.</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Will you scale the variables to have unit variance? Justify your choice by looking at the scale of the variables. You can do this with <code>summary(dataset_name)</code>. Use the code below to compute the Euclidean distance between your cases for use later in the hierarchical clustering.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Leave variables unscaled</span>
+dist_mat &lt;-<span class="st"> </span><span class="kw">dist</span>(dataset_name)
+<span class="co"># With variable scaling</span>
+dist_mat &lt;-<span class="st"> </span><span class="kw">dist</span>(<span class="kw">scale</span>(dataset_name, <span class="dt">center =</span> <span class="ot">FALSE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>))</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>What type of linkage is most reasonable for your analysis? Justify your choice based on the data context and your scientific goals. Perform this clustering, and display the resulting dendrogram with the following code.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hclust_single &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;single&quot;</span>)
+hclust_complete &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;complete&quot;</span>)
+hclust_average &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)
+hclust_centroid &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;centroid&quot;</span>)</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li><p>You can define a set of clusters by cutting your tree. The code below cuts a dendrogram to make a specified number of clusters and adds the information back into the dataset.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using 3 and 6 clusters as an example</span>
+clust3 &lt;-<span class="st"> </span><span class="kw">cutree</span>(hclust_average, <span class="dt">k =</span> <span class="dv">3</span>)
+clust6 &lt;-<span class="st"> </span><span class="kw">cutree</span>(hclust_average, <span class="dt">k =</span> <span class="dv">6</span>)
+your_dataset &lt;-<span class="st"> </span>your_dataset <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(clust3, clust6)</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>You can explore how the different variables played a role in the clustering by computing the mean variable value in each cluster using the code below. Adapt this for your dataset, and form some general conclusions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Summary for cutting tree into 3 clusters</span>
+your_dataset <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(clust3) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarize_at</span>(<span class="kw">vars</span>(<span class="op">-</span>clust3), mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">data.frame</span>()
+
+<span class="co"># Summary for cutting tree into 6 clusters</span>
+your_dataset <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">group_by</span>(clust6) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">summarize_at</span>(<span class="kw">vars</span>(<span class="op">-</span>clust6), mean, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">data.frame</span>()</code></pre></div></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="7" style="list-style-type: decimal">
+<li>Perform a sensitivity analysis of your clustering by varying the linkage type. Look at the resulting dendrograms and the results of re-cutting your tree. Describe your general conclusions.</li>
+</ol>
 
 </div>
-<p>This work is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
-
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="schedule.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="hierarchical-clustering-part-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="midterm-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
