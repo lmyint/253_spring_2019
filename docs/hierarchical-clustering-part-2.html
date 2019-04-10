@@ -288,7 +288,10 @@ dist_mat &lt;-<span class="st"> </span><span class="kw">dist</span>(<span class=
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">hclust_single &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;single&quot;</span>)
 hclust_complete &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;complete&quot;</span>)
 hclust_average &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;average&quot;</span>)
-hclust_centroid &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;centroid&quot;</span>)</code></pre></div></li>
+hclust_centroid &lt;-<span class="st"> </span><span class="kw">hclust</span>(dist_mat, <span class="dt">method =</span> <span class="st">&quot;centroid&quot;</span>)
+
+<span class="co"># Plot the dendrogram</span>
+<span class="kw">plot</span>(hclust_single)</code></pre></div></li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="5" style="list-style-type: decimal">

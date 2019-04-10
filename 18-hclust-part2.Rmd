@@ -68,6 +68,9 @@ You can get to the codebook for your dataset with `?dataset_name`.
     hclust_complete <- hclust(dist_mat, method = "complete")
     hclust_average <- hclust(dist_mat, method = "average")
     hclust_centroid <- hclust(dist_mat, method = "centroid")
+
+    # Plot the dendrogram
+    plot(hclust_single)
     ```
 
 <br>
