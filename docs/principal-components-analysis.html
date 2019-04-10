@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Topic 15 Support Vector Machines (Part 2) | MATH 253: Machine Learning</title>
+  <title>Topic 19 Principal Components Analysis | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Topic 15 Support Vector Machines (Part 2) | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 19 Principal Components Analysis | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 15 Support Vector Machines (Part 2) | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 19 Principal Components Analysis | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="support-vector-machines-part-1.html">
-<link rel="next" href="k-means-clustering.html">
+<link rel="prev" href="hierarchical-clustering-part-2.html">
+<link rel="next" href="midterm-review.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -251,55 +251,79 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="support-vector-machines-part-2" class="section level1">
-<h1><span class="header-section-number">Topic 15</span> Support Vector Machines (Part 2)</h1>
-<div id="exercises-13" class="section level2">
-<h2><span class="header-section-number">15.1</span> Exercises</h2>
-<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/15-svm-part2.Rmd">here</a>.</strong></p>
-<p><strong>NOTE: completing these exercises (both Part 1 and Part 2) is your Homework 6, due Wednesday, April 3 at midnight.</strong></p>
-<p><br> <br> <br></p>
-<p>SVMs work well in high-dimensional settings but can be computationally intensive to fit. We’ll look at a smaller illustrative data example to get familiar with how to train SVMs in <code>caret</code>. Read in the data as below, and you’ll also need to install the <code>kernlab</code> package before starting.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;https://www.dropbox.com/s/abft0f9brohsmvd/svm_example.csv?dl=1&quot;</span>)</code></pre></div>
+<div id="principal-components-analysis" class="section level1">
+<h1><span class="header-section-number">Topic 19</span> Principal Components Analysis</h1>
+<div class="figure">
+<img src="images/class_flow5.png" />
+
+</div>
+<div id="exercises-17" class="section level2">
+<h2><span class="header-section-number">19.1</span> Exercises</h2>
+<p><strong>You can download a template RMarkdown file to start from <a href="template_rmds/19-pca.Rmd">here</a>.</strong></p>
+<p><strong>NOTE: completing these exercises is a part of your Homework 8, due Wednesday, April 17 at midnight.</strong></p>
+<p>For the first few exercises, we will work through some key ideas and terminology related to PCA using the information below.</p>
+<p><span class="math display">\[ \text{PC1} = 0.672 x_1 - 0.287 x_2 - 0.683 x_3 \]</span> <span class="math display">\[ \text{PC2} = -0.244 x_1 - 0.956 x_2 + 0.162 x_3 \]</span> <span class="math display">\[ \text{PC3} = 0.699 x_1 - 0.058 x_2 - 0.713 x_3 \]</span></p>
 <ol style="list-style-type: decimal">
-<li><strong>Data exploration</strong>
-<ol style="list-style-type: lower-alpha">
-<li><p>Make a visualization of both predictor variables and the class label by coloring points according to their class.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(dat, <span class="kw">aes</span>(<span class="dt">x =</span> ???, <span class="dt">y =</span> ???, ???)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</code></pre></div></li>
-<li><p>Would you expect a support vector classifier or a support vector machine to perform better for this data? Why?</p></li>
-</ol></li>
+<li>What are the loadings of principal components 1 to 3? In general, what information does a loading give us?</li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><p><strong>Support vector classifer</strong><br />
-We can fit an ordinary support vector classifier using <code>method = &quot;svmLinear&quot;</code>, in <code>caret</code>. The <code>C</code> parameter in tune grid is the cost associated with a violation of the margin.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">svm_mod_linear &lt;-<span class="st"> </span><span class="kw">train</span>(
-    y <span class="op">~</span><span class="st"> </span>.,
-    <span class="dt">data =</span> dat,
-    <span class="dt">method =</span> <span class="st">&quot;svmLinear&quot;</span>,
-    <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
-    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">C =</span> <span class="kw">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">16</span>,<span class="dv">32</span>,<span class="dv">64</span>,<span class="dv">128</span>)),
-    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
-)</code></pre></div>
-<ol style="list-style-type: lower-alpha">
-<li>Write a few sentences describing the modeling process that this code performs, as if for the Methods section of a scientific paper. You don’t need to describe how SVMs work, but do describe what models you fit, how they were evaluated, and how you chose a final model. (This is practice for writing up your final project reports.)</li>
-<li>Print the <code>svm_mod_linear</code> object to display a summary of model performance. What do you notice about performance, and why might this be the case given your visualization?</li>
-</ol></li>
+<li>What are the two most important variables for forming PC1? PC2? PC3?</li>
 </ol>
 <p><br> <br> <br></p>
 <ol start="3" style="list-style-type: decimal">
-<li><p><strong>Support vector machine</strong><br />
-A common choice for the kernel function in SVMs is the radial basis function. We can fit such an SVM with <code>method = &quot;svmRadialCost&quot;</code>, in <code>caret</code>. There is a <span class="math inline">\(\gamma\)</span> parameter within the radial kernel that we could tune, but we would also want to tune cost <code>C</code> as well. It can be hard to tune 2 parameters at once, so <code>method = &quot;svmRadialCost&quot;</code> uses a default rule to first pick a good <span class="math inline">\(\gamma\)</span> and leaves us to tune cost <code>C</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">svm_mod_radial &lt;-<span class="st"> </span><span class="kw">train</span>(
-    y <span class="op">~</span><span class="st"> </span>.,
-    <span class="dt">data =</span> dat,
-    <span class="dt">method =</span> <span class="st">&quot;svmRadialCost&quot;</span>,
-    <span class="dt">metric =</span> <span class="st">&quot;Accuracy&quot;</span>,
-    <span class="dt">tuneGrid =</span> <span class="kw">data.frame</span>(<span class="dt">C =</span> <span class="kw">c</span>(<span class="fl">0.25</span>,<span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">16</span>,<span class="dv">32</span>,<span class="dv">64</span>,<span class="dv">128</span>)),
-    <span class="dt">trControl =</span> <span class="kw">trainControl</span>(<span class="dt">method =</span> <span class="st">&quot;cv&quot;</span>, <span class="dt">number =</span> <span class="dv">10</span>)
-)</code></pre></div>
+<li>A case has variable values <span class="math inline">\((x_1, x_2, x_3) = (1, 1, 1)\)</span>. What are the PC1, PC2, and PC3 scores for this case? How can we interpret these scores?</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="4" style="list-style-type: decimal">
+<li>What can be said about the amount of variation in the dataset explained by the 3 PCs?</li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="5" style="list-style-type: decimal">
+<li>In thinking about the PCs as defining new “directions”, how are PCs 2 and above selected relative to the first ones?</li>
+</ol>
+<p><br> <br> <br></p>
+<p>Now let’s use PCA to explore a gene expression dataset. The <code>Khan</code> dataset in the <code>ISLR</code> package contains gene expression measurements in cancer tissue samples. (Khan is the first author’s last name.) The next exercises go through a pretty typical initial exploration in biological data analysis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ISLR)
+<span class="kw">data</span>(Khan)
+
+train_data &lt;-<span class="st"> </span>Khan<span class="op">$</span>xtrain
+<span class="kw">colnames</span>(train_data) &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;gene&quot;</span>, <span class="kw">seq_len</span>(<span class="kw">ncol</span>(train_data)))
+train_labels &lt;-<span class="st"> </span>Khan<span class="op">$</span>ytrain</code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li><p>The <code>prcomp()</code> function performs PCA. Look at the help page for the <code>prcomp()</code> function under the “Value” section, and recall that <code>$</code> extracts named components of list objects (e.g. <code>list_object$name_of_component</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pca_out &lt;-<span class="st"> </span><span class="kw">prcomp</span>(train_data, <span class="dt">center =</span> <span class="ot">TRUE</span>, <span class="dt">scale =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <ol style="list-style-type: lower-alpha">
-<li>Like in the last exercise, write a few sentences describing the modeling process that this code performs, as if for the Methods section of a scientific paper.</li>
-<li>Print the <code>svm_mod_radial</code> object to display a summary of model performance. How does performance compare to the support vector classifier?</li>
+<li>Use the <code>head()</code> function to display the first few rows of the loadings matrix.</li>
+<li>Using just the first 3 genes, write out the equation for principal component 4.</li>
+<li>Describe how you would use the loadings matrix to find the genes that contribute most to the largest source of variation in the dataset.</li>
+<li>In R, we can extract the first column of a matrix object <code>mat</code> using <code>mat[,1]</code>. Use the <code>head()</code>, <code>sort()</code>, and <code>abs()</code> functions to display the 10 most important genes that contribute to the largest source of variation.</li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="7" style="list-style-type: decimal">
+<li>We can plot the PC1 and PC2 scores against each other in a scatter plot to see if these new variables cluster the cases according to some other information. For example, in this data, we have tumor type labels for each case. (4 tumor types)
+<ol style="list-style-type: lower-alpha">
+<li><p>The <code>x</code> component of <code>pca_out</code> contains these scores. Complete the code below to plot the PC2 scores versus the PC1 scores.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(???, ???, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">xlab =</span> <span class="st">&quot;PC1&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;PC2&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;&quot;</span>, <span class="dt">col =</span> train_labels)
+<span class="kw">legend</span>(<span class="st">&quot;topleft&quot;</span>, <span class="dt">legend =</span> <span class="kw">paste</span>(<span class="st">&quot;Class&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">col =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)</code></pre></div></li>
+<li>Do you notice any clustering by tumor type?</li>
+<li>How could we use k-means and hierarchical clustering to see whether the cases (tissue samples) cluster by tumor type?</li>
+<li><p>How can we use loadings and the information in the score plot to understand what genes drive groupings of the tissue samples?</p></li>
+</ol></li>
+</ol>
+<p><br> <br> <br></p>
+<ol start="8" style="list-style-type: decimal">
+<li>We can also use PCA for dimension reduction.
+<ol style="list-style-type: lower-alpha">
+<li><p>The <code>sdev</code> component of <code>pca_out</code> gives the standard deviation explained by each principal component. Explain what the first 2 lines of code below are doing.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var_explained &lt;-<span class="st"> </span>pca_out<span class="op">$</span>sdev<span class="op">^</span><span class="dv">2</span>
+pve &lt;-<span class="st"> </span>var_explained<span class="op">/</span><span class="kw">sum</span>(var_explained)
+<span class="kw">plot</span>(pve, <span class="dt">xlab =</span> <span class="st">&quot;Principal Component&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Proportion of variance explained&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>)
+<span class="kw">plot</span>(<span class="kw">cumsum</span>(pve), <span class="dt">xlab =</span> <span class="st">&quot;Principal Component&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Cumulative proportion of variance explained&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;b&quot;</span>)</code></pre></div></li>
+<li>Explain why the plots above look the way they do.</li>
+<li>We can think of principal components as new variables. PCA allows us to perform dimension reduction to use a smaller set of variables, often to accompany supervised learning. How can we use the plots above to guide a choice about a number of PCs to use?</li>
+<li><p>Carefully describe how we could also use cross-validation to pick the number of PCs. (For concreteness, suppose that we’re in a linear regression setting.)</p></li>
 </ol></li>
 </ol>
 
@@ -313,8 +337,8 @@ A common choice for the kernel function in SVMs is the radial basis function. We
           </div>
         </div>
       </div>
-<a href="support-vector-machines-part-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="k-means-clustering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="hierarchical-clustering-part-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="midterm-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
