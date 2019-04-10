@@ -150,4 +150,14 @@ We can think of principal components as new variables. PCA allows us to perform 
 
 Carefully describe how we could also use cross-validation to pick the number of PCs. (For concreteness, suppose that we're in a linear regression setting.)
 
+<br>
+<br>
+<br>
+
+# Exercise 9
+
+You likely noticed the `scale = TRUE` within `prcomp()` above. This scales the variables to all have unit variance. Explain why this is often advisable by thinking generally about the ranges of different variables. In what other methods would scaling be important?
+
+
+
 

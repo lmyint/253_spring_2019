@@ -105,3 +105,9 @@ train_labels <- Khan$ytrain
     b. Explain why the plots above look the way they do.
     c. We can think of principal components as new variables. PCA allows us to perform dimension reduction to use a smaller set of variables, often to accompany supervised learning. How can we use the plots above to guide a choice about a number of PCs to use?
     d. Carefully describe how we could also use cross-validation to pick the number of PCs. (For concreteness, suppose that we're in a linear regression setting.)
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. You likely noticed the `scale = TRUE` within `prcomp()` above. This scales the variables to all have unit variance. Explain why this is often advisable by thinking generally about the ranges of different variables. In what other methods would scaling be important?
