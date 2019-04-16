@@ -100,4 +100,14 @@ Happy Spring Break!
 - **Monday:** Wrap up clustering
 - **Wednesday:** Principal components analysis ([Video](https://youtu.be/x4_XTBoxr3Q), [Slides](https://drive.google.com/file/d/1mg7QT6aFmBWUm9lBOLQnBHt47Cwfs2uZ/view?usp=sharing))    
     Related ISLR reading: Section 10.2
+- **Friday:** Wrap up PCA
+
+## Week 12: 4/15 - 4/19 {-}
+
+- This week is an introduction to deep learning: [Slides](https://drive.google.com/file/d/1FOh7P-cREypl_r5zAZtH0rCfcq5LM_XR/view?usp=sharing)
+
+
+
+
+
 
