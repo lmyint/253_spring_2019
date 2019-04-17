@@ -5,11 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Topic 11 Revisiting Old Tools | MATH 253: Machine Learning</title>
+  <title>Topic 21 Coding | MATH 253: Machine Learning</title>
   <meta name="description" content="This is the class activity manual for Math 253 at Macalester College.">
   <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Topic 11 Revisiting Old Tools | MATH 253: Machine Learning" />
+  <meta property="og:title" content="Topic 21 Coding | MATH 253: Machine Learning" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +17,7 @@
   <meta name="github-repo" content="lmyint/253_spring_2019" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Topic 11 Revisiting Old Tools | MATH 253: Machine Learning" />
+  <meta name="twitter:title" content="Topic 21 Coding | MATH 253: Machine Learning" />
   
   <meta name="twitter:description" content="This is the class activity manual for Math 253 at Macalester College." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="logistic-regression.html">
-<link rel="next" href="decision-trees.html">
+<link rel="prev" href="conceptual-ideas.html">
+<link rel="next" href="midterm-review.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -261,72 +261,71 @@ code > span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="revisiting-old-tools" class="section level1">
-<h1><span class="header-section-number">Topic 11</span> Revisiting Old Tools</h1>
-<div id="discussion-9" class="section level2">
-<h2><span class="header-section-number">11.1</span> Discussion</h2>
-<p>Logistic regression is fit with a technique called <strong>maximum likelihood</strong>. What is this technique?</p>
-<p>Example: flipping a coin 3 times, unknown probability <span class="math inline">\(p\)</span> of getting heads</p>
-<ul>
-<li>The data: 2 heads, 1 tail</li>
-<li>3 ways that could have happened:<br />
-T, H, H<br />
-H, T, H<br />
-H, H, T</li>
-<li>Each way has probability <span class="math inline">\(p^2(1-p)\)</span></li>
-<li>The probability of seeing my data (as a function of <span class="math inline">\(p\)</span>) is <span class="math inline">\(3p^2(1-p)\)</span></li>
-<li><strong>Goal:</strong> Find the <span class="math inline">\(p\)</span> that <strong>maximizes</strong> that probability
-<ul>
-<li>The 3 doesn’t matter for this, so we usually remove such constant terms.</li>
-<li><span class="math inline">\(p^2(1-p)\)</span> is the <strong>likelihood function</strong>.</li>
-<li>Imagine (in a non-coin flipping situation) that we wanted <span class="math inline">\(p\)</span> to depend on predictors…can we relate this back to logistic regression?</li>
-<li>Yes!<br />
-<span class="math display">\[p = \frac{e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}{1 + e^{\beta_0 + \beta_1 x_1 + \cdots + \beta_p x_p}}\]</span></li>
-<li>The value of the likelihood function at the best <span class="math inline">\(p\)</span> is a number: the likelihood of the data</li>
-</ul></li>
-</ul>
-<p><br> <br> <br></p>
-<p><strong>Connecting to stepwise selection</strong></p>
-<ul>
-<li>For logistic regression, stepwise selection is exactly the same, except that likelihood is used instead of RSS.</li>
-<li>Cross-validated accuracy is an option too.</li>
-</ul>
-<p><br> <br> <br></p>
-<p><strong>Connecting to GAMs</strong></p>
-<ul>
-<li>There can be nonlinear relationships between quantitative predictors and log odds as well.</li>
-<li>e.g. <span class="math inline">\(\text{log odds(foreclosure)} = \beta_0 + f_1(\text{Age}) + f_2(\text{Price})\)</span>
-<ul>
-<li>Build <span class="math inline">\(f_1\)</span> and <span class="math inline">\(f_2\)</span> from LOESS or splines</li>
-</ul></li>
-<li>If relationships are truly nonlinear, should help us improve prediction accuracy.</li>
-</ul>
-<p><br> <br> <br></p>
+<div id="coding" class="section level1">
+<h1><span class="header-section-number">Topic 21</span> Coding</h1>
+<div id="background" class="section level2">
+<h2><span class="header-section-number">21.1</span> Background</h2>
+<p>Deep learning libraries are implemented in a number of different programming languages. The guide here will take you through the installation and usage of an R interface to <a href="https://keras.io/">Keras</a>, a Python library that provides syntax for expressing the broad, high-level structure of deep learning models. Keras itself does not do the low-level math (working with tensors, gradients, etc.). Keras relies on other software (backends) to do that. The backend we’ll use is <a href="https://www.tensorflow.org/">TensorFlow</a>, developed and maintained by Google.</p>
+<p>The Deep Learning with R, François Chollet with J. J. Allaire is a wonderful introduction to deep learning. You can actually see the entire book for <strong><em>FREE</em></strong> online <a href="https://www.manning.com/books/deep-learning-with-r">here</a>!</p>
 </div>
-<div id="exercises-9" class="section level2">
-<h2><span class="header-section-number">11.2</span> Exercises</h2>
-<ol style="list-style-type: decimal">
-<li>Consider how LASSO would be extended to the logistic regression setting. Using the penalized least squares criterion as a reference, how would you write a penalized criterion for logistic regression using the likelihood?</li>
-</ol>
-<p><br> <br> <br></p>
-<ol start="2" style="list-style-type: decimal">
-<li>On a different note unrelated to likelihood, consider the KNN algorithm for regression. How would you modify the algorithm to…
-<ul>
-<li>make a hard classification?</li>
-<li>produce a “soft” classification? A “soft” classification for a test case is an estimated probability of being in each of the <span class="math inline">\(K\)</span> classes.<br />
-A concrete example to frame your answers: say that for a particular test case, you found its 10 nearest neighbors in the training set. 5 were of Class A, 3 of Class B, and 2 of Class C.</li>
-</ul></li>
-</ol>
+<div id="installation" class="section level2">
+<h2><span class="header-section-number">21.2</span> Installation</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">&quot;keras&quot;</span>)
+<span class="kw">library</span>(keras)
+<span class="kw">install_keras</span>() <span class="co"># Installs TensorFlow backend</span></code></pre></div>
+<p>You may get the following error:</p>
+<pre><code>Error: Prerequisites for installing TensorFlow not available.
+
+Execute the following at a terminal to install the prerequisites:
+
+$ sudo /usr/bin/easy_install pip
+$ sudo /usr/local/bin/pip install --upgrade virtualenv</code></pre>
+<p>If you have a Mac, you can open the Terminal app and enter the last 2 commands: <code>sudo /usr/bin/easy_install pip</code> and <code>sudo /usr/local/bin/pip install --upgrade virtualenv</code>.</p>
+<p>You may get some messages encouraging you to update your version of Python. You can download the newest version of Python <a href="https://www.python.org/downloads/">here</a>.</p>
+</div>
+<div id="example-handwritten-digits" class="section level2">
+<h2><span class="header-section-number">21.3</span> Example: Handwritten Digits</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(keras)
+
+model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">32</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>, <span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">64</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">64</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)
+
+model &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_flatten</span>() <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">64</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)
+
+mnist &lt;-<span class="st"> </span><span class="kw">dataset_mnist</span>()
+<span class="kw">c</span>(<span class="kw">c</span>(train_images, train_labels), <span class="kw">c</span>(test_images, test_labels)) <span class="op">%&lt;-%</span><span class="st"> </span>mnist
+train_images &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(train_images, <span class="kw">c</span>(<span class="dv">60000</span>, <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))
+train_images &lt;-<span class="st"> </span>train_images <span class="op">/</span><span class="st"> </span><span class="dv">255</span>
+test_images &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(test_images, <span class="kw">c</span>(<span class="dv">10000</span>, <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))
+test_images &lt;-<span class="st"> </span>test_images <span class="op">/</span><span class="st"> </span><span class="dv">255</span>
+train_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(train_labels)
+test_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(test_labels)
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">compile</span>(
+    <span class="dt">optimizer =</span> <span class="st">&quot;rmsprop&quot;</span>,
+    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,
+    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)
+)
+model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">fit</span>(train_images, train_labels, <span class="dt">epochs =</span> <span class="dv">5</span>, <span class="dt">batch_size =</span> <span class="dv">64</span>)</code></pre></div>
 
 </div>
 </div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-<a href="logistic-regression.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="decision-trees.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="conceptual-ideas.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="midterm-review.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

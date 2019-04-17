@@ -1,0 +1,63 @@
+# Coding
+
+## Background
+
+Deep learning libraries are implemented in a number of different programming languages. The guide here will take you through the installation and usage of an R interface to [Keras](https://keras.io/), a Python library that provides syntax for expressing the broad, high-level structure of deep learning models. Keras itself does not do the low-level math (working with tensors, gradients, etc.). Keras relies on other software (backends) to do that. The backend we'll use is [TensorFlow](https://www.tensorflow.org/), developed and maintained by Google.
+
+The Deep Learning with R, François Chollet with J. J. Allaire is a wonderful introduction to deep learning. You can actually see the entire book for ***FREE*** online [here](https://www.manning.com/books/deep-learning-with-r)!
+
+## Installation
+
+```{r eval=FALSE}
+install.packages("keras")
+library(keras)
+install_keras() # Installs TensorFlow backend
+```
+
+You may get the following error:
+
+```
+Error: Prerequisites for installing TensorFlow not available.
+
+Execute the following at a terminal to install the prerequisites:
+
+$ sudo /usr/bin/easy_install pip
+$ sudo /usr/local/bin/pip install --upgrade virtualenv
+```
+
+If you have a Mac, you can open the Terminal app and enter the last 2 commands: `sudo /usr/bin/easy_install pip` and `sudo /usr/local/bin/pip install --upgrade virtualenv`.
+
+You may get some messages encouraging you to update your version of Python. You can download the newest version of Python [here](https://www.python.org/downloads/).
+
+## Example: Handwritten Digits
+
+```{r eval=FALSE}
+library(keras)
+
+model <- keras_model_sequential() %>%
+    layer_conv_2d(filters = 32, kernel_size = c(3, 3), activation = "relu", input_shape = c(28, 28, 1)) %>%
+    layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+    layer_conv_2d(filters = 64, kernel_size = c(3, 3), activation = "relu") %>%
+    layer_max_pooling_2d(pool_size = c(2, 2)) %>%
+    layer_conv_2d(filters = 64, kernel_size = c(3, 3), activation = "relu")
+
+model <- model %>%
+    layer_flatten() %>%
+    layer_dense(units = 64, activation = "relu") %>%
+    layer_dense(units = 10, activation = "softmax")
+
+mnist <- dataset_mnist()
+c(c(train_images, train_labels), c(test_images, test_labels)) %<-% mnist
+train_images <- array_reshape(train_images, c(60000, 28, 28, 1))
+train_images <- train_images / 255
+test_images <- array_reshape(test_images, c(10000, 28, 28, 1))
+test_images <- test_images / 255
+train_labels <- to_categorical(train_labels)
+test_labels <- to_categorical(test_labels)
+model %>% compile(
+    optimizer = "rmsprop",
+    loss = "categorical_crossentropy",
+    metrics = c("accuracy")
+)
+model %>% fit(train_images, train_labels, epochs = 5, batch_size = 64)
+```

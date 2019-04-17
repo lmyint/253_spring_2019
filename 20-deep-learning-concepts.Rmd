@@ -1,0 +1,53 @@
+# (PART) Deep Learning {-}
+
+# Conceptual Ideas
+
+```{r echo=FALSE, message=FALSE}
+rm(list = ls())
+
+question_num <- 0
+NextQ <- function() {
+    question_num <<- question_num + 1
+    question_num
+}
+
+knitr::opts_chunk$set(fig.width = 10, fig.height = 5, fig.align = "center")
+```
+
+## Exercises
+
+`r NextQ()`. Mathematically, what makes up a layer in a deep learning model, and what is the goal of having many layers? Somewhere in your answer, you should talk about nonlinearity.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. **Fitting deep learning models**
+    a. In fitting a deep learning model, the goal is to estimate what quantities?
+    b. How does the loss function play a role in fitting a deep learning model?
+    c. At a very big-picture, conceptual level, why is calculus needed in the fitting process?
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. How do the number of hidden layers, hidden units within each layer, and density of connections affect model complexity? Discuss in terms of overfitting and the bias-variance tradeoff.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Explain 2 general strategies for fighting overfitting in deep learning models.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Give an overview of the convolution operation in convolutional neural networks, and explain why this is a useful way to handle image data.
+
+<br>
+<br>
+<br>
+
+`r NextQ()`. Explain why convolution layers are not densely connected.
+
