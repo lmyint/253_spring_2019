@@ -10,7 +10,7 @@ output:
 documentclass: book
 link-citations: yes
 github-repo: lmyint/253_spring_2019
-description: "This is the class activity manual for Math 253 at Macalester College."
+description: "This is the class activity manual for MATH 253 at Macalester College."
 ---
 
 **Macalester College**    

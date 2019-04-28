@@ -4,7 +4,7 @@
 
 Deep learning libraries are implemented in a number of different programming languages. The guide here will take you through the installation and usage of an R interface to [Keras](https://keras.io/), a Python library that provides syntax for expressing the broad, high-level structure of deep learning models. Keras itself does not do the low-level math (working with tensors, gradients, etc.). Keras relies on other software (backends) to do that. The backend we'll use is [TensorFlow](https://www.tensorflow.org/), developed and maintained by Google.
 
-The Deep Learning with R, François Chollet with J. J. Allaire is a wonderful introduction to deep learning. You can actually see the entire book for ***FREE*** online [here](https://www.manning.com/books/deep-learning-with-r)!
+The book Deep Learning with R, by François Chollet with J. J. Allaire is a wonderful introduction to deep learning. You can see some of the book online [here](https://www.manning.com/books/deep-learning-with-r).
 
 ## Installation
 

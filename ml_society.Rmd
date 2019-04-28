@@ -1,6 +1,6 @@
 # ML and Society {-}
 
-Below are some links relating to the role that machine learning plays a role in our society and in various disciplines.
+Below are some links relating to the role that machine learning plays in our society and in various disciplines.
 
 If you come across something interesting and would like to share it here, feel free to email the instructor!
 

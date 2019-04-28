@@ -42,7 +42,6 @@ Each group will schedule a time to meet with me to present (informally) the foll
 
 <br>
 <br>
-<br>
 
 ## Final report {-}
 
@@ -60,9 +59,20 @@ You should make sure to include the following:
 
 4. Summarize the results succinctly. Reiterate why we should be interested in this analysis. Depending on the project, you might do this in different ways. Maybe there were important relationships you learned about. Or maybe you have a nice way to predict something useful. Let us know what we've learned and why it's important/neat/interesting.
 
-**Formatting tips and requirements will be added here soon.**
+Specific length and formatting requirements:
 
-<br>
+- Hand in (1) ONE knitted HTML or PDF file and (2) the underlying Rmd file(s).
+- Maximum of 1000 words of text (not code). Do a word count of the knitted file. If your report seems long, I will check the word count and deduct points.
+- Make sure that the knitted file looks neat (e.g. text following a figure starts on a new line) and is organized logically with headers (e.g. `# Introduction`).
+- **Do not show code** in the knitted file. I can read the code if I want to by looking your Rmd file(s). Hide the code by adding `echo=FALSE` to your code chunks like this:    
+    ```
+    {r echo=FALSE}
+    ```
+- Make sure that any figures you include are big enough to see clearly. You can adjust plot height and width by adding `fig.width=12` and `fig.height=8` (fiddle with your own numbers) to your code chunks like this:    
+    ```
+    {r echo=FALSE, fig.width=12, fig.height=8}
+    ```
+
 <br>
 <br>
 
@@ -74,8 +84,12 @@ Section 01: Monday 5/13 8:00am-10:00am
 
 Section 02: Thursday 5/9 10:30am-12:30pm
 
-I have not decided yet whether the presentations will be a poster or slides, but you will be presenting to other students. The points you should emphasize for the presentation are the same 4 points that you should emphasize for the final report (detailed above).
+WHERE: Library 250 (classroom right next to the Idea Lab)
 
-**More information will be added here soon.**
+- You will put together slides to present your findings to your classmates. The aspects that you should emphasize for the presentation are the same 4 aspects that you should emphasize for the final report (detailed above).
+- Aim to have a **10-12 minute presentation** with time for questions at the end. In total each presentation should take about 15-20 minutes. In Library 250, there is space for 4 groups to present at a time.
+- 10 points of your presentation grade comes from you giving good qualitative feedback to your classmates. You will be assigned to watch other groups' presentations and give feedback via a Google form. I will synthesize the comments to provide a grade for each groups' presentation (30 points).
+- View the [schedule](https://docs.google.com/document/d/1MTVlP85CMSRwGp7piH67ei5_IhNpzde_N6kltHLcVdQ/edit?usp=sharing) indicating when each group is presenting and what other groups you have been assigned to evaluate.
+    - If you would prefer to not evaluate or be evaluated by certain people, let me know, and I'll make the changes to the schedule. No questions asked.
 
 
