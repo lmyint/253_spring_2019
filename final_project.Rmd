@@ -64,7 +64,7 @@ Specific length and formatting requirements:
 - Hand in (1) ONE knitted HTML or PDF file and (2) the underlying Rmd file(s).
 - Maximum of 1000 words of text (not code). Do a word count of the knitted file. If your report seems long, I will check the word count and deduct points.
 - Make sure that the knitted file looks neat (e.g. text following a figure starts on a new line) and is organized logically with headers (e.g. `# Introduction`).
-- **Do not show code** in the knitted file. I can read the code if I want to by looking your Rmd file(s). Hide the code by adding `echo=FALSE` to your code chunks like this:    
+- **Do not show code** in the knitted file. I can read the code if I want to by looking at your Rmd file(s). Hide the code by adding `echo=FALSE` to your code chunks like this:    
     ```
     {r echo=FALSE}
     ```
@@ -91,5 +91,5 @@ WHERE: Library 250 (classroom right next to the Idea Lab)
 - 10 points of your presentation grade comes from you giving good qualitative feedback to your classmates. You will be assigned to watch other groups' presentations and give feedback via a Google form. I will synthesize the comments AND look at your slides to provide a grade for each groups' presentation (30 points).
 - View the [schedule](https://docs.google.com/document/d/1MTVlP85CMSRwGp7piH67ei5_IhNpzde_N6kltHLcVdQ/edit?usp=sharing) indicating when each group is presenting and what other groups you have been assigned to evaluate.
     - If you would prefer to not evaluate or be evaluated by certain people, let me know, and I'll make the changes to the schedule. No questions asked.
-
+- [Google form for providing feedback](https://docs.google.com/forms/d/e/1FAIpQLSceu0du4dbLHwOqK6SHqTRIOrejqJyE3KjkMc-1MBHgpMV47w/viewform?usp=sf_link)
 
