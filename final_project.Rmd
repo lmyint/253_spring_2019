@@ -59,6 +59,8 @@ You should make sure to include the following:
 
 4. Summarize the results succinctly. Reiterate why we should be interested in this analysis. Depending on the project, you might do this in different ways. Maybe there were important relationships you learned about. Or maybe you have a nice way to predict something useful. Let us know what we've learned and why it's important/neat/interesting.
 
+5. **Cite all sources.** This includes your data source (including URL if applicable), any articles behind the data source (e.g. Pudding and FiveThirtyEight datasets), and any sources that you drew inspiration from (for context, code, etc.) There is no specific formatting requirement for citations.
+
 Specific length and formatting requirements:
 
 - Hand in (1) ONE knitted HTML or PDF file and (2) the underlying Rmd file(s).
