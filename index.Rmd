@@ -27,7 +27,11 @@ description: "This is the class activity manual for MATH 253 at Macalester Colle
 <br>
 <br>
 
-This is the class manual for Machine Learning (MATH 253) at Macalester College. The content here was made by [Leslie Myint](https://lmyint.github.io) and draws upon our class textbook, [An Introduction to Statistical Learning with Applications in R](http://www-bcf.usc.edu/~gareth/ISL/), and on [materials](https://ajohns24.github.io/253_Fall_18/index.html) prepared by [Alicia Johnson](http://aliciajohnson78.weebly.com/).
+This is the class manual for Machine Learning (MATH 253) at Macalester College. The content here was made by [Leslie Myint](https://lmyint.github.io) and draws upon our class textbook, [An Introduction to Statistical Learning with Applications in R](https://www.statlearning.com/), and on [materials](https://ajohns24.github.io/253_Fall_18/index.html) prepared by [Alicia Johnson](https://ajohns24.github.io/).
+
+<br>
+
+**For the most recent versions of my course websites and associated content, please see the [Teaching section](https://lmyint.github.io/#teaching) of my [website](https://lmyint.github.io/).**
 
 <br>
 <br>
